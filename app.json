@@ -1,0 +1,38 @@
+{
+  "name": "chaus",
+  "description": "chaus",
+  "repository": "https://github.com/sideroad/chaus",
+  "keywords": [
+    "react",
+    "isomorphic",
+    "universal",
+    "webpack",
+    "express",
+    "hot reloading",
+    "react-hot-reloader",
+    "redux",
+    "starter",
+    "boilerplate",
+    "babel"
+  ],
+  "env": {
+    "NODE_ENV": {
+      "value": "production"
+    },
+    "NODE_PATH": {
+      "value": "./src"
+    },
+    "NPM_CONFIG_PRODUCTION": {
+      "value": "false"
+    },
+    "CHAUS_HOST": {
+      "description": "Please specify domain"
+    },
+    "CHAUS_PORT": {
+      "value": "80"
+    }
+  },
+  "addons": [
+    "mongolab:sandbox"
+  ]
+}
