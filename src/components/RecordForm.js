@@ -53,7 +53,12 @@ export default class RecordForm extends Component {
     return (
       <tr>
         <td className="uk-text-left">
-          {id}
+          <div className="uk-grid" >
+            <div className={'uk-visible-small ' + styles['cm-record-text']}>id</div>
+            <div className={'uk-width-7-10 ' + styles['cm-record-value']} >
+              <span>{id}</span>
+            </div>
+          </div>
         </td>
         {
           targets.map((attribute, index) => {

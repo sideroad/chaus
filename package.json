@@ -1,5 +1,5 @@
 {
-  "name": "restful-api-kit",
+  "name": "chaus",
   "title": "chaus",
   "description": "Build RESTful API within 5 min",
   "author": "sideroad",
@@ -7,9 +7,9 @@
   "version": "0.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sideroad/restful-api-kit.git"
+    "url": "https://github.com/sideroad/chaus.git"
   },
-  "homepage": "https://github.com/sideroad/restful-api-kit",
+  "homepage": "https://github.com/sideroad/chaus",
   "keywords": [
     "express",
     "RESTful",

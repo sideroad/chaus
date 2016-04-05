@@ -2,11 +2,11 @@
 
 ## Running Example
 
-http://restful-api-kit.herokuapp.com/admin
+http://chaus.herokuapp.com/admin
 
 ## Deploy on Heroku
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/sideroad/restful-api-kit)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/sideroad/chaus)
 
 ## Manual Installation
 You can also construct chaus on your server.

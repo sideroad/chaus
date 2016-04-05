@@ -29,7 +29,7 @@ module.exports = Object.assign({
         {name: 'description', content: description},
         {charset: 'utf-8'},
         {property: 'og:site_name', content: title},
-        {property: 'og:image', content: 'https://restful-api-kit.herokuapp.com/images/logo.png'},
+        {property: 'og:image', content: 'https://chaus.herokuapp.com/images/logo.png'},
         {property: 'og:locale', content: 'en_US'},
         {property: 'og:title', content: title},
         {property: 'og:description', content: description},
