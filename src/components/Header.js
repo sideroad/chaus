@@ -12,12 +12,13 @@ import * as pageActions from 'redux/modules/page';
 )
 export default class Header extends Component {
   static propTypes = {
+    shouldDisplayToggle: PropTypes.bool.isRequired,
     restart: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired
   };
 
   render() {
-    const {restart, toggleSidebar} = this.props;
+    const {restart, toggleSidebar, shouldDisplayToggle} = this.props;
     const styles = require('../css/customize.less');
 
     const handleClick = (event) => {
@@ -38,7 +39,7 @@ export default class Header extends Component {
       <header className="uk-grid" >
         <div className="uk-width-1-1">
           <nav className={'uk-navbar ' + styles['cm-navbar']}>
-            <a className="uk-navbar-toggle uk-visible-small" onClick={handleClick} ></a>
+            {shouldDisplayToggle ? <a className="uk-navbar-toggle uk-visible-small" onClick={handleClick} ></a> : ''}
             <div className="uk-navbar-brand uk-navbar-center uk-visible-small" >
               <IndexLink to="/apps" className={styles['cm-logo-small']}>
                 <img src="/images/logo.png" />
