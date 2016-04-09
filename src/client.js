@@ -11,6 +11,7 @@ import ApiClient from './helpers/ApiClient';
 import {Provider} from 'react-redux';
 import { ReduxAsyncConnect } from 'redux-async-connect';
 import getRoutes from './routes';
+import 'react-fastclick';
 
 const client = new ApiClient();
 const history = useScroll(() => browserHistory)();

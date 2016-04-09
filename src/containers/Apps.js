@@ -97,7 +97,6 @@ export default class Apps extends Component {
                   placeholder="find or create API"
                   onKeyDown={
                     (evt) => {
-                      console.log(evt.target.value);
                       switch (evt.key) {
                         case 'Enter':
                           submit(evt.target.value);
@@ -112,7 +111,15 @@ export default class Apps extends Component {
                     }
                   }
                 />
-                <img src={require('../images/glass.png')} className={styles.app.glass}/>
+                <img
+                  src={require('../images/glass.png')}
+                  className={styles.app.glass}
+                  onClick={
+                    ()=>{
+                      submit(fields.app.value);
+                    }
+                  }
+                />
             </div>
             <div className={styles.app.items}>
               {apps && apps.map(app => (
