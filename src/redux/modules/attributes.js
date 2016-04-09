@@ -26,6 +26,7 @@ export default function attribute(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
+        saveSuccess: false,
         data: action.result.items
       };
     case LOAD_FAIL:
@@ -33,6 +34,7 @@ export default function attribute(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: false,
+        saveSuccess: false,
         error: action.error
       };
     case SAVE:
@@ -41,12 +43,15 @@ export default function attribute(state = initialState, action = {}) {
       return {
         ...state,
         editing: false,
+        error: undefined,
+        saveSuccess: true,
         data: action.result.items
       };
     case SAVE_FAIL:
       return {
         ...state,
-        name: action.result.name
+        saveSuccess: false,
+        error: action.error
       };
     case REPLACE:
       return {
@@ -75,13 +80,15 @@ export function isLoaded(globalState) {
   return globalState.attributes && globalState.attributes.loaded;
 }
 
-export function load() {
+export function load(app) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
       return new Promise((attributesResolve) => {
         client
-          .fetchJSON('/admin/api/attributes', 'GET')
+          .fetchJSON('/admin/api/attributes', 'GET', {
+            app
+          })
           .then((attributes) => {
             const items = {};
             attributes.items.map((_attribute)=>{
@@ -118,32 +125,45 @@ export function drop(to) {
 }
 
 
-export function save(model, values) {
+export function save(app, model, values) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    promise: (client) => client.fetchJSON('/admin/api/attributes', 'DELETE', {model})
-                               .then(()=>{
-                                 return new Promise(resolve => {
-                                   const attributes = values.attributes;
+    promise: (client) =>
+      new Promise((resolve, reject) =>
+        client.fetchJSON('/admin/api/attributes', 'DELETE', {app, model})
+          .then(()=>{
+            return new Promise((_resolve, _reject) => {
+              const attributes = values.attributes;
 
-                                   function post() {
-                                     if (attributes.length) {
-                                       const _attribute = attributes.shift();
-                                       client.fetchJSON('/admin/api/attributes', 'POST', {
-                                         ..._attribute,
-                                         type: _attribute.type ? _attribute.type : 'string',
-                                         uniq: _attribute.uniq === true ? 'true' : 'false',
-                                         required: _attribute.required === true ? 'true' : 'false',
-                                         model
-                                       })
-                                       .then(()=>post());
-                                     } else {
-                                       resolve();
-                                     }
-                                   }
-                                   post();
-                                 });
-                               })
-                               .then(()=>load(model).promise(client))
+              function post(index) {
+                if (attributes.length) {
+                  const _attribute = attributes.shift();
+                  client.fetchJSON('/admin/api/attributes', 'POST', {
+                    ..._attribute,
+                    type: _attribute.type ? _attribute.type : 'string',
+                    uniq: _attribute.uniq === true ? 'true' : 'false',
+                    required: _attribute.required === true ? 'true' : 'false',
+                    model,
+                    app
+                  })
+                  .then(
+                    ()=>post(index + 1),
+                    (err)=> _reject({
+                      err,
+                      index
+                    })
+                  );
+                } else {
+                  _resolve();
+                }
+              }
+              post(0);
+            });
+          })
+          .then(
+            ()=>load(app).promise(client).then((res)=>resolve(res)),
+            (err) => reject(err)
+          )
+      )
   };
 }

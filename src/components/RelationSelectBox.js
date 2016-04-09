@@ -5,8 +5,8 @@ import * as relationActions from 'redux/modules/relations';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
-  promise: ({store: {dispatch}}) => {
-    return dispatch(load());
+  promise: ({store: {dispatch}, params}) => {
+    return dispatch(load(params.app));
   }
 }])
 @connect(

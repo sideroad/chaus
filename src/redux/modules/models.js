@@ -13,8 +13,6 @@ const EDITING = 'model/EDITING';
 const CANCEL = 'model/CANCEL';
 
 const initialState = {
-  data: [],
-  loaded: false
 };
 export default function model(state = initialState, action = {}) {
   switch (action.type) {
@@ -27,14 +25,14 @@ export default function model(state = initialState, action = {}) {
       return {
         ...state,
         loading: false,
-        loaded: true,
-        data: action.result
+        [action.result.app]: {
+          data: action.result.items
+        }
       };
     case LOAD_FAIL:
       return {
         ...state,
         loading: false,
-        loaded: false,
         error: action.error
       };
     case EDITING:
@@ -52,8 +50,10 @@ export default function model(state = initialState, action = {}) {
     case ADD_SUCCESS:
       return {
         ...state,
-        data: action.result,
-        editing: false
+        editing: false,
+        [action.result.app]: {
+          data: action.result.items
+        }
       };
     case ADD_FAIL:
       return {
@@ -65,8 +65,10 @@ export default function model(state = initialState, action = {}) {
     case REMOVE_SUCCESS:
       return {
         ...state,
-        data: action.result,
-        editing: false
+        editing: false,
+        [action.result.app]: {
+          data: action.result.items
+        }
       };
     case REMOVE_FAIL:
       return {
@@ -78,19 +80,24 @@ export default function model(state = initialState, action = {}) {
   }
 }
 
-export function isLoaded(globalState) {
-  return globalState.models && globalState.models.loaded;
+export function isLoaded(globalState, app) {
+  return globalState.models[app] && globalState.models[app].data;
 }
 
-export function load() {
+export function load(app) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
       return new Promise((modelsResolve) => {
         client
-          .fetchJSON('/admin/api/models', 'GET')
+          .fetchJSON('/admin/api/models', 'GET', {
+            app
+          })
           .then((models) => {
-            modelsResolve(models.items);
+            modelsResolve({
+              app: app,
+              items: models.items
+            });
           });
       });
     }
@@ -109,25 +116,25 @@ export function cancel() {
   };
 }
 
-export function saveAdd(name) {
+export function saveAdd(app, name) {
   return {
     types: [ADD, ADD_SUCCESS, ADD_FAIL],
-    promise: (client) => client.fetchJSON('/admin/api/models', 'POST', {name})
+    promise: (client) => client.fetchJSON('/admin/api/models', 'POST', {app, name})
                                .then(()=>{
-                                 return load().promise(client);
+                                 return load(app).promise(client);
                                })
   };
 }
 
-export function remove(name) {
+export function remove(app, name) {
   return {
     types: [REMOVE, REMOVE_SUCCESS, REMOVE_FAIL],
-    promise: (client) => client.fetchJSON('/admin/api/models', 'DELETE', {name})
+    promise: (client) => client.fetchJSON('/admin/api/models', 'DELETE', {app, name})
                                .then(()=>{
-                                 return client.fetchJSON('/admin/api/attributes', 'DELETE', {model: name});
+                                 return client.fetchJSON('/admin/api/attributes', 'DELETE', {app, model: name});
                                })
                                .then(()=>{
-                                 return load().promise(client);
+                                 return load(app).promise(client);
                                })
   };
 }

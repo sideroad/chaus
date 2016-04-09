@@ -5,7 +5,7 @@ import * as pageActions from 'redux/modules/page';
 
 
 @connect(
-  (state) => ({
+  state => ({
     restart: state.page.restart
   }),
   {...pageActions}
@@ -40,13 +40,13 @@ export default class Header extends Component {
           <nav className={'uk-navbar ' + styles['cm-navbar']}>
             <a className="uk-navbar-toggle uk-visible-small" onClick={handleClick} ></a>
             <div className="uk-navbar-brand uk-navbar-center uk-visible-small" >
-              <IndexLink to="/admin" className={styles['cm-logo-small']}>
+              <IndexLink to="/apps" className={styles['cm-logo-small']}>
                 <img src="/images/logo.png" />
               </IndexLink>
             </div>
             <ul className="uk-navbar-nav uk-container uk-container-center uk-hidden-small">
                 <li className={'uk-active ' + styles['cm-nav-active']}>
-                  <IndexLink to="/admin" className={styles['cm-logo']}>
+                  <IndexLink to="/apps" className={styles['cm-logo']}>
                     <img src="/images/logo.png" /> chaus
                   </IndexLink>
                 </li>

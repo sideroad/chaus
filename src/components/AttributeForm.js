@@ -6,8 +6,8 @@ import * as pageActions from 'redux/modules/page';
 import {RelationSelectBox} from 'components';
 
 @connect(
-  (state) => ({
-    relations: state.models.data,
+  (state, props) => ({
+    relations: state.models[props.app].data,
     from: state.attributes.from,
     to: state.attributes.to
   }),
@@ -32,8 +32,10 @@ import {RelationSelectBox} from 'components';
 })
 export default class AttributeForm extends Component {
   static propTypes = {
+    app: PropTypes.string.isRequired,
     model: PropTypes.string.isRequired,
     fields: PropTypes.object.isRequired,
+    params: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
     save: PropTypes.func.isRequired,
     relations: PropTypes.array.isRequired,
@@ -43,7 +45,8 @@ export default class AttributeForm extends Component {
     drag: PropTypes.func.isRequired,
     drop: PropTypes.func.isRequired,
     loadPage: PropTypes.func.isRequired,
-    restartPage: PropTypes.func.isRequired
+    restartPage: PropTypes.func.isRequired,
+    saveError: PropTypes.object
   };
 
   render() {
@@ -51,6 +54,7 @@ export default class AttributeForm extends Component {
       fields: {attributes, model},
       handleSubmit,
       relations,
+      app,
       save,
       values,
       from,
@@ -58,7 +62,8 @@ export default class AttributeForm extends Component {
       drag,
       drop,
       loadPage,
-      restartPage
+      restartPage,
+      saveError
     } = this.props;
 
     const types = [
@@ -107,9 +112,7 @@ export default class AttributeForm extends Component {
     // TODO: [Bug]When data is null, previous value will be used.
 
     return (
-      <form className="uk-form" onSubmit={handleSubmit(() => {
-        return save(values);
-      })}>
+      <form className="uk-form">
         <table className={styles['cm-table'] + ' uk-table uk-table-striped uk-table-condensed'}>
           <thead>
               <tr>
@@ -149,7 +152,13 @@ export default class AttributeForm extends Component {
                   <div className="uk-grid" >
                     <div className={'uk-visible-small ' + styles['cm-attribute-text']}>Name</div>
                     <div className={'uk-width-7-10 ' + styles['cm-attribute-value']} >
-                      <input type="text" name="name" placeholder="Attribute name" {...attribute.name} />
+                      <input type="text"
+                             name="name"
+                             placeholder="Attribute name"
+                             {...attribute.name}
+                             className={styles['cm-input'] + ' ' +
+                                        (saveError && saveError.index === index ? 'uk-form-danger' : '')}
+                      />
                     </div>
                   </div>
                 </td>
@@ -202,13 +211,13 @@ export default class AttributeForm extends Component {
                   <div className="uk-grid" >
                     <div className={'uk-visible-small ' + styles['cm-attribute-text']}>RegExp</div>
                     <div className={'uk-width-7-10 ' + styles['cm-attribute-value']} >
-                      <input type="text" className="uk-width-8-10" placeholder="Regular expression" {...attribute.regexp} />
+                      <input type="text" className={styles['cm-input'] + ' uk-width-8-10'} placeholder="Regular expression" {...attribute.regexp} />
                       <input id={index + 'invalid-message-icon'} type="checkbox" className={styles['cm-text']} />
                       <label htmlFor={index + 'invalid-message-icon'} className={'uk-width-2-10 ' + styles['cm-icon'] + ' ' + styles['cm-icon-regexp']} >
                       <i className="uk-icon-file-text-o uk-icon-small" />
                       </label>
                       <p className={styles['cm-text-area']} >
-                      <textarea className="uk-width-1-1" placeholder="Invalid message" {...attribute.invalid}/>
+                      <textarea className={styles['cm-input'] + ' uk-width-1-1'} placeholder="Invalid message" {...attribute.invalid}/>
                       </p>
                     </div>
                   </div>
@@ -241,11 +250,11 @@ export default class AttributeForm extends Component {
         <button className={'uk-button uk-button-primary uk-button-large ' + styles['cm-button']}
           onClick={handleSubmit(() => {
             loadPage();
-            return save(model.value, values)
-              .then(result => {
-                if (result && typeof result.error === 'object') {
-                  return Promise.reject(result.error);
-                }
+            return save(app, model.value, values)
+              .then(() => {
+                restartPage();
+              })
+              .catch(() => {
                 restartPage();
               });
           })}

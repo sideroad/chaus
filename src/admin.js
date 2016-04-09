@@ -1,5 +1,18 @@
 module.exports = {
+  app: {
+    name: {
+      uniq: true,
+      regexp: /^[0-9a-z]+$/
+    },
+    models: {
+      children: 'model'
+    }
+  },
   model: {
+    app: {
+      uniq: true,
+      parent: 'app.models'
+    },
     name: {
       uniq: true,
       regexp: /^[0-9a-z]+$/
@@ -9,6 +22,10 @@ module.exports = {
     }
   },
   attribute: {
+    app: {
+      uniq: true,
+      parent: 'app.models'
+    },
     model: {
       uniq: true,
       parent: 'model.attributes'

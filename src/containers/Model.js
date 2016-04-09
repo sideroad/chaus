@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Header, Sidebar, Footer, ModalLoading} from 'components';
+import {Main} from 'containers';
 import { connect } from 'react-redux';
 import * as modelsActions from 'redux/modules/models';
 import * as pageActions from 'redux/modules/page';
@@ -10,15 +10,15 @@ import config from '../config';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
-  promise: ({store: {dispatch, getState}}) => {
-    if (!isLoaded(getState())) {
-      return dispatch(load());
+  promise: ({store: {dispatch, getState}, params}) => {
+    if (!isLoaded(getState(), params.app)) {
+      return dispatch(load(params.app));
     }
   }
 }])
 @connect(
-  state => ({
-    models: state.models.data,
+  (state, props) => ({
+    models: state.models[props.params.app].data,
     open: state.page.open
   }),
   {
@@ -27,17 +27,13 @@ import { asyncConnect } from 'redux-async-connect';
     initializeWithKey
   }
 )
-export default class App extends Component {
+export default class Model extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     models: PropTypes.array,
     open: PropTypes.bool,
     params: PropTypes.object.isRequired,
     closeSidebar: PropTypes.func.isRequired
-  }
-
-  handleClick = () => {
-    this.props.closeSidebar();
   }
 
   render() {
@@ -48,22 +44,15 @@ export default class App extends Component {
     } = this.props;
 
     const {
-      name
+      name,
+      app
     } = this.props.params;
 
     const styles = require('../css/customize.less');
     return (
       <div className={styles['cm-container']} >
         <Helmet {...config.app.head} title="Build RESTful API within 5 min" />
-        <Sidebar models={models} open={open} context="admin" name={name} />
-        <div className={styles['cm-main'] + ' ' + (open ? styles['cm-open-main'] : '')} >
-          <Header />
-          <div className={'uk-grid uk-container ' + styles['cm-grid']} >
-            {children}
-          </div>
-          <Footer />
-          <ModalLoading />
-        </div>
+        <Main models={models} open={open} context="models" modelName={name} app={app} children={children} />
       </div>
     );
   }

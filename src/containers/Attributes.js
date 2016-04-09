@@ -10,21 +10,23 @@ import * as pageActions from 'redux/modules/page';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
-  promise: ({store: {dispatch}}) => {
-    return dispatch(load());
+  promise: ({store: {dispatch}, params}) => {
+    return dispatch(load(params.app));
   }
 }])
 @connect(
   (state) => ({
     attributes: state.attributes.data,
     loaded: state.attributes.loaded,
-    loading: state.attributes.loading
+    loading: state.attributes.loading,
+    saveError: state.attributes.error,
+    saveSuccess: state.attributes.saveSuccess
   }),
   {
     ...modelActions,
     loadPage: pageActions.load,
     finishLoad: pageActions.finishLoad,
-    pushState: routeActions.push,
+    push: routeActions.push,
     initializeWithKey})
 @reduxForm({
   form: 'modelButton',
@@ -34,13 +36,15 @@ export default class Attributes extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     remove: PropTypes.func.isRequired,
-    pushState: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     attributes: PropTypes.object.isRequired,
     loaded: PropTypes.bool,
     loading: PropTypes.bool,
     loadPage: PropTypes.func.isRequired,
-    finishLoad: PropTypes.func.isRequired
+    finishLoad: PropTypes.func.isRequired,
+    saveError: PropTypes.object,
+    saveSuccess: PropTypes.bool
   };
 
   render() {
@@ -51,14 +55,27 @@ export default class Attributes extends Component {
       loading,
       loaded,
       loadPage,
-      finishLoad
+      finishLoad,
+      saveError,
+      saveSuccess
     } = this.props;
-    const {name} = this.props.params;
+    const {name, app} = this.props.params;
     const styles = require('../css/customize.less');
     const contentsClass = loading ? styles['cm-beam-in'] :
                           loaded ? styles['cm-beam-out'] : '';
     return (
       <div className={'uk-width-medium-8-10 ' + styles['cm-contents']} >
+        { saveError ?
+          <div className="uk-alert uk-alert-danger">
+          {Object.keys(saveError.err).map((key) =>
+            <div key={key}>
+              {key}: {saveError.err[key]}
+            </div>)}
+          </div> : ''}
+        { saveSuccess &&
+          <div className="uk-alert uk-alert-success">
+            Model updated successfully.
+          </div>}
         <div className={contentsClass}>
           <div className="uk-grid" >
             <div className="uk-width-6-10" >
@@ -69,13 +86,13 @@ export default class Attributes extends Component {
                 onClick={
                   handleSubmit(() => {
                     loadPage();
-                    return remove(name)
+                    return remove(app, name)
                       .then(result => {
                         finishLoad();
                         if (result && typeof result.error === 'object') {
                           return Promise.reject(result.error);
                         }
-                        this.props.pushState(null, '/admin');
+                        this.props.push('/apps/' + app + '/models');
                       });
                   })}
               >
@@ -86,10 +103,12 @@ export default class Attributes extends Component {
           </div>
           <AttributeForm
             model={name}
+            app={app}
             initialValues={{
               attributes: attributes[name],
               model: name
-            }} />
+            }}
+            saveError={saveError} />
         </div>
       </div>
     );

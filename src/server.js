@@ -55,7 +55,7 @@ const retatch = (req, res)=>{
 app.get('/admin/restart', retatch);
 retatch();
 
-app.use((req, res) => {
+app.use('/apps', (req, res) => {
   if (__DEVELOPMENT__) {
     // Do not cache webpack stats: the script file would change since
     // hot module replacement is enabled in the development env
@@ -102,6 +102,10 @@ app.use((req, res) => {
       res.status(404).send('Not found');
     }
   });
+});
+
+app.get('/', (req, res)=>{
+  res.redirect('/apps');
 });
 
 if (config.port) {

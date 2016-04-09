@@ -1,3 +1,4 @@
 node_modules
-static/doc
+static/docs
 static/dist
+npm-debug.log

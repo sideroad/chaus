@@ -12,13 +12,10 @@ import moment from 'moment';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
-  promise: ({params, store: {dispatch, getState}}) => {
-    const state = getState();
+  promise: ({params, store: {dispatch}}) => {
     const promises = [];
-    console.log(params, state);
-    console.log('# dispatch loading attributes');
-    promises.push(dispatch(loadAttributes(state)));
-    promises.push(dispatch(loadRecords(params.name)));
+    promises.push(dispatch(loadAttributes(params.app)));
+    promises.push(dispatch(loadRecords(params.app, params.name)));
     return Promise.all(promises);
   }
 }])
@@ -28,7 +25,7 @@ import { asyncConnect } from 'redux-async-connect';
     loaded: state.attributes.loaded,
     loading: state.attributes.loading,
     records: state.records.data,
-    recordError: state.records.error,
+    saveError: state.records.error,
     saveSuccess: state.records.saveSuccess
   }),
   {
@@ -50,7 +47,7 @@ export default class Records extends Component {
     handleSubmit: PropTypes.func.isRequired,
     attributes: PropTypes.object.isRequired,
     records: PropTypes.array.isRequired,
-    recordError: PropTypes.object,
+    saveError: PropTypes.object,
     saveSuccess: PropTypes.bool,
     loaded: PropTypes.bool,
     loading: PropTypes.bool,
@@ -65,11 +62,11 @@ export default class Records extends Component {
       records,
       loading,
       loaded,
-      recordError,
+      saveError,
       addRecord,
       saveSuccess
     } = this.props;
-    const {name} = this.props.params;
+    const {name, app} = this.props.params;
     const styles = require('../css/customize.less');
     const contentsClass = loading ? styles['cm-beam-in'] :
                           loaded ? styles['cm-beam-out'] : '';
@@ -98,15 +95,13 @@ export default class Records extends Component {
       return values;
     });
     const fields = targets.map((attribute) => attribute.name).concat(['model']);
-    console.log(records);
-
     return (
       <div className={'uk-width-medium-8-10 ' + styles['cm-contents']} >
-        { recordError ?
+        { saveError ?
           <div className="uk-alert uk-alert-danger">
-          {Object.keys(recordError.err).map((key) =>
+          {Object.keys(saveError.err).map((key) =>
             <div key={key}>
-              {key}: {recordError.err[key]}
+              {key}: {saveError.err[key]}
             </div>)}
           </div> : ''}
         { saveSuccess &&
@@ -137,11 +132,12 @@ export default class Records extends Component {
                       fields={fields}
                       targets={targets}
                       key={name + index}
+                      app={app}
                       model={name}
                       id={item.id}
                       items={items}
                       initialValues={item}
-                      recordError={recordError && item.id === recordError.id ? recordError : undefined}
+                      saveError={saveError && item.id === saveError.id ? saveError : undefined}
                     />)
                   )
                 }

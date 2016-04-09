@@ -26,7 +26,6 @@ export default function record(state = initialState, action = {}) {
         saveSuccess: false
       };
     case LOAD_SUCCESS:
-      console.log(action.result);
       return {
         ...state,
         loading: false,
@@ -89,10 +88,10 @@ export function isLoaded(globalState) {
   return globalState.records && globalState.records.loaded;
 }
 
-export function load(model) {
+export function load(app, model) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.fetchJSON('/' + pluralize(model), 'GET')
+    promise: (client) => client.fetchJSON('/apis/' + app + '/' + pluralize(model), 'GET')
   };
 }
 
@@ -102,13 +101,13 @@ export function add() {
   };
 }
 
-export function save(model, id, values) {
+export function save(app, model, id, values) {
   console.log(values);
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     promise: (client) =>
       new Promise((resolve, reject) =>
-        client.fetchJSON('/' + pluralize(model) + ( id ? '/' + id : '' ), 'POST', {
+        client.fetchJSON('/apis/' + app + '/' + pluralize(model) + ( id ? '/' + id : '' ), 'POST', {
           ...values
         })
         .then(
@@ -118,25 +117,25 @@ export function save(model, id, values) {
             id: id
           })
         )
-        .then(()=>load(model).promise(client).then((res)=>resolve(res)))
+        .then(()=>load(app, model).promise(client).then((res)=>resolve(res)))
       )
   };
 }
 
-export function remove(model, id) {
+export function remove(app, model, id) {
   return {
     types: [REMOVE, REMOVE_SUCCESS, REMOVE_FAIL],
     promise: (client) =>
       new Promise((resolve) => {
         if ( id ) {
-          client.fetchJSON('/' + pluralize(model) + '/' + id, 'DELETE')
+          client.fetchJSON('/apis/' + app + '/' + pluralize(model) + '/' + id, 'DELETE')
           .then(
-            ()=>load(model)
+            ()=>load(app, model)
                 .promise(client)
                 .then((res)=>resolve(res))
           );
         } else {
-          load(model)
+          load(app, model)
           .promise(client)
           .then((res)=>resolve(res));
         }

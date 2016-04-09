@@ -2,7 +2,7 @@
 
 ## Running Example
 
-http://chaus.herokuapp.com/admin
+http://chaus.herokuapp.com/apps/
 
 ## Deploy on Heroku
 
@@ -26,10 +26,10 @@ npm start
 
 ## Usage
 
-http://localhost:3000/admin
+http://localhost:3000/apps
 
 # Contribute
 
 ## Color schema
 
-https://coolors.co/app/fffb7a-222229-514299-968bce-c3bce8
+https://coolors.co/app/82ae46-fffffc-aacf53-f6bfbc-def3de

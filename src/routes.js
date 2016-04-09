@@ -1,9 +1,10 @@
 import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 import {
-    Admin,
+    Apps,
+    Model,
     Data,
-    AdminHome,
+    ModelHome,
     DataHome,
     Attributes,
     NotFound,
@@ -15,14 +16,15 @@ export default () => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route>
-      <Route path="/admin" component={Admin} >
-        <IndexRoute component={AdminHome} />
-        <Route path="/admin/models/:name" component={Attributes} />
+    <Route path="/apps">
+      <IndexRoute component={Apps} />
+      <Route path="/apps/:app/models" component={Model} >
+        <IndexRoute component={ModelHome} />
+        <Route path="/apps/:app/models/:name" component={Attributes} />
       </Route>
-      <Route path="/data" component={Data} >
+      <Route path="/apps/:app/data" component={Data} >
         <IndexRoute component={DataHome} />
-        <Route path="/data/models/:name" component={Records} />
+        <Route path="/apps/:app/data/:name" component={Records} />
       </Route>
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />

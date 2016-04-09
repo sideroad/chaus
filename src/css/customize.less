@@ -4,6 +4,15 @@
 @import "cm-moon.less";
 @import "cm-reorder.less";
 
+.clearfix:after{
+  content: ".";
+  display: block;
+  height: 0;
+  font-size:0;
+  clear: both;
+  visibility:hidden;
+}
+
 .cm-html{
   background-color: @html-back;
   color: @html-text;
@@ -19,12 +28,25 @@
   font-family: "PT Sans",Helvetica,Arial,sans-serif;
 }
 
+.cm-input{
+  color: @input !important;
+  border: @input-border !important;
+  font-family: 'PT Sans' !important;
+}
+.cm-input:focus {
+  color: @focus-input !important;
+  background-color: @focus-input-back !important;
+  border: @focus-input-border !important;
+  outline: none;
+}
+
 .cm-container{
   overflow-x: hidden;
   position: relative;
 }
 
 .cm-main{
+  background: linear-gradient(180deg, @main-back-from, @main-back-via 30%, @main-back-to);
 }
 
 .cm-symbolic{
@@ -82,6 +104,7 @@
 
 .cm-sidebar-link{
   color: @link-text!important;
+  padding-left: 25px !important;
 }
 .cm-sidebar-link:hover{
   color: @nav-back !important;
@@ -190,6 +213,7 @@
   .cm-contents{
     position: static !important;
     padding-right: 0px !important;
+    min-height: 340px !important;
   }
   .cm-footer{
     position: static !important;
@@ -215,10 +239,11 @@
 
 .cm-nav-header{
   color: @nav-header-text !important;
+  padding: 5px 0px;
 }
 
 .cm-nav-header-link{
-  padding-left: 0px !important;
+  padding-left: 15px !important;
 }
 
 .cm-contents{

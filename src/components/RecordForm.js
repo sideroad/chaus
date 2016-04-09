@@ -18,10 +18,11 @@ import * as pageActions from 'redux/modules/page';
 })
 export default class RecordForm extends Component {
   static propTypes = {
+    app: PropTypes.string.isRequired,
     model: PropTypes.string.isRequired,
     id: PropTypes.string,
     targets: PropTypes.array.isRequired,
-    recordError: PropTypes.object,
+    saveError: PropTypes.object,
     fields: PropTypes.object.isRequired,
     save: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired,
@@ -36,20 +37,38 @@ export default class RecordForm extends Component {
       id,
       fields,
       targets,
-      recordError,
+      saveError,
       save,
       remove,
       values,
       loadPage,
-      restartPage
+      restartPage,
+      app
     } = this.props;
 
     const edit = id !== undefined ? true : false;
     const styles = require('../css/customize.less');
+    const saveRecord = (event) => {
+      event.preventDefault(); // prevent form submission
+      const postValues = {};
+      targets.map((attribute)=>{
+        if ( !attribute.uniq || !edit ) {
+          postValues[attribute.name] = values[attribute.name];
+        }
+      });
 
+      loadPage();
+      return save(app, model, id, postValues)
+               .then(() => {
+                 restartPage();
+               })
+               .catch(() => {
+                 restartPage();
+               });
+    };
     // TODO: Realtime validation
 
-    // TODO: When error has occurred, display error
+    // TODO: When saveError has occurred, display saveError
     return (
       <tr>
         <td className="uk-text-left">
@@ -62,9 +81,8 @@ export default class RecordForm extends Component {
         </td>
         {
           targets.map((attribute, index) => {
-            const isInvalid = recordError &&
-                              recordError.err[attribute.name] ? true : false;
-            console.log(values);
+            const isInvalid = saveError &&
+                              saveError.err[attribute.name] ? true : false;
             return (
               <td className="uk-text-left" key={index}>
                 <div className="uk-grid" >
@@ -75,11 +93,25 @@ export default class RecordForm extends Component {
                       edit ?
                         <span>{fields[attribute.name].value}</span>
                       :
-                        <input className={styles['cm-record-input'] + ' ' + (isInvalid ? 'uk-form-danger' : '')} type={
+                        <input className={styles['cm-input'] + ' ' +
+                                          styles['cm-record-input'] + ' ' +
+                                          (isInvalid ? 'uk-form-danger' : '')} type={
                                  attribute.type === 'number' ? 'number' :
                                  attribute.type === 'date' ? 'date' : 'text'
                                }
-                               {...fields[attribute.name]} />
+                               {...fields[attribute.name]}
+                               onKeyPress={
+                                 (event)=>{
+                                   switch (event.key) {
+                                     case 'Enter':
+                                       event.preventDefault();
+                                       saveRecord(event);
+                                       break;
+                                     default:
+                                       return;
+                                   }
+                                 }
+                               }/>
                     }
                   </div>
                 </div>
@@ -90,24 +122,7 @@ export default class RecordForm extends Component {
         <td className="uk-text-center">
           <div className="uk-grid" >
             <div className="uk-width-1-2" >
-              <a onClick={event =>{
-                event.preventDefault(); // prevent form submission
-                const postValues = {};
-                targets.map((attribute)=>{
-                  if ( !attribute.uniq || !edit ) {
-                    postValues[attribute.name] = values[attribute.name];
-                  }
-                });
-
-                loadPage();
-                return save(model, id, postValues)
-                         .then(() => {
-                           restartPage();
-                         })
-                         .catch(() => {
-                           restartPage();
-                         });
-              }}>
+              <a onClick={saveRecord}>
                 <i className={'uk-icon-save uk-icon-small ' + styles['cm-icon']} />
               </a>
             </div>
@@ -117,7 +132,7 @@ export default class RecordForm extends Component {
 
 
                 loadPage();
-                return remove(model, id)
+                return remove(app, model, id)
                          .then(() => {
                            restartPage();
                          })
