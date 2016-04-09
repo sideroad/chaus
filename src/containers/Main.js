@@ -35,7 +35,7 @@ export default class Main extends Component {
       <div>
         {context && app ? <Sidebar models={models} open={open} context={context} modelName={modelName} app={app}/> : ''}
         <div className={styles['cm-main'] + ' ' + (open ? styles['cm-open-main'] : '')} >
-          <Header shouldDisplayToggle={context && app ? true : false} />
+          <Header app={app} shouldDisplayToggle={context && app ? true : false} />
           <div className={context && app ? 'uk-grid uk-container ' + styles['cm-grid'] : ''} onClick={this.props.closeSidebar} >
             {children}
           </div>
