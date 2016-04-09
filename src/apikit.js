@@ -19,8 +19,10 @@ function convert(source) {
     if ( !dist[attribute.app] ) {
       dist[attribute.app] = {};
     }
+    if ( !dist[attribute.app][attribute.model] ) {
+      dist[attribute.app][attribute.model] = {};
+    }
 
-    const attr = {};
     const name = attribute.name;
     const model = attribute.model;
     delete attribute.id;
@@ -34,8 +36,7 @@ function convert(source) {
     } else {
       attribute.relation = relation;
     }
-    attr[name] = attribute;
-    dist[attribute.app][model] = attr;
+    dist[attribute.app][model][name] = attribute;
   });
   return dist;
 }
@@ -47,7 +48,7 @@ export default function(app, mongoose) {
   fetchAttributes()
     .then(attributes=> {
       const schema = convert(attributes.items);
-      console.log(schema);
+      console.log('### schemas');
       Object.keys(schema).map(application => {
         console.log(application, schema[application]);
         app.use('/', creator.router({
