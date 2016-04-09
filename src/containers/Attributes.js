@@ -96,7 +96,7 @@ export default class Attributes extends Component {
                       });
                   })}
               >
-                <i className={'uk-icon-trash ' + styles['cm-icon']}/>
+                <i className={'uk-icon-trash ' + styles['cm-icon'] + ' ' + styles['cm-trash-button']}/>
                 <span className={styles['cm-delete-button-text']}>Delete</span>
               </button>
             </div>
