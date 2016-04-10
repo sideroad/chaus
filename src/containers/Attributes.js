@@ -1,13 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {load} from 'redux/modules/attributes';
-import * as modelActions from 'redux/modules/models';
 import {AttributeForm} from 'components';
 import {initializeWithKey} from 'redux-form';
 import {reduxForm} from 'redux-form';
 import { routeActions } from 'react-router-redux';
-import * as pageActions from 'redux/modules/page';
 import { asyncConnect } from 'redux-async-connect';
+import * as modelActions from 'redux/modules/models';
+import * as pageActions from 'redux/modules/page';
+import * as recordActions from 'redux/modules/records';
 
 @asyncConnect([{
   promise: ({store: {dispatch}, params}) => {
@@ -27,6 +28,7 @@ import { asyncConnect } from 'redux-async-connect';
     loadPage: pageActions.load,
     finishLoad: pageActions.finishLoad,
     push: routeActions.push,
+    removeRecords: recordActions.removeAll,
     initializeWithKey})
 @reduxForm({
   form: 'modelButton',
@@ -36,6 +38,7 @@ export default class Attributes extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     remove: PropTypes.func.isRequired,
+    removeRecords: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     attributes: PropTypes.object.isRequired,
@@ -51,6 +54,7 @@ export default class Attributes extends Component {
     const {
       attributes,
       remove,
+      removeRecords,
       handleSubmit,
       loading,
       loaded,
@@ -86,14 +90,17 @@ export default class Attributes extends Component {
                 onClick={
                   handleSubmit(() => {
                     loadPage();
-                    return remove(app, name)
-                      .then(result => {
-                        finishLoad();
-                        if (result && typeof result.error === 'object') {
-                          return Promise.reject(result.error);
-                        }
-                        this.props.push('/apps/' + app + '/models');
-                      });
+                    return removeRecords(app, name)
+                             .then(()=> {
+                               return remove(app, name);
+                             })
+                             .then(result => {
+                               finishLoad();
+                               if (result && typeof result.error === 'object') {
+                                 return Promise.reject(result.error);
+                               }
+                               this.props.push('/apps/' + app + '/models');
+                             });
                   })}
               >
                 <i className={'uk-icon-trash ' + styles['cm-icon'] + ' ' + styles['cm-trash-button']}/>

@@ -105,9 +105,9 @@ export default class Sidebar extends Component {
       <div className={'uk-width-medium-2-10 ' + styles['cm-sidebar'] + ' ' + ( open ? styles['cm-open-sidebar'] : '' ) }>
         <div className={styles['cm-sidebar-box']}>
           <ul className="uk-nav uk-nav-side">
-            <li className={'uk-nav-header ' + styles['cm-nav-header']} >
+            <li className={'uk-nav-header ' + styles['cm-nav-header'] + ' ' + ( context === 'models' && !modelName ? styles['cm-sidebar-active'] : '')} >
               <IndexLink to={'/apps/' + app + '/models'} className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} onClick={this.handleClick} >
-                <i className={'uk-icon-small uk-icon-cubes ' + styles['cm-icon'] } />Models
+                <i className={'uk-icon-small uk-icon-cubes ' + styles['cm-icon']} />Models
               </IndexLink>
             </li>
             {context === 'models' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
@@ -123,9 +123,9 @@ export default class Sidebar extends Component {
               <a href="#" onClick={this.handleAdd} className={styles['cm-nav-plus'] + ' ' + styles['cm-sidebar-link']} ><i className="uk-icon-plus"></i></a>
             </li>)}
             {context === 'models' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
-            <li className={'uk-nav-header ' + styles['cm-nav-header']} >
+            <li className={'uk-nav-header ' + styles['cm-nav-header'] + ' ' + ( context === 'data' && !modelName ? styles['cm-sidebar-active'] : '')} >
               <IndexLink to={'/apps/' + app + '/data'} className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} onClick={this.handleClick} >
-                <i className={'uk-icon-small uk-icon-database ' + styles['cm-icon'] } />data
+                <i className={'uk-icon-small uk-icon-database ' + styles['cm-icon']} />Data
               </IndexLink>
             </li>
             {context === 'data' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}

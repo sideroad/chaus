@@ -143,3 +143,19 @@ export function remove(app, model, id) {
       )
   };
 }
+
+export function removeAll(app, model) {
+  return {
+    types: [REMOVE, REMOVE_SUCCESS, REMOVE_FAIL],
+    promise: (client) =>
+      new Promise((resolve) => {
+        client
+          .fetchJSON('/apis/' + app + '/' + pluralize(model), 'DELETE')
+          .then(
+            ()=>load(app, model)
+                .promise(client)
+                .then((res)=>resolve(res))
+          );
+      })
+  };
+}
