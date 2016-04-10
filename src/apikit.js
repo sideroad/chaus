@@ -4,6 +4,8 @@ import creator from 'express-restful-api';
 import fs from 'fs';
 import url from 'url';
 
+const creators = [];
+
 function fetchAttributes() {
   console.log('Loading attributes...');
   return fetch( 'http://' + config.host + ':' + config.port + '/admin/api/attributes', {
@@ -45,6 +47,7 @@ function convert(source) {
 
 export default function(app, mongoose) {
   console.log('Loading APIs...');
+  creators.map(_creator => _creator.destroy());
   fetchAttributes()
     .then(attributes=> {
       const schema = convert(attributes.items);
@@ -77,6 +80,7 @@ export default function(app, mongoose) {
           },
           'dest': __dirname + '/../static/docs/' + application
         });
+        creators.push(creator);
 
       });
     })

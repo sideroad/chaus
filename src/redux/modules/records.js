@@ -128,7 +128,7 @@ export function remove(app, model, id) {
     promise: (client) =>
       new Promise((resolve) => {
         if ( id ) {
-          client.fetchJSON('/apis/' + app + '/' + pluralize(model) + '/' + id, 'DELETE')
+          client.fetchJSON('/apis/' + app + '/' + pluralize(model) + '/' + encodeURIComponent(id), 'DELETE')
           .then(
             ()=>load(app, model)
                 .promise(client)
