@@ -33,7 +33,6 @@ export default class Header extends Component {
     };
 
     // TODO: [Enhance]Add configuration below
-    //       - API name ( for API doc )
     //       - API description ( for API doc )
     //       - CORS domains
     return (

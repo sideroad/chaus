@@ -43,8 +43,6 @@ function convert(source) {
   return dist;
 }
 
-// TODO: [BUG]Should be able to detach
-
 export default function(app, mongoose) {
   console.log('Loading APIs...');
   creators.map(_creator => _creator.destroy());

@@ -68,7 +68,6 @@ export default class RecordForm extends Component {
     };
     // TODO: Realtime validation
 
-    // TODO: When saveError has occurred, display saveError
     return (
       <tr>
         <td className="uk-text-left">
