@@ -33,7 +33,7 @@ export default class RelationSelectBox extends Component {
     return (
       <p className={styles['cm-parent-attribution']}>
       {attributes[model] &&
-        <select name="relation" {...relation} value={relation.value}>
+        <select name="relation" className={styles['cm-selectbox']} {...relation} value={relation.value}>
           {attributes[model].map(_relation => <option value={_relation.name} key={_relation.name} >{_relation.name}</option>)}
         </select>
       }

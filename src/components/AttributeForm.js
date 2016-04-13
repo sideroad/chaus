@@ -184,7 +184,7 @@ export default class AttributeForm extends Component {
                   <div className="uk-grid" >
                     <div className={'uk-visible-small ' + styles['cm-attribute-text']}>Type</div>
                     <div className={'uk-width-7-10 ' + styles['cm-attribute-value']} >
-                      <select {...attribute.type} value={attribute.type.value} >
+                      <select className={styles['cm-selectbox']} {...attribute.type} value={attribute.type.value} >
                       {types.map(option => <option value={option} key={option} >{option}</option>)}
                       </select>
                     </div>
@@ -196,7 +196,7 @@ export default class AttributeForm extends Component {
                     <div className={'uk-width-7-10 ' + styles['cm-attribute-value']} >
                       {
                         relationTypes.includes(attribute.type.value) &&
-                        <select name="relation" {...attribute.relation} value={attribute.relation.value}>
+                        <select className={styles['cm-selectbox']} name="relation" {...attribute.relation} value={attribute.relation.value}>
                         <option >Select {attribute.type.value} model</option>
                         {relations.map(relation => <option value={relation.name} key={relation.name} >{relation.name}</option>)}
                         </select>
