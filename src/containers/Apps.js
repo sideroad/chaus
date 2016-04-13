@@ -1,28 +1,16 @@
 import React, {Component, PropTypes} from 'react';
 import {Main} from 'containers';
+import {Card} from 'components';
 import {connect} from 'react-redux';
 import config from '../config';
 import Helmet from 'react-helmet';
 import {reduxForm} from 'redux-form';
 import * as appsActions from 'redux/modules/apps';
 import * as pageActions from 'redux/modules/page';
-import { asyncConnect } from 'redux-async-connect';
 import { routeActions } from 'react-router-redux';
 
-
-@asyncConnect([{
-  promise: ({store: {getState, dispatch}}) => {
-    const promises = [];
-    if ( !appsActions.isLoaded(getState()) ) {
-      promises.push(dispatch(appsActions.load()));
-    }
-    return Promise.all(promises);
-  }
-}])
 @connect(
-  state=>({
-    apps: state.apps.data
-  }),
+  state=>state,
   {
     ...appsActions,
     loadApp: appsActions.load,
@@ -38,7 +26,6 @@ import { routeActions } from 'react-router-redux';
 })
 export default class Apps extends Component {
   static propTypes = {
-    apps: PropTypes.array,
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     save: PropTypes.func.isRequired,
@@ -51,7 +38,6 @@ export default class Apps extends Component {
 
   render() {
     const {
-      apps,
       fields,
       save,
       loadPage,
@@ -121,22 +107,7 @@ export default class Apps extends Component {
                   }
                 />
             </div>
-            <div className={styles.app.items}>
-              {apps && apps.map(app => (
-                <div key={app.id} className={styles.app.item} >
-                  <a className={styles.app.card + ' ' + (fields.app.value === app.id ? styles.app.selected : '')}
-                     onClick={
-                       () => {
-                         this.props.push('/apps/' + app.id + '/models');
-                       }
-                     }>
-                    <div className={styles.app.primary}>
-                      <div className={styles.app.name} >{app.name}</div>
-                    </div>
-                  </a>
-                </div>
-              ))}
-            </div>
+            <Card />
           </div>
         } />
       </div>
