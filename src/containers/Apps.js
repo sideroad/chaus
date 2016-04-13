@@ -50,7 +50,7 @@ export default class Apps extends Component {
       app: require('../css/app.less')
     };
     const submit = (app) => {
-      if( !app ) {
+      if ( !app ) {
         return;
       }
       loadPage();
