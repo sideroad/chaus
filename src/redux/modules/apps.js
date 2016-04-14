@@ -28,7 +28,8 @@ export default function app(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        data: action.result
+        query: action.result.query,
+        data: action.result.items
       };
     case LOAD_FAIL:
       return {
@@ -43,7 +44,7 @@ export default function app(state = initialState, action = {}) {
     case ADD_SUCCESS:
       return {
         ...state,
-        data: action.result,
+        data: action.result.items,
         editing: false
       };
     case ADD_FAIL:
@@ -56,7 +57,7 @@ export default function app(state = initialState, action = {}) {
     case REMOVE_SUCCESS:
       return {
         ...state,
-        data: action.result,
+        data: action.result.items,
         editing: false
       };
     case REMOVE_FAIL:
@@ -79,9 +80,14 @@ export function load(name) {
     promise: (client) => {
       return new Promise((appsResolve) => {
         client
-          .fetchJSON('/admin/api/apps', 'GET', name ? {name} : {})
+          .fetchJSON('/admin/api/apps', 'GET', name ? {
+            name: '*' + name + '*'
+          } : {})
           .then((apps) => {
-            appsResolve(apps.items);
+            appsResolve({
+              query: name,
+              items: apps.items
+            });
           });
       });
     }

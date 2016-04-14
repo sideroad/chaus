@@ -10,7 +10,7 @@ import * as pageActions from 'redux/modules/page';
 import { routeActions } from 'react-router-redux';
 
 @connect(
-  state=>state,
+  ()=>({}),
   {
     ...appsActions,
     loadApp: appsActions.load,
@@ -55,7 +55,7 @@ export default class Apps extends Component {
       }
       loadPage();
       loadApp(app).then(res => {
-        if ( res.length ) {
+        if ( res.items.length ) {
           restartPage();
           this.props.push('/apps/' + app + '/models');
         } else {
@@ -71,7 +71,7 @@ export default class Apps extends Component {
       });
     };
     const search = (app) => {
-      loadApp(app ? '*' + app + '*' : '');
+      loadApp(app);
     };
 
     return (
@@ -80,6 +80,15 @@ export default class Apps extends Component {
         <Main children={
           <div className={styles.app.app}>
             <div className={styles.app.box}>
+                <img
+                  src={require('../images/glass.png')}
+                  className={styles.app.glass}
+                  onClick={
+                    ()=>{
+                      submit(fields.app.value);
+                    }
+                  }
+                />
                 <input
                   {...fields.app}
                   className={styles.app.input + ' ' + styles.base['cm-input']}
@@ -97,15 +106,6 @@ export default class Apps extends Component {
                   onChange={
                     (evt) => {
                       search(evt.target.value);
-                    }
-                  }
-                />
-                <img
-                  src={require('../images/glass.png')}
-                  className={styles.app.glass}
-                  onClick={
-                    ()=>{
-                      submit(fields.app.value);
                     }
                   }
                 />
