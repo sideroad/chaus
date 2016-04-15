@@ -84,7 +84,7 @@ export function load(app) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      return new Promise((attributesResolve) => {
+      return new Promise((resolve, reject) => {
         client
           .fetchJSON('/admin/api/attributes', 'GET', {
             app
@@ -100,10 +100,11 @@ export function load(app) {
               }
               items[_attribute.model].push(_attribute);
             });
-
-            attributesResolve({
+            resolve({
               items: items
             });
+          }, ()=> {
+            reject();
           });
       });
     }

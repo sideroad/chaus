@@ -59,6 +59,11 @@ export default function(app, mongoose) {
           prefix: '/apis/' + application
         }));
 
+        app.use('/apis/', (req, res) => {
+          console.log('Does not found the route');
+          res.json({});
+        });
+
         creator.doc({
           'name': 'RESTful API',
           'version': JSON.parse( fs.readFileSync( __dirname + '/../package.json') ).version,

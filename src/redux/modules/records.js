@@ -102,7 +102,6 @@ export function add() {
 }
 
 export function save(app, model, id, values) {
-  console.log(values);
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     promise: (client) =>
@@ -136,8 +135,8 @@ export function remove(app, model, id) {
           );
         } else {
           load(app, model)
-          .promise(client)
-          .then((res)=>resolve(res));
+            .promise(client)
+            .then((res)=>resolve(res));
         }
       }
       )
