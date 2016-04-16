@@ -73,16 +73,20 @@ export default class ApiClient {
                  if ( !res.ok ) {
                    res.json().then((json) => {
                      reject(json);
+                   }, ()=>{
+                     resolve({});
                    });
                  } else if ( method === 'GET' ) {
                    res.json().then((json) => {
                      resolve(json);
                    }, ()=>{
-                     reject();
+                     reject({});
                    });
                  } else {
                    resolve({});
                  }
+               }, ()=>{
+                 resolve({});
                });
       });
     };
