@@ -92,8 +92,6 @@ export function load(app) {
           .then((attributes) => {
             const items = {};
             attributes.items.map((_attribute)=>{
-              _attribute.uniq = _attribute.uniq === 'true' ? true : false;
-              _attribute.required = _attribute.required === 'true' ? true : false;
               _attribute.relation = _attribute.relation;
               if ( !items[_attribute.model] ) {
                 items[_attribute.model] = [];
@@ -142,8 +140,6 @@ export function save(app, model, values) {
                   client.fetchJSON('/admin/api/attributes', 'POST', {
                     ..._attribute,
                     type: _attribute.type ? _attribute.type : 'string',
-                    uniq: _attribute.uniq === true ? 'true' : 'false',
-                    required: _attribute.required === true ? 'true' : 'false',
                     model,
                     app
                   })

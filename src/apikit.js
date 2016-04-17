@@ -30,8 +30,6 @@ function convert(source) {
     delete attribute.id;
     delete attribute.name;
     delete attribute.model;
-    attribute.uniq = attribute.uniq === 'true' ? true : false;
-    attribute.required = attribute.required === 'true' ? true : false;
     const relation = attribute.relation;
     if ( attribute.relationAttribute ) {
       attribute.relation = relation + '.' + attribute.relationAttribute;

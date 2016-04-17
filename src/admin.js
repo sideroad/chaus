@@ -35,13 +35,13 @@ module.exports = {
       regexp: /^[0-9a-z]+$/
     },
     uniq: {
-      regexp: /^(true|false)$/
+      type: 'boolean'
     },
     required: {
-      regexp: /^(true|false)$/
+      type: 'boolean'
     },
     type: {
-      regexp: /^(string|number|date|parent|children|instance)$/
+      regexp: /^(string|number|date|boolean|parent|children|instance)$/
     },
     relation: {
       instance: 'model'

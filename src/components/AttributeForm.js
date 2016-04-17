@@ -70,6 +70,7 @@ export default class AttributeForm extends Component {
       'string',
       'number',
       'date',
+      'boolean',
       'parent',
       'children',
       'instance'

@@ -18,6 +18,7 @@ import * as pageActions from 'redux/modules/page';
 })
 export default class RecordForm extends Component {
   static propTypes = {
+    formKey: PropTypes.string.isRequired,
     app: PropTypes.string.isRequired,
     model: PropTypes.string.isRequired,
     id: PropTypes.string,
@@ -43,9 +44,9 @@ export default class RecordForm extends Component {
       values,
       loadPage,
       restartPage,
-      app
+      app,
+      formKey
     } = this.props;
-
     const edit = id !== undefined ? true : false;
     const styles = require('../css/customize.less');
     const saveRecord = (event) => {
@@ -89,28 +90,40 @@ export default class RecordForm extends Component {
                   <div className={'uk-width-7-10 ' + styles['cm-record-value']} >
                     {
                       attribute.uniq === true &&
+                      attribute.type !== 'boolean' &&
                       edit ?
                         <span>{fields[attribute.name].value}</span>
                       :
-                        <input className={styles['cm-input'] + ' ' +
-                                          styles['cm-record-input'] + ' ' +
-                                          (isInvalid ? 'uk-form-danger' : '')} type={
-                                 attribute.type === 'number' ? 'number' :
-                                 attribute.type === 'date' ? 'date' : 'text'
-                               }
-                               {...fields[attribute.name]}
-                               onKeyPress={
-                                 (event)=>{
-                                   switch (event.key) {
-                                     case 'Enter':
-                                       event.preventDefault();
-                                       saveRecord(event);
-                                       break;
-                                     default:
-                                       return;
-                                   }
-                                 }
-                               }/>
+                        <input
+                          id={formKey + index}
+                          className={styles['cm-input'] + ' ' +
+                            styles['cm-record-input'] + ' ' +
+                            (isInvalid ? ' uk-form-danger' : '') +
+                            (attribute.type === 'boolean' ? ' ' + styles['cm-checkbox'] : '')
+                          }
+                          type={
+                            attribute.type === 'number' ? 'number' :
+                            attribute.type === 'boolean' ? 'checkbox' :
+                            attribute.type === 'date' ? 'date' : 'text'
+                          }
+                          {...fields[attribute.name]}
+                          onKeyPress={
+                            (event)=>{
+                              switch (event.key) {
+                                case 'Enter':
+                                  event.preventDefault();
+                                  saveRecord(event);
+                                  break;
+                                default:
+                                  return;
+                              }
+                            }
+                          }
+                          disabled={attribute.uniq ? 'disabled' : ''}
+                        />
+                    }
+                    {
+                      attribute.type === 'boolean' ? <label htmlFor={formKey + index} /> : ''
                     }
                   </div>
                 </div>
