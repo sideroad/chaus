@@ -119,7 +119,8 @@ export default class RecordForm extends Component {
                               }
                             }
                           }
-                          disabled={attribute.uniq ? 'disabled' : ''}
+                          disabled={attribute.uniq &&
+                                    edit ? 'disabled' : ''}
                         />
                     }
                     {
