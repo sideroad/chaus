@@ -11,6 +11,7 @@
   margin-top: 10%;
   margin-bottom: 5%;
   position: relative;
+  height: 50px;
 }
 
 .lead{
@@ -18,25 +19,33 @@
 }
 
 .glass{
-  width: 66px;
-  height: 66px;
-  margin-top: -23px;
+  width: 64px;
+  height: 64px;
   opacity: 0.7;
-  margin-right: -83px;
+  position: absolute;
+  left: 17%;
+  top: 3px;
 }
 
 .input{
-  color: @app-input;
-  width: 60%;
+  color: @app-input !important;
+  width: 70%;
   height: 70px;
   font-size: 50px;
   padding-left: 83px;
   border-width: 3px !important;
   border-radius: 10px;
+  background: none !important;
+  position: absolute;
+  left: 15%;
+  top: 0px;
+  box-sizing: border-box;
 }
 
 .input:focus{
+  color: @app-input !important;
   border-width: 3px !important;
+  background: none !important;
 }
 
 .input::-webkit-input-placeholder {
@@ -47,6 +56,24 @@
 }
 .input::-moz-placeholder {
   font-color: @app-input-placeholder !important;
+}
+
+.candidate{
+  position: absolute;
+  color: @app-candidate;
+  border: @input-border !important;
+  padding-top: 22px;
+  width: 70%;
+  left: 15%;
+  border-width: 3px !important;
+  border-radius: 10px;
+  height: 70px;
+  font-size: 50px;
+  padding-left: 83px;
+  top: 0px;
+  text-align: left;
+  box-sizing: border-box;
+  background-color: @gofun;
 }
 
 .items{
@@ -95,10 +122,9 @@
 
 @media (max-width: @small-max-width){
   .glass{
-    width: 46px !important;
-    height: 46px !important;
-    margin-top: -6px !important;
-    margin-right: -56px;
+    width: 44px !important;
+    height: 44px !important;
+    margin-top: 0px !important;
   }
   .item{
     width: 100%;
@@ -106,6 +132,12 @@
   .input{
     font-size: 20px;
     padding-left: 56px;
+    height: 50px;
+  }
+  .candidate{
+    font-size: 20px;
+    padding-left: 56px;
+    padding-top: 12px;
     height: 50px;
   }
 }

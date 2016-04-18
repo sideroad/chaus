@@ -13,3 +13,4 @@ export Footer from './Footer';
 export ModalLoading from './ModalLoading';
 export RelationSelectBox from './RelationSelectBox';
 export Card from './Card';
+export AppForm from './AppForm';

@@ -11,12 +11,15 @@ const REMOVE_FAIL = 'app/REMOVE_FAIL';
 
 const EDITING = 'app/EDITING';
 const CANCEL = 'app/CANCEL';
+const PREV = 'app/PREV';
+const NEXT = 'app/NEXT';
 
 const initialState = {
   data: [],
   loaded: false
 };
 export default function app(state = initialState, action = {}) {
+  let index;
   switch (action.type) {
     case LOAD:
       return {
@@ -24,12 +27,15 @@ export default function app(state = initialState, action = {}) {
         loading: true
       };
     case LOAD_SUCCESS:
+      const items = action.result && action.result.items ? action.result.items : [];
       return {
         ...state,
         loading: false,
         loaded: true,
         query: action.result.query,
-        data: action.result.items
+        data: items,
+        candidate: items.length ? items[0].id : '',
+        index: 0
       };
     case LOAD_FAIL:
       return {
@@ -38,6 +44,20 @@ export default function app(state = initialState, action = {}) {
         loaded: false,
         error: action.error,
         selected: undefined
+      };
+    case PREV:
+      index = state.index > 0 ? state.index - 1 : 0;
+      return {
+        ...state,
+        index,
+        candidate: state.data.length ? state.data[index].id : ''
+      };
+    case NEXT:
+      index = state.index < state.data.length - 1 ? state.index + 1 : state.index;
+      return {
+        ...state,
+        index,
+        candidate: state.data.length ? state.data[index].id : ''
       };
     case ADD:
       return state; // 'saving' flag handled by redux-form
@@ -70,6 +90,17 @@ export default function app(state = initialState, action = {}) {
   }
 }
 
+export function next() {
+  return {
+    type: NEXT
+  };
+}
+export function prev() {
+  return {
+    type: PREV
+  };
+}
+
 export function isLoaded(globalState) {
   return globalState.apps && globalState.apps.loaded;
 }
@@ -81,7 +112,7 @@ export function load(name) {
       return new Promise((appsResolve) => {
         client
           .fetchJSON('/admin/api/apps', 'GET', name ? {
-            name: '*' + name + '*'
+            name: name + '*'
           } : {})
           .then((apps) => {
             appsResolve({

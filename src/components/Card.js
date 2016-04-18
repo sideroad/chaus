@@ -17,7 +17,7 @@ import { routeActions } from 'react-router-redux';
 @connect(
   state=>({
     apps: state.apps.data,
-    query: state.apps.query
+    candidate: state.apps.candidate
   }),
   {
     ...appsActions,
@@ -26,14 +26,14 @@ import { routeActions } from 'react-router-redux';
 export default class Card extends Component {
   static propTypes = {
     apps: PropTypes.array,
-    query: PropTypes.string,
+    candidate: PropTypes.string,
     push: PropTypes.func.isRequired
   };
 
   render() {
     const {
       apps,
-      query
+      candidate
     } = this.props;
 
     const styles = {
@@ -45,7 +45,7 @@ export default class Card extends Component {
       <div className={styles.app.items}>
         {apps && apps.map(app => (
           <div key={app.id} className={styles.app.item} >
-            <a className={styles.app.card + ' ' + (query === app.id ? styles.app.selected : '')}
+            <a className={styles.app.card + ' ' + (candidate === app.id ? styles.app.selected : '')}
                onClick={
                  () => {
                    this.props.push('/apps/' + app.id + '/models');
