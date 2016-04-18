@@ -6,17 +6,16 @@ import { routeActions } from 'react-router-redux';
 
 
 @asyncConnect([{
-  promise: ({store: {getState, dispatch}}) => {
+  promise: ({store: {dispatch}}) => {
     const promises = [];
-    if ( !appsActions.isLoaded(getState()) ) {
-      promises.push(dispatch(appsActions.load()));
-    }
+    promises.push(dispatch(appsActions.load()));
     return Promise.all(promises);
   }
 }])
 @connect(
   state=>({
     apps: state.apps.data,
+    query: state.apps.query,
     candidate: state.apps.candidate
   }),
   {
@@ -26,6 +25,7 @@ import { routeActions } from 'react-router-redux';
 export default class Card extends Component {
   static propTypes = {
     apps: PropTypes.array,
+    query: PropTypes.string,
     candidate: PropTypes.string,
     push: PropTypes.func.isRequired
   };
@@ -33,6 +33,7 @@ export default class Card extends Component {
   render() {
     const {
       apps,
+      query,
       candidate
     } = this.props;
 
@@ -57,6 +58,10 @@ export default class Card extends Component {
             </a>
           </div>
         ))}
+        {!query &&
+         !apps.length ? <div className={styles.app.lead}>
+                          Type to Find or Create API
+                        </div> : ''}
       </div>
     );
   }
