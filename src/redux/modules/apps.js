@@ -24,15 +24,15 @@ export default function app(state = initialState, action = {}) {
     case LOAD:
       return {
         ...state,
+        query: action.query,
         loading: true
       };
     case LOAD_SUCCESS:
-      const items = action.result && action.result.items ? action.result.items : [];
+      const items = action.result;
       return {
         ...state,
         loading: false,
         loaded: true,
-        query: action.result.query,
         data: items,
         candidate: items.length ? items[0].id : '',
         index: 0
@@ -64,7 +64,7 @@ export default function app(state = initialState, action = {}) {
     case ADD_SUCCESS:
       return {
         ...state,
-        data: action.result.items,
+        data: action.result,
         editing: false
       };
     case ADD_FAIL:
@@ -77,7 +77,7 @@ export default function app(state = initialState, action = {}) {
     case REMOVE_SUCCESS:
       return {
         ...state,
-        data: action.result.items,
+        data: action.result,
         editing: false
       };
     case REMOVE_FAIL:
@@ -107,6 +107,7 @@ export function isLoaded(globalState) {
 
 export function load(name) {
   return {
+    query: name,
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
       return new Promise((appsResolve) => {
@@ -115,10 +116,7 @@ export function load(name) {
             name: name + '*'
           } : {})
           .then((apps) => {
-            appsResolve({
-              query: name,
-              items: apps.items
-            });
+            appsResolve(apps.items);
           });
       });
     }

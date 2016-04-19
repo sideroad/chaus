@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Main} from 'containers';
-import {Card, AppForm} from 'components';
+import {AppCard, AppForm} from 'components';
 import config from '../config';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
@@ -32,7 +32,7 @@ export default class Apps extends Component {
             <AppForm initialValues={
               values
             } />
-            <Card />
+            <AppCard />
           </div>
         } />
       </div>

@@ -22,7 +22,7 @@ import { routeActions } from 'react-router-redux';
     ...appsActions,
     push: routeActions.push
   })
-export default class Card extends Component {
+export default class AppCard extends Component {
   static propTypes = {
     apps: PropTypes.array,
     query: PropTypes.string,

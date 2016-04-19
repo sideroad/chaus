@@ -12,5 +12,5 @@ export RecordForm from './RecordForm';
 export Footer from './Footer';
 export ModalLoading from './ModalLoading';
 export RelationSelectBox from './RelationSelectBox';
-export Card from './Card';
+export AppCard from './AppCard';
 export AppForm from './AppForm';
