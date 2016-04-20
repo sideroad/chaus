@@ -61,7 +61,7 @@ export default class AppForm extends Component {
       }
       loadPage();
       loadApp(app).then(res => {
-        if ( res.items.length ) {
+        if ( res.length ) {
           restartPage();
           this.props.push('/apps/' + app + '/models');
         } else {
