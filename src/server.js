@@ -22,11 +22,12 @@ import creator from 'express-restful-api';
 import admin from './admin';
 import apikit from './apikit';
 import mongoose from 'mongoose';
+import cors from 'cors';
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
 
-
+app.use(cors());
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'images', 'favicon.png')));
 
