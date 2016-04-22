@@ -16,7 +16,8 @@ import { routeActions } from 'react-router-redux';
   state=>({
     apps: state.apps.data,
     query: state.apps.query,
-    candidate: state.apps.candidate
+    candidate: state.apps.candidate,
+    msg: state.i18n.msg
   }),
   {
     ...appsActions,
@@ -27,14 +28,17 @@ export default class AppCard extends Component {
     apps: PropTypes.array,
     query: PropTypes.string,
     candidate: PropTypes.string,
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    lang: PropTypes.string.isRequired,
+    msg: PropTypes.string.isRequired
   };
 
   render() {
     const {
       apps,
       query,
-      candidate
+      candidate,
+      msg
     } = this.props;
 
     const styles = {
@@ -49,7 +53,7 @@ export default class AppCard extends Component {
             <a className={styles.app.card + ' ' + (candidate === app.id ? styles.app.selected : '')}
                onClick={
                  () => {
-                   this.props.push('/apps/' + app.id + '/models');
+                   this.props.push('/apps/' + this.props.lang + '/' + app.id + '/models');
                  }
                }>
               <div className={styles.app.primary}>
@@ -60,7 +64,7 @@ export default class AppCard extends Component {
         ))}
         {!query &&
          !apps.length ? <div className={styles.app.lead}>
-                          Type to Find or Create API
+                          {msg.app.lead}
                         </div> : ''}
       </div>
     );

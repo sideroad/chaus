@@ -49,14 +49,15 @@ export default class App extends Component {
 
     const {
       name,
-      app
+      app,
+      lang
     } = this.props.params;
 
     const styles = require('../css/customize.less');
     return (
       <div className={styles['cm-container']} >
         <Helmet {...config.app.head} title="Manipulate API data" />
-        <Main models={models} open={open} context="data" modelName={name} app={app} children={children} />
+        <Main models={models} open={open} context="data" modelName={name} app={app} children={children} lang={lang} />
       </div>
     );
   }

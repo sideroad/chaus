@@ -15,11 +15,12 @@ export default class Header extends Component {
     shouldDisplayToggle: PropTypes.bool.isRequired,
     restart: PropTypes.func.isRequired,
     app: PropTypes.string,
-    toggleSidebar: PropTypes.func.isRequired
+    toggleSidebar: PropTypes.func.isRequired,
+    lang: PropTypes.string.isRequired
   };
 
   render() {
-    const {restart, toggleSidebar, shouldDisplayToggle, app} = this.props;
+    const {restart, toggleSidebar, shouldDisplayToggle, app, lang} = this.props;
     const styles = require('../css/customize.less');
 
     const handleClick = (event) => {
@@ -41,7 +42,7 @@ export default class Header extends Component {
           <nav className={'uk-navbar ' + styles['cm-navbar']}>
             {shouldDisplayToggle ? <a className="uk-navbar-toggle uk-visible-small" onClick={handleClick} ></a> : ''}
             <div className="uk-navbar-brand uk-navbar-center uk-visible-small" >
-              <IndexLink to="/apps" className={styles['cm-logo-small']}>
+              <IndexLink to={'/apps/' + lang} className={styles['cm-logo-small']}>
                 <img src="/images/logo.png" />
               </IndexLink>
             </div>
@@ -52,7 +53,7 @@ export default class Header extends Component {
             </div>
             <ul className="uk-navbar-nav uk-container uk-container-center uk-hidden-small">
                 <li className={'uk-active ' + styles['cm-nav-active']}>
-                  <IndexLink to="/apps" className={styles['cm-logo']}>
+                  <IndexLink to={'/apps/' + lang} className={styles['cm-logo']}>
                     <img src="/images/logo.png" /> chaus
                   </IndexLink>
                 </li>

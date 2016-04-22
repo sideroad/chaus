@@ -40,7 +40,8 @@ export default class Sidebar extends Component {
     finishLoad: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     removeApp: PropTypes.func.isRequired,
-    closeSidebar: PropTypes.func.isRequired
+    closeSidebar: PropTypes.func.isRequired,
+    lang: PropTypes.string.isRequired
   };
   componentDidUpdate = () => {
     if ( this.props.editing ) {
@@ -57,13 +58,14 @@ export default class Sidebar extends Component {
     event.preventDefault();
     const name = this.refs.name.value;
     const app = this.props.app;
+    const lang = this.props.lang;
     if (name) {
       this.props.closeSidebar();
       this.props.loadPage();
       this.refs.name.value = '';
       this.props.saveAdd(app, name).then(()=>{
         this.props.finishLoad();
-        this.props.push('/apps/' + app + '/models/' + name );
+        this.props.push('/apps/' + lang + '/' + app + '/models/' + name );
       });
     }
   }
@@ -87,10 +89,11 @@ export default class Sidebar extends Component {
       app,
       removeApp
     } = this.props;
+    const lang = this.props.lang;
     const styles = require('../css/customize.less');
     const modelLinkages = models && models.length ?
         models.map((model) => {
-          const linkTo = '/apps/' + app + '/' + context + '/' + model.name;
+          const linkTo = '/apps/' + lang + '/' + app + '/' + context + '/' + model.name;
           const className = model.name === modelName ? 'uk-active ' + styles['cm-sidebar-active'] : '';
           return (
             <li key={model.name} className={className} >
@@ -106,7 +109,7 @@ export default class Sidebar extends Component {
         <div className={styles['cm-sidebar-box']}>
           <ul className="uk-nav uk-nav-side">
             <li className={'uk-nav-header ' + styles['cm-nav-header'] + ' ' + ( context === 'models' && !modelName ? styles['cm-sidebar-active'] : '')} >
-              <IndexLink to={'/apps/' + app + '/models'} className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} onClick={this.handleClick} >
+              <IndexLink to={'/apps/' + lang + '/' + app + '/models'} className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} onClick={this.handleClick} >
                 <i className={'uk-icon-small uk-icon-cubes ' + styles['cm-icon']} />Models
               </IndexLink>
             </li>
@@ -124,7 +127,7 @@ export default class Sidebar extends Component {
             </li>)}
             {context === 'models' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
             <li className={'uk-nav-header ' + styles['cm-nav-header'] + ' ' + ( context === 'data' && !modelName ? styles['cm-sidebar-active'] : '')} >
-              <IndexLink to={'/apps/' + app + '/data'} className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} onClick={this.handleClick} >
+              <IndexLink to={'/apps/' + lang + '/' + app + '/data'} className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} onClick={this.handleClick} >
                 <i className={'uk-icon-small uk-icon-database ' + styles['cm-icon']} />Data
               </IndexLink>
             </li>
@@ -145,7 +148,7 @@ export default class Sidebar extends Component {
                      removeApp(app)
                       .then(()=> {
                         this.props.finishLoad();
-                        this.props.push('/apps');
+                        this.props.push('/apps/' + lang);
                       });
                    }
                  }>

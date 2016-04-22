@@ -12,7 +12,8 @@ import {connect} from 'react-redux';
   {})
 export default class Apps extends Component {
   static propTypes = {
-    query: PropTypes.string
+    query: PropTypes.string,
+    params: PropTypes.object.isRequired
   };
 
   render() {
@@ -23,6 +24,7 @@ export default class Apps extends Component {
       base: require('../css/customize.less'),
       app: require('../css/app.less')
     };
+    const lang = this.props.params.lang;
 
     return (
       <div className={styles.base['cm-container']} >
@@ -31,10 +33,10 @@ export default class Apps extends Component {
           <div className={styles.app.app}>
             <AppForm initialValues={
               values
-            } />
-            <AppCard />
+            } lang={lang}/>
+            <AppCard lang={lang}/>
           </div>
-        } />
+        } lang={lang}/>
       </div>
     );
   }

@@ -106,7 +106,7 @@ app.use('/apps', (req, res) => {
 });
 
 app.get('/', (req, res)=>{
-  res.redirect('/apps');
+  res.redirect('/apps/en');
 });
 
 if (config.port) {

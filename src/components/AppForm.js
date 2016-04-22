@@ -36,7 +36,8 @@ export default class AppForm extends Component {
     restartPage: PropTypes.func.isRequired,
     candidate: PropTypes.string,
     next: PropTypes.func.isRequired,
-    prev: PropTypes.func.isRequired
+    prev: PropTypes.func.isRequired,
+    lang: PropTypes.string.isRequired
   };
 
   render() {
@@ -56,6 +57,7 @@ export default class AppForm extends Component {
       app: require('../css/app.less')
     };
     const submit = (app) => {
+      const lang = this.props.lang;
       if ( !app ) {
         return;
       }
@@ -63,7 +65,7 @@ export default class AppForm extends Component {
       loadApp(app).then(res => {
         if ( res.length ) {
           restartPage();
-          this.props.push('/apps/' + app + '/models');
+          this.props.push('/apps/' + lang + '/' + app + '/models');
         } else {
           save(app)
             .then(result => {
@@ -71,7 +73,7 @@ export default class AppForm extends Component {
                 return Promise.reject(result.error);
               }
               restartPage();
-              this.props.push('/apps/' + app + '/models');
+              this.props.push('/apps/' + lang + '/' + app + '/models');
             });
         }
       });

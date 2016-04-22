@@ -63,7 +63,7 @@ export default class Attributes extends Component {
       saveError,
       saveSuccess
     } = this.props;
-    const {name, app} = this.props.params;
+    const {name, app, lang} = this.props.params;
     const styles = require('../css/customize.less');
     const contentsClass = loading ? styles['cm-beam-in'] :
                           loaded ? styles['cm-beam-out'] : '';
@@ -99,7 +99,7 @@ export default class Attributes extends Component {
                                if (result && typeof result.error === 'object') {
                                  return Promise.reject(result.error);
                                }
-                               this.props.push('/apps/' + app + '/models');
+                               this.props.push('/apps/' + lang + '/' + app + '/models');
                              });
                   })}
               >

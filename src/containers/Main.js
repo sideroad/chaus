@@ -17,7 +17,8 @@ export default class Main extends Component {
     modelName: PropTypes.string,
     app: PropTypes.string,
     closeSidebar: PropTypes.func.isRequired,
-    context: PropTypes.string
+    context: PropTypes.string,
+    lang: PropTypes.string.isRequired
   }
 
   render() {
@@ -27,15 +28,16 @@ export default class Main extends Component {
       open,
       context,
       modelName,
-      app
+      app,
+      lang
     } = this.props;
 
     const styles = require('../css/customize.less');
     return (
       <div>
-        {context && app ? <Sidebar models={models} open={open} context={context} modelName={modelName} app={app}/> : ''}
+        {context && app ? <Sidebar models={models} open={open} context={context} modelName={modelName} app={app} lang={lang} /> : ''}
         <div className={styles['cm-main'] + ' ' + (open ? styles['cm-open-main'] : '')} >
-          <Header app={app} shouldDisplayToggle={context && app ? true : false} />
+          <Header app={app} shouldDisplayToggle={context && app ? true : false} lang={lang} />
           <div className={context && app ? 'uk-grid uk-container ' + styles['cm-grid'] : ''} onClick={this.props.closeSidebar} >
             {children}
           </div>
