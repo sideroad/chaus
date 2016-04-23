@@ -2,14 +2,17 @@ import Express from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import config from './config';
+import fs from 'fs-extra';
 import favicon from 'serve-favicon';
 import compression from 'compression';
 import path from 'path';
 import createStore from './redux/create';
+import {load} from './redux/modules/i18n';
 import ApiClient from './helpers/ApiClient';
 import Html from './containers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
+import recursive from 'recursive-readdir';
 
 import { match } from 'react-router';
 import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect';
@@ -23,6 +26,7 @@ import admin from './admin';
 import apikit from './apikit';
 import mongoose from 'mongoose';
 import cors from 'cors';
+const i18n = {};
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
@@ -56,7 +60,17 @@ const retatch = (req, res)=>{
 app.get('/admin/restart', retatch);
 retatch();
 
-app.use('/apps', (req, res) => {
+recursive( __dirname + '/../i18n', (err, files) => {
+  files.map(file => {
+    console.log('### loading lang files');
+    const messages = fs.readJsonSync( file, {throws: false});
+    const lang = path.basename(file, '.json');
+    i18n[lang] = messages;
+  });
+});
+
+app.use('/apps/:lang', (req, res) => {
+  load( i18n[req.params.lang] );
   if (__DEVELOPMENT__) {
     // Do not cache webpack stats: the script file would change since
     // hot module replacement is enabled in the development env

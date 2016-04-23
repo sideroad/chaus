@@ -30,7 +30,7 @@ export default class AppCard extends Component {
     candidate: PropTypes.string,
     push: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired,
-    msg: PropTypes.string.isRequired
+    msg: PropTypes.object.isRequired
   };
 
   render() {
