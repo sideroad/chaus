@@ -1,5 +1,38 @@
 @import "variables.less";
 
+
+.footer{
+  background-image: url('../images/background.png');
+  color: @nav-text;
+  bottom: 0px;
+  padding: 50px 0px;
+  width: 100%;
+  margin-top: 120px!important;
+}
+
+.footer .uk-container{
+  padding: 0px;
+}
+
 .copyright{
   color: @footer-text !important;
+  width: 175px;
+  border-radius: 50%;
+  margin: auto;
+  height: 175px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border: 3px solid @footer-border;
+  background-color: @footer-back;
+}
+
+.copyright p{
+  margin-top: 0;
+}
+
+@media (max-width: @small-max-width){
+  .footer{
+    position: static !important;
+  }
 }

@@ -26,7 +26,7 @@ import {RelationSelectBox} from 'components';
     'attributes[].type',
     'attributes[].relation',
     'attributes[].relationAttribute',
-    'attributes[].regexp',
+    'attributes[].pattern',
     'attributes[].invalid'
   ]
 })
@@ -123,7 +123,7 @@ export default class AttributeForm extends Component {
                 <th>Required</th>
                 <th>Type</th>
                 <th>Relation</th>
-                <th>RegExp</th>
+                <th>Pattern</th>
                 <th></th>
               </tr>
           </thead>
@@ -210,11 +210,13 @@ export default class AttributeForm extends Component {
                 </td>
                 <td className="uk-text-center">
                   <div className="uk-grid" >
-                    <div className={'uk-visible-small ' + styles['cm-attribute-text']}>RegExp</div>
+                    <div className={'uk-visible-small ' + styles['cm-attribute-text']}>Pattern</div>
                     <div className={'uk-width-7-10 ' + styles['cm-attribute-value']} >
-                      <input type="text" className={styles['cm-input'] + ' uk-width-8-10'} placeholder="Regular expression" {...attribute.regexp} />
+                      <span className="uk-width-1-10" >/</span>
+                      <input type="text" className={styles['cm-input'] + ' uk-width-6-10'} placeholder="Regular expression" {...attribute.pattern} />
+                      <span className="uk-width-1-10" >/</span>
                       <input id={index + 'invalid-message-icon'} type="checkbox" className={styles['cm-text']} />
-                      <label htmlFor={index + 'invalid-message-icon'} className={'uk-width-2-10 ' + styles['cm-icon'] + ' ' + styles['cm-icon-regexp']} >
+                      <label htmlFor={index + 'invalid-message-icon'} className={'uk-width-2-10 ' + styles['cm-icon'] + ' ' + styles['cm-icon-pattern']} >
                       <i className="uk-icon-file-text-o uk-icon-small" />
                       </label>
                       <p className={styles['cm-text-area']} >

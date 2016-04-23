@@ -2,7 +2,7 @@ module.exports = {
   app: {
     name: {
       uniq: true,
-      regexp: /^[0-9a-z]+$/
+      pattern: /^[0-9a-z]+$/
     },
     models: {
       children: 'model'
@@ -15,7 +15,7 @@ module.exports = {
     },
     name: {
       uniq: true,
-      regexp: /^[0-9a-z]+$/
+      pattern: /^[0-9a-z]+$/
     },
     attributes: {
       children: 'attribute'
@@ -32,7 +32,7 @@ module.exports = {
     },
     name: {
       uniq: true,
-      regexp: /^[0-9a-z]+$/
+      pattern: /^[0-9a-z]+$/
     },
     uniq: {
       type: 'boolean'
@@ -41,13 +41,13 @@ module.exports = {
       type: 'boolean'
     },
     type: {
-      regexp: /^(string|number|date|boolean|parent|children|instance)$/
+      pattern: /^(string|number|date|boolean|parent|children|instance)$/
     },
     relation: {
       instance: 'model'
     },
     relationAttribute: {},
-    regexp: {},
+    pattern: {},
     invalid: {},
     desc: {}
   }
