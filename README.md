@@ -1,8 +1,8 @@
-# Build RESTful API within 5 min
+# chaus - Build RESTful API within 5 min
 
 ## Running Example
 
-http://chaus.herokuapp.com/apps/
+http://chaus.herokuapp.com/apps/en
 
 ## Deploy on Heroku
 
@@ -26,7 +26,7 @@ npm start
 
 ## Usage
 
-http://localhost:3000/apps
+http://localhost:3000/apps/en
 
 # Contribute
 
