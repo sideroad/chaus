@@ -131,8 +131,11 @@ export default class Sidebar extends Component {
             {context === 'data' && modelLinkages}
             {context === 'data' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
             <li className={'uk-nav-header ' + styles['cm-nav-header'] + ' ' + ( context === 'configs' ? styles['cm-sidebar-active'] : '' )} >
-              <IndexLink className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} to={'/apps/' + lang + '/' + app + '/config'}>
-                <i className={'uk-icon-small uk-icon-cog ' + styles['cm-icon'] } />Settings
+              <IndexLink
+                to={'/apps/' + lang + '/' + app + '/config'}
+                className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']}
+                onClick={this.handleClick}>
+                  <i className={'uk-icon-small uk-icon-cog ' + styles['cm-icon'] } />Settings
               </IndexLink>
             </li>
             <li className={'uk-nav-header ' + styles['cm-nav-header']} >
