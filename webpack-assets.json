@@ -1,6 +1,6 @@
 {
   "javascript": {
-    "main": "http://localhost:3001/dist/main-0e8adb7710fe8aaf0dc3.js"
+    "main": "http://localhost:3001/dist/main-14591cfaab5bc7cae6fd.js"
   },
   "styles": {},
   "assets": {
@@ -114,7 +114,7 @@
       "description": "description___y2iMx",
       "url": "url___3iozw",
       "remove": "remove___1Wk_4",
-      "_style": "/** color scheme */\n/** ui color */\n.description___y2iMx {\n  height: 10em !important;\n  width: 100%;\n}\n.url___3iozw {\n  width: 100%;\n}\n.remove___1Wk_4 {\n  margin: auto;\n}\n@media (max-width: 767px) {\n  .url___3iozw {\n    margin-left: 10px !important;\n  }\n}\n"
+      "_style": "/** color scheme */\n/** ui color */\n.description___y2iMx {\n  height: 10em !important;\n  width: 100%;\n  font-size: 1.1em !important;\n}\n.url___3iozw {\n  width: 100%;\n}\n.remove___1Wk_4 {\n  margin: auto;\n}\n@media (max-width: 767px) {\n  .url___3iozw {\n    margin-left: 10px !important;\n  }\n}\n"
     }
   }
 }
