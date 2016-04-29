@@ -74,6 +74,9 @@ export default class AppForm extends Component {
               }
               restartPage();
               this.props.push('/apps/' + lang + '/' + app + '/models');
+            })
+            .catch(() => {
+              restartPage();
             });
         }
       });

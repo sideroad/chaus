@@ -1,6 +1,6 @@
 {
   "javascript": {
-    "main": "http://localhost:3001/dist/main-56d23eadc56f017b844b.js"
+    "main": "http://localhost:3001/dist/main-27f1005ceeb89acbe9fa.js"
   },
   "styles": {},
   "assets": {
@@ -113,7 +113,8 @@
     "./src/css/config.less": {
       "description": "description___y2iMx",
       "url": "url___3iozw",
-      "_style": ".description___y2iMx {\n  height: 10em !important;\n  width: 100%;\n}\n.url___3iozw {\n  width: 100%;\n}\n"
+      "remove": "remove___1Wk_4",
+      "_style": "/** color scheme */\n/** ui color */\n.description___y2iMx {\n  height: 10em !important;\n  width: 100%;\n}\n.url___3iozw {\n  width: 100%;\n}\n.remove___1Wk_4 {\n  margin: auto;\n}\n@media (max-width: 767px) {\n  .url___3iozw {\n    margin-left: 10px !important;\n  }\n}\n"
     }
   }
 }

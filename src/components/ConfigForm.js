@@ -61,9 +61,13 @@ export default class ConfigForm extends Component {
           event.preventDefault();
           loadPage();
           console.log(values);
-          save(app, values).then(() => {
-            restartPage();
-          });
+          save(app, values)
+            .then(() => {
+              restartPage();
+            })
+            .catch(() => {
+              restartPage();
+            });
         }
       }>
         <article className="uk-article">
@@ -79,13 +83,13 @@ export default class ConfigForm extends Component {
             <tbody>
             {
               fields.urls.map((url, index)=>
-                <tr>
-                  <td>
+                <tr key={index}>
+                  <td className="uk-text-center" >
                     <div className="uk-grid" >
                       <div className="uk-width-9-10" >
                         <input className={styles.config.url + ' ' + styles.base['cm-input']} {...url} placeholder="Client domain" />
                       </div>
-                      <div className="uk-width-1-10">
+                      <div className={'uk-width-1-10 ' + styles.config.remove}>
                         <a onClick={event => {
                           event.preventDefault(); // prevent form submission
                           fields.urls.removeField(index);
@@ -101,7 +105,7 @@ export default class ConfigForm extends Component {
             </tbody>
             <tfoot>
               <tr>
-                <td>
+                <td className={styles.base['cm-row-plus']}>
                   <button className={'uk-button ' + styles.base['cm-row-plus']} onClick={event => {
                     event.preventDefault();
                     fields.urls.addField();
