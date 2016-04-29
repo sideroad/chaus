@@ -6,6 +6,20 @@ module.exports = {
     },
     models: {
       children: 'model'
+    },
+    description: {
+    },
+    origins: {
+      children: 'origin'
+    }
+  },
+  origin: {
+    app: {
+      uniq: true,
+      parent: 'app.origins'
+    },
+    url: {
+      uniq: true
     }
   },
   model: {

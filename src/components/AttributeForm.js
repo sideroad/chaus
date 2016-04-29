@@ -265,11 +265,6 @@ export default class AttributeForm extends Component {
           <i className={'uk-icon-floppy-o ' + styles['cm-icon']}/>
           Save
         </button>
-
-        <button className={'uk-button uk-button-large ' + styles['cm-button']} type="button">
-          <i className={'uk-icon-ban ' + styles['cm-icon']}/>
-          Cancel
-        </button>
       </form>
     );
   }

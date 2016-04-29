@@ -10,6 +10,7 @@ import relations from './relations';
 import records from './records';
 import page from './page';
 import apps from './apps';
+import configs from './configs';
 import logger from './logger';
 
 export default combineReducers({
@@ -23,5 +24,6 @@ export default combineReducers({
   records,
   page,
   apps,
+  configs,
   logger
 });

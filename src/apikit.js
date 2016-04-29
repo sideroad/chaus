@@ -2,9 +2,30 @@ import {} from 'isomorphic-fetch';
 import config from './config';
 import creator from 'express-restful-api';
 import fs from 'fs';
+import cors from 'cors';
 import url from 'url';
+import wildcard from 'wildcard';
+import express from 'express';
 
-const creators = [];
+let creators = [];
+const routes = {};
+
+function fetchApps(application) {
+  console.log('Loading apps...', application);
+  return fetch( 'http://' + config.host + ':' + config.port + '/admin/api/apps/' + encodeURIComponent( application ), {
+    method: 'GET'
+  }).then(res => res.json())
+    .then(app => {
+      return fetch( 'http://' + config.host + ':' + config.port + '/admin/api/origins?app=' + encodeURIComponent( application ), {
+        method: 'GET'
+      }).then(res => res.json())
+        .then(origins=>{
+          app.origins = origins.items.map(origin=> origin.url);
+          return app;
+        });
+    })
+    .catch(err => console.error(err));
+}
 
 function fetchAttributes() {
   console.log('Loading attributes...');
@@ -16,7 +37,6 @@ function fetchAttributes() {
 
 function convert(source) {
   const dist = {};
-  console.log(source);
   source.map(attribute => {
     if ( !dist[attribute.app] ) {
       dist[attribute.app] = {};
@@ -44,40 +64,62 @@ function convert(source) {
 export default function(app, mongoose) {
   console.log('Loading APIs...');
   creators.map(_creator => _creator.destroy());
+  creators = [];
   fetchAttributes()
     .then(attributes=> {
       const schema = convert(attributes.items);
-      console.log('### schemas');
       Object.keys(schema).map(application => {
-        console.log(application, schema[application]);
-        app.use('/', creator.router({
-          mongo: mongoose,
-          schema: schema[application],
-          cors: true,
-          prefix: '/apis/' + application
-        }));
+        fetchApps(application)
+          .then(settings=> {
+            const path = '/apis/' + encodeURIComponent(application);
 
-        creator.doc({
-          'name': 'RESTful API',
-          'version': JSON.parse( fs.readFileSync( __dirname + '/../package.json') ).version,
-          'description': 'API specification',
-          'title': 'API doc',
-          'url': url.format({
-            hostname: config.global.host,
-            port: config.global.port
-          }),
-          'sampleUrl': url.format({
-            hostname: config.global.host,
-            port: config.global.port
-          }),
-          'template': {
-            'withCompare': false,
-            'withGenerator': true
-          },
-          'dest': __dirname + '/../static/docs/' + application
-        });
-        creators.push(creator);
+            console.log('Apply CORS settings...', application, settings.origins);
+            if ( !routes[application] ) {
+              const router = express.Router();
+              routes[application] = ()=>{};
+              router.use(path, cors({
+                origin: (origin, callback) => {
+                  routes[application](origin, callback);
+                }
+              }));
+              app.use(router);
+            }
+            routes[application] = (origin, callback)=>{
+              callback(null, settings.origins.reduce(
+                (memo, _url)=> {
+                  return ( wildcard(_url, origin) ? true : false ) || memo;
+                }, false)
+              );
+            };
 
+            app.use('/', creator.router({
+              mongo: mongoose,
+              schema: schema[application],
+              cors: true,
+              prefix: path
+            }));
+
+            creator.doc({
+              'name': application,
+              'version': JSON.parse( fs.readFileSync( __dirname + '/../package.json') ).version,
+              'description': settings.description,
+              'title': application,
+              'url': url.format({
+                hostname: config.global.host,
+                port: config.global.port
+              }),
+              'sampleUrl': url.format({
+                hostname: config.global.host,
+                port: config.global.port
+              }),
+              'template': {
+                'withCompare': false,
+                'withGenerator': true
+              },
+              'dest': __dirname + '/../static/docs/' + application
+            });
+            creators.push(creator);
+          });
       });
     })
     .catch(err => console.error(err));

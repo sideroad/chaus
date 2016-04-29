@@ -10,6 +10,7 @@ import {
     Attributes,
     NotFound,
     Records,
+    Config
   } from 'containers';
 
 export default () => {
@@ -27,6 +28,7 @@ export default () => {
         <IndexRoute component={DataHome} />
         <Route path="/apps/:lang/:app/data/:name" component={Records} />
       </Route>
+      <Route path="/apps/:lang/:app/config" component={Config} />
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />
     </Route>

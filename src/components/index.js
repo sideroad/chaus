@@ -14,3 +14,4 @@ export ModalLoading from './ModalLoading';
 export RelationSelectBox from './RelationSelectBox';
 export AppCard from './AppCard';
 export AppForm from './AppForm';
+export ConfigForm from './ConfigForm';

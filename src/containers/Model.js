@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import {Main} from 'containers';
 import { connect } from 'react-redux';
 import * as modelsActions from 'redux/modules/models';
-import * as pageActions from 'redux/modules/page';
 import {isLoaded, load} from 'redux/modules/models';
 import {initializeWithKey} from 'redux-form';
 import Helmet from 'react-helmet';
@@ -23,7 +22,6 @@ import { asyncConnect } from 'redux-async-connect';
   }),
   {
     ...modelsActions,
-    closeSidebar: pageActions.closeSidebar,
     initializeWithKey
   }
 )
@@ -33,7 +31,6 @@ export default class Model extends Component {
     models: PropTypes.array,
     open: PropTypes.bool,
     params: PropTypes.object.isRequired,
-    closeSidebar: PropTypes.func.isRequired
   }
 
   render() {

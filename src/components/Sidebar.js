@@ -3,7 +3,6 @@ import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
 import * as modelsActions from 'redux/modules/models';
 import * as pageActions from 'redux/modules/page';
-import * as appsActions from 'redux/modules/apps';
 
 import {initializeWithKey} from 'redux-form';
 import { routeActions } from 'react-router-redux';
@@ -18,10 +17,9 @@ import { routeActions } from 'react-router-redux';
   {
     ...modelsActions,
     loadPage: pageActions.load,
-    finishLoad: pageActions.finishLoad,
     initializeWithKey,
+    finishLoad: pageActions.finishLoad,
     closeSidebar: pageActions.closeSidebar,
-    removeApp: appsActions.remove,
     push: routeActions.push
   }
 )
@@ -37,9 +35,8 @@ export default class Sidebar extends Component {
     cancel: PropTypes.func.isRequired,
     editing: PropTypes.bool,
     loadPage: PropTypes.func.isRequired,
-    finishLoad: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
-    removeApp: PropTypes.func.isRequired,
+    finishLoad: PropTypes.func.isRequired,
     closeSidebar: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired
   };
@@ -86,8 +83,7 @@ export default class Sidebar extends Component {
       open,
       modelName,
       context,
-      app,
-      removeApp
+      app
     } = this.props;
     const lang = this.props.lang;
     const styles = require('../css/customize.less');
@@ -134,25 +130,14 @@ export default class Sidebar extends Component {
             {context === 'data' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
             {context === 'data' && modelLinkages}
             {context === 'data' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
+            <li className={'uk-nav-header ' + styles['cm-nav-header'] + ' ' + ( context === 'configs' ? styles['cm-sidebar-active'] : '' )} >
+              <IndexLink className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} to={'/apps/' + lang + '/' + app + '/config'}>
+                <i className={'uk-icon-small uk-icon-cog ' + styles['cm-icon'] } />Settings
+              </IndexLink>
+            </li>
             <li className={'uk-nav-header ' + styles['cm-nav-header']} >
               <a className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} href={'/docs/' + app}>
                 <i className={'uk-icon-small uk-icon-book ' + styles['cm-icon'] } />API Doc
-              </a>
-            </li>
-            <li className={'uk-nav-header ' + styles['cm-nav-header']} >
-              <a className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']}
-                 onClick={
-                   () => {
-                     this.props.closeSidebar();
-                     this.props.loadPage();
-                     removeApp(app)
-                      .then(()=> {
-                        this.props.finishLoad();
-                        this.props.push('/apps/' + lang);
-                      });
-                   }
-                 }>
-                <i className={'uk-icon-small uk-icon-trash ' + styles['cm-icon'] } />Delete API
               </a>
             </li>
           </ul>

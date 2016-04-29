@@ -8,3 +8,4 @@ export Records from './Records';
 export NotFound from './NotFound';
 export Main from './Main';
 export Container from './Container';
+export Config from './Config';
