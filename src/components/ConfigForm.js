@@ -86,10 +86,10 @@ export default class ConfigForm extends Component {
                 <tr key={index}>
                   <td className="uk-text-center" >
                     <div className="uk-grid" >
-                      <div className="uk-width-9-10" >
+                      <div className="uk-width-8-10" >
                         <input className={styles.config.url + ' ' + styles.base['cm-input']} {...url} placeholder="Client domain" />
                       </div>
-                      <div className={'uk-width-1-10 ' + styles.config.remove}>
+                      <div className={'uk-width-2-10 ' + styles.config.remove}>
                         <a onClick={event => {
                           event.preventDefault(); // prevent form submission
                           fields.urls.removeField(index);
