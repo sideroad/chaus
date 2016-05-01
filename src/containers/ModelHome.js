@@ -8,7 +8,6 @@ export default class ModelHome extends Component {
       lead: 'Build RESTful API within 5 min'
     };
 
-    // TODO: CORS settings cross origin policy
     return (
       <div className={'uk-width-medium-8-10 ' + styles['cm-contents']} >
         <article className="uk-article">

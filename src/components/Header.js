@@ -5,22 +5,19 @@ import * as pageActions from 'redux/modules/page';
 
 
 @connect(
-  state => ({
-    restart: state.page.restart
-  }),
+  () => ({}),
   {...pageActions}
 )
 export default class Header extends Component {
   static propTypes = {
     shouldDisplayToggle: PropTypes.bool.isRequired,
-    restart: PropTypes.func.isRequired,
     app: PropTypes.string,
     toggleSidebar: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired
   };
 
   render() {
-    const {restart, toggleSidebar, shouldDisplayToggle, app, lang} = this.props;
+    const {toggleSidebar, shouldDisplayToggle, app, lang} = this.props;
     const styles = require('../css/customize.less');
 
     const handleClick = (event) => {
@@ -28,14 +25,6 @@ export default class Header extends Component {
       toggleSidebar();
     };
 
-    const handleRestart = (event)=> {
-      event.preventDefault();
-      restart();
-    };
-
-    // TODO: [Enhance]Add configuration below
-    //       - API description ( for API doc )
-    //       - CORS domains
     return (
       <header className="uk-grid" >
         <div className="uk-width-1-1">
@@ -45,11 +34,6 @@ export default class Header extends Component {
               <IndexLink to={'/apps/' + lang} className={styles['cm-logo-small']}>
                 <img src="/images/logo.png" />
               </IndexLink>
-            </div>
-            <div className="uk-navbar-flip uk-hidden-small">
-                <ul className="uk-navbar-nav">
-                  <li><a href="#" className={styles['cm-navlink']} onClick={handleRestart}><i className="uk-icon-refresh uk-icon-medium"></i></a></li>
-                </ul>
             </div>
             <ul className="uk-navbar-nav uk-container uk-container-center uk-hidden-small">
                 <li className={'uk-active ' + styles['cm-nav-active']}>
