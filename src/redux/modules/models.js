@@ -14,7 +14,7 @@ const CANCEL = 'model/CANCEL';
 
 const initialState = {
 };
-export default function model(state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case LOAD:
       return {

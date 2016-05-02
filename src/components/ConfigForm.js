@@ -4,14 +4,14 @@ import {reduxForm} from 'redux-form';
 import * as configsActions from 'redux/modules/configs';
 import * as appsActions from 'redux/modules/apps';
 import * as pageActions from 'redux/modules/page';
-import { routeActions } from 'react-router-redux';
+import { push } from 'react-router-redux';
 
 @connect(
   ()=>({}),
   {
     ...configsActions,
     loadPage: pageActions.load,
-    push: routeActions.push,
+    push,
     restartPage: pageActions.restart,
     finishLoad: pageActions.finishLoad,
     closeSidebar: pageActions.closeSidebar,

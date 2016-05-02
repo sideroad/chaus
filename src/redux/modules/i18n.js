@@ -4,8 +4,7 @@ const initialState = {
   msg: {},
   loaded: false
 };
-export default function i18n(state = initialState, action = {}) {
-  console.log(state);
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     default:
       return state;

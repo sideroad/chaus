@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as appsActions from 'redux/modules/apps';
 import { asyncConnect } from 'redux-async-connect';
-import { routeActions } from 'react-router-redux';
+import { push } from 'react-router-redux';
 
 
 @asyncConnect([{
@@ -21,7 +21,7 @@ import { routeActions } from 'react-router-redux';
   }),
   {
     ...appsActions,
-    push: routeActions.push
+    push
   })
 export default class AppCard extends Component {
   static propTypes = {

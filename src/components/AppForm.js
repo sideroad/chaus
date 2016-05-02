@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import * as appsActions from 'redux/modules/apps';
 import * as pageActions from 'redux/modules/page';
-import { routeActions } from 'react-router-redux';
+import { push } from 'react-router-redux';
 
 @connect(
   (state)=>({
@@ -15,7 +15,7 @@ import { routeActions } from 'react-router-redux';
     next: appsActions.next,
     prev: appsActions.prev,
     loadPage: pageActions.load,
-    push: routeActions.push,
+    push,
     restartPage: pageActions.restart
   })
 @reduxForm({

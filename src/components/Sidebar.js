@@ -5,7 +5,7 @@ import * as modelsActions from 'redux/modules/models';
 import * as pageActions from 'redux/modules/page';
 
 import {initializeWithKey} from 'redux-form';
-import { routeActions } from 'react-router-redux';
+import { push } from 'react-router-redux';
 
 @connect(
   (state) => ({
@@ -20,7 +20,7 @@ import { routeActions } from 'react-router-redux';
     initializeWithKey,
     finishLoad: pageActions.finishLoad,
     closeSidebar: pageActions.closeSidebar,
-    push: routeActions.push
+    push
   }
 )
 export default class Sidebar extends Component {

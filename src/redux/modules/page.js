@@ -14,7 +14,7 @@ const initialState = {
   loading: false,
   open: false
 };
-export default function page(state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
 
     case RESTART:

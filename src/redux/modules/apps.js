@@ -18,7 +18,7 @@ const initialState = {
   data: [],
   loaded: false
 };
-export default function app(state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   let index;
   switch (action.type) {
     case LOAD:

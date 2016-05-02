@@ -4,7 +4,7 @@ import {load} from 'redux/modules/attributes';
 import {AttributeForm} from 'components';
 import {initializeWithKey} from 'redux-form';
 import {reduxForm} from 'redux-form';
-import { routeActions } from 'react-router-redux';
+import { push } from 'react-router-redux';
 import { asyncConnect } from 'redux-async-connect';
 import * as modelActions from 'redux/modules/models';
 import * as pageActions from 'redux/modules/page';
@@ -27,7 +27,7 @@ import * as recordActions from 'redux/modules/records';
     ...modelActions,
     loadPage: pageActions.load,
     finishLoad: pageActions.finishLoad,
-    push: routeActions.push,
+    push,
     removeRecords: recordActions.removeAll,
     initializeWithKey})
 @reduxForm({
