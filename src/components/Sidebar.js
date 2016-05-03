@@ -86,14 +86,17 @@ export default class Sidebar extends Component {
       app
     } = this.props;
     const lang = this.props.lang;
-    const styles = require('../css/customize.less');
+    const styles = {
+      base: require('../css/customize.less'),
+      sidebar: require('../css/sidebar.less')
+    };
     const modelLinkages = models && models.length ?
         models.map((model) => {
           const linkTo = '/apps/' + lang + '/' + app + '/' + context + '/' + model.name;
-          const className = model.name === modelName ? 'uk-active ' + styles['cm-sidebar-active'] : '';
+          const className = model.name === modelName ? 'uk-active ' + styles.sidebar.active : '';
           return (
             <li key={model.name} className={className} >
-              <IndexLink to={linkTo} className={styles['cm-sidebar-link']} onClick={this.handleClick} >
+              <IndexLink to={linkTo} className={styles.sidebar.link} onClick={this.handleClick} >
                 {model.name}
               </IndexLink>
             </li>
@@ -101,46 +104,46 @@ export default class Sidebar extends Component {
         }) : '';
 
     return (
-      <div className={'uk-width-medium-2-10 ' + styles['cm-sidebar'] + ' ' + ( open ? styles['cm-open-sidebar'] : '' ) }>
-        <div className={styles['cm-sidebar-box']}>
+      <div className={'uk-width-medium-2-10 ' + styles.sidebar.sidebar + ' ' + ( open ? styles.sidebar.open : '' ) }>
+        <div className={styles.sidebar.box}>
           <ul className="uk-nav uk-nav-side">
-            <li className={'uk-nav-header ' + styles['cm-nav-header'] + ' ' + ( context === 'models' && !modelName ? styles['cm-sidebar-active'] : '')} >
-              <IndexLink to={'/apps/' + lang + '/' + app + '/models'} className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} >
-                <i className={'uk-icon-small uk-icon-cubes ' + styles['cm-icon']} />Models
+            <li className={'uk-nav-header ' + styles.base['cm-nav-header'] + ' ' + ( context === 'models' && !modelName ? styles.sidebar.active : '')} >
+              <IndexLink to={'/apps/' + lang + '/' + app + '/models'} className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} >
+                <i className={'uk-icon-small uk-icon-cubes ' + styles.base['cm-icon']} />Models
               </IndexLink>
             </li>
             {context === 'models' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
             {context === 'models' && modelLinkages}
             {context === 'models' &&
-            (<li className={editing ? styles.show : styles.hide}>
+            (<li className={editing ? styles.base.show : styles.base.hide}>
               <form onSubmit={this.handleSubmit} className="uk-form" >
-                <input className={styles['cm-nav-input'] + ' ' + styles['cm-input']} type="text" ref="name" placeholder="Model name" onBlur={this.handleBlur} />
+                <input className={styles.sidebar.input + ' ' + styles.base['cm-input']} type="text" ref="name" placeholder="Model name" onBlur={this.handleBlur} />
               </form>
             </li>)}
             {context === 'models' &&
-            (<li className={editing || context !== 'models' ? styles.hide : styles.show}>
-              <a href="#" onClick={this.handleAdd} className={styles['cm-nav-plus'] + ' ' + styles['cm-sidebar-link']} ><i className="uk-icon-plus"></i></a>
+            (<li className={editing || context !== 'models' ? styles.base.hide : styles.base.show}>
+              <a href="#" onClick={this.handleAdd} className={styles.base['cm-nav-plus'] + ' ' + styles.sidebar.link} ><i className="uk-icon-plus"></i></a>
             </li>)}
             {context === 'models' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
-            <li className={'uk-nav-header ' + styles['cm-nav-header'] + ' ' + ( context === 'data' && !modelName ? styles['cm-sidebar-active'] : '')} >
-              <IndexLink to={'/apps/' + lang + '/' + app + '/data'} className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} >
-                <i className={'uk-icon-small uk-icon-database ' + styles['cm-icon']} />Data
+            <li className={'uk-nav-header ' + styles.base['cm-nav-header'] + ' ' + ( context === 'data' && !modelName ? styles.sidebar.active : '')} >
+              <IndexLink to={'/apps/' + lang + '/' + app + '/data'} className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} >
+                <i className={'uk-icon-small uk-icon-database ' + styles.base['cm-icon']} />Data
               </IndexLink>
             </li>
             {context === 'data' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
             {context === 'data' && modelLinkages}
             {context === 'data' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
-            <li className={'uk-nav-header ' + styles['cm-nav-header'] + ' ' + ( context === 'configs' ? styles['cm-sidebar-active'] : '' )} >
+            <li className={'uk-nav-header ' + styles.base['cm-nav-header'] + ' ' + ( context === 'configs' ? styles.sidebar.active : '' )} >
               <IndexLink
                 to={'/apps/' + lang + '/' + app + '/config'}
-                className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']}
+                className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']}
                 onClick={this.handleClick}>
-                  <i className={'uk-icon-small uk-icon-cog ' + styles['cm-icon'] } />Settings
+                  <i className={'uk-icon-small uk-icon-cog ' + styles.base['cm-icon'] } />Settings
               </IndexLink>
             </li>
-            <li className={'uk-nav-header ' + styles['cm-nav-header']} >
-              <a className={styles['cm-sidebar-link'] + ' ' + styles['cm-nav-header-link']} href={'/docs/' + app}>
-                <i className={'uk-icon-small uk-icon-book ' + styles['cm-icon'] } />API Doc
+            <li className={'uk-nav-header ' + styles.base['cm-nav-header']} >
+              <a className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} href={'/docs/' + app}>
+                <i className={'uk-icon-small uk-icon-book ' + styles.base['cm-icon'] } />API Doc
               </a>
             </li>
           </ul>

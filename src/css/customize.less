@@ -46,11 +46,6 @@
   color: @selectbox !important;
 }
 
-.cm-app-title{
-  font-size: 2em;
-  color: @nav-header-center;
-}
-
 .cm-container{
   overflow-x: hidden;
   position: relative;
@@ -108,25 +103,6 @@
   background-color: @nav-back!important;
 }
 
-.cm-sidebar-active>a{
-  color: @nav-back !important;
-  background-color: @nav-active-back!important;
-}
-
-.cm-sidebar-link{
-  color: @link-text!important;
-  padding-left: 25px !important;
-  transition-duration: 0.2s;
-}
-.cm-sidebar-link:hover{
-  color: @nav-back !important;
-  background-color: @link-hover-back !important;
-}
-
-.cm-nav-input{
-  width: 100%;
-}
-
 .cm-grid{
   margin-top: 0px;
   margin-bottom: 120px;
@@ -157,9 +133,6 @@
   width: 90%;
 }
 
-.cm-open-sidebar {
-}
-
 @media (max-width: @small-max-width){
   .cm-trash-button{
     margin-right: 0 !important;
@@ -172,25 +145,12 @@
     transform: translateX(75%);
     transition: transform 0.2s ease;
   }
-  .cm-sidebar{
-    transform: translateX(-100%);
-    transition: transform 0.2s ease;
-    position: fixed !important;
-    width: 75%;
-    top: 0px !important;
-    overflow-y: scroll;
-    max-height: 100% !important;
-  }
   .cm-grid{
     max-width: 980px;
     padding-right: 0px;
     float: none !important;
     margin-left: -25px !important;
     width: 100% !important;
-  }
-  .cm-open-sidebar {
-    transform: none;
-    transition: transform 0.2s ease;
   }
   .cm-handle{
     display: none;
@@ -233,20 +193,6 @@
   .cm-delete-button-text{
     display: none;
   }
-}
-
-.cm-sidebar,
-.cm-sidebar-box{
-  height: 100%;
-}
-
-.cm-sidebar{
-  padding-top: 25px;
-  padding-right: 25px;
-  position: absolute;
-  top: 100px;
-  max-height: 60%;
-  overflow: auto;
 }
 
 .cm-nav-header{
@@ -388,4 +334,16 @@ button.cm-row-plus:hover{
 .cm-modal-open{
   display: block;
   overflow-y: auto;
+}
+
+.loading{
+  opacity: 0;
+}
+
+.loaded{
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration:0.2s;
+  transition-timing-function:ease-in-out;
+
 }

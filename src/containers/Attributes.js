@@ -65,8 +65,8 @@ export default class Attributes extends Component {
     } = this.props;
     const {name, app, lang} = this.props.params;
     const styles = require('../css/customize.less');
-    const contentsClass = loading ? styles['cm-beam-in'] :
-                          loaded ? styles['cm-beam-out'] : '';
+    const contentsClass = loading ? styles.loading :
+                          loaded ? styles.loaded : '';
     return (
       <div className={'uk-width-medium-8-10 ' + styles['cm-contents']} >
         { saveError ?

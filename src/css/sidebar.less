@@ -1,0 +1,56 @@
+@import "variables.less";
+
+
+.active>a{
+  color: @nav-back !important;
+  background-color: @nav-active-back!important;
+}
+
+.link{
+  color: @link-text!important;
+  padding-left: 25px !important;
+  transition-duration: 0.2s;
+}
+.link:hover{
+  color: @nav-back !important;
+  background-color: @link-hover-back !important;
+}
+
+.open {
+}
+
+.sidebar,
+.box{
+  height: 100%;
+}
+
+.sidebar{
+  padding-top: 25px;
+  padding-right: 25px;
+  position: absolute;
+  top: 100px;
+  max-height: 60%;
+  overflow: auto;
+}
+
+.input{
+  width: 100%;
+}
+
+@media (max-width: @small-max-width){
+
+  .sidebar{
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    position: fixed !important;
+    width: 75%;
+    top: 0px !important;
+    overflow-y: scroll;
+    max-height: 100% !important;
+  }
+
+  .open {
+    transform: none;
+    transition: transform 0.2s ease;
+  }
+}

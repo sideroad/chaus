@@ -68,8 +68,8 @@ export default class Records extends Component {
     } = this.props;
     const {name, app} = this.props.params;
     const styles = require('../css/customize.less');
-    const contentsClass = loading ? styles['cm-beam-in'] :
-                          loaded ? styles['cm-beam-out'] : '';
+    const contentsClass = loading ? styles.loading :
+                          loaded ? styles.loaded : '';
     const targets = (attributes[name] || []).filter((attribute) => {
       return attribute.type === 'children' ? false : true;
     });
