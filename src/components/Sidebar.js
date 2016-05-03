@@ -62,7 +62,7 @@ export default class Sidebar extends Component {
       this.refs.name.value = '';
       this.props.saveAdd(app, name).then(()=>{
         this.props.finishLoad();
-        this.props.push('/apps/' + lang + '/' + app + '/models/' + name );
+        this.props.push('/' + lang + '/apps/' + app + '/models/' + name );
       });
     }
   }
@@ -92,7 +92,7 @@ export default class Sidebar extends Component {
     };
     const modelLinkages = models && models.length ?
         models.map((model) => {
-          const linkTo = '/apps/' + lang + '/' + app + '/' + context + '/' + model.name;
+          const linkTo = '/' + lang + '/apps/' + app + '/' + context + '/' + model.name;
           const className = model.name === modelName ? 'uk-active ' + styles.sidebar.active : '';
           return (
             <li key={model.name} className={className} >
@@ -108,7 +108,7 @@ export default class Sidebar extends Component {
         <div className={styles.sidebar.box}>
           <ul className="uk-nav uk-nav-side">
             <li className={'uk-nav-header ' + styles.base['cm-nav-header'] + ' ' + ( context === 'models' && !modelName ? styles.sidebar.active : '')} >
-              <IndexLink to={'/apps/' + lang + '/' + app + '/models'} className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} >
+              <IndexLink to={'/' + lang + '/apps/' + app + '/models'} className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} >
                 <i className={'uk-icon-small uk-icon-cubes ' + styles.base['cm-icon']} />Models
               </IndexLink>
             </li>
@@ -126,7 +126,7 @@ export default class Sidebar extends Component {
             </li>)}
             {context === 'models' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
             <li className={'uk-nav-header ' + styles.base['cm-nav-header'] + ' ' + ( context === 'data' && !modelName ? styles.sidebar.active : '')} >
-              <IndexLink to={'/apps/' + lang + '/' + app + '/data'} className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} >
+              <IndexLink to={'/' + lang + '/apps/' + app + '/data'} className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} >
                 <i className={'uk-icon-small uk-icon-database ' + styles.base['cm-icon']} />Data
               </IndexLink>
             </li>
@@ -135,7 +135,7 @@ export default class Sidebar extends Component {
             {context === 'data' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
             <li className={'uk-nav-header ' + styles.base['cm-nav-header'] + ' ' + ( context === 'configs' ? styles.sidebar.active : '' )} >
               <IndexLink
-                to={'/apps/' + lang + '/' + app + '/config'}
+                to={'/' + lang + '/apps/' + app + '/config'}
                 className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']}
                 onClick={this.handleClick}>
                   <i className={'uk-icon-small uk-icon-cog ' + styles.base['cm-icon'] } />Settings

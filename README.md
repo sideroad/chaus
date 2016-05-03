@@ -2,7 +2,7 @@
 
 ## Running Example
 
-http://chaus.herokuapp.com/apps/en
+http://chaus.herokuapp.com
 
 ## Deploy on Heroku
 
@@ -26,7 +26,7 @@ npm start
 
 ## Usage
 
-http://localhost:3000/apps/en
+http://localhost:3000
 
 # Contribute
 

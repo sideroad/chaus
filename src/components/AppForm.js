@@ -65,7 +65,7 @@ export default class AppForm extends Component {
       loadApp(app).then(res => {
         if ( res.length ) {
           restartPage();
-          this.props.push('/apps/' + lang + '/' + app + '/models');
+          this.props.push('/' + lang + '/apps/' + app + '/models');
         } else {
           save(app)
             .then(result => {
@@ -73,7 +73,7 @@ export default class AppForm extends Component {
                 return Promise.reject(result.error);
               }
               restartPage();
-              this.props.push('/apps/' + lang + '/' + app + '/models');
+              this.props.push('/' + lang + '/apps/' + app + '/models');
             })
             .catch(() => {
               restartPage();

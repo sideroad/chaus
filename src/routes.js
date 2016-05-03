@@ -18,17 +18,17 @@ export default () => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route path="/apps/:lang" component={Container}>
+    <Route path="/:lang/apps" component={Container}>
       <IndexRoute component={Apps} />
-      <Route path="/apps/:lang/:app/models" component={Model} >
+      <Route path="/:lang/apps/:app/models" component={Model} >
         <IndexRoute component={ModelHome} />
-        <Route path="/apps/:lang/:app/models/:name" component={Attributes} />
+        <Route path="/:lang/apps/:app/models/:name" component={Attributes} />
       </Route>
-      <Route path="/apps/:lang/:app/data" component={Data} >
+      <Route path="/:lang/apps/:app/data" component={Data} >
         <IndexRoute component={DataHome} />
-        <Route path="/apps/:lang/:app/data/:name" component={Records} />
+        <Route path="/:lang/apps/:app/data/:name" component={Records} />
       </Route>
-      <Route path="/apps/:lang/:app/config" component={Config} />
+      <Route path="/:lang/apps/:app/config" component={Config} />
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />
     </Route>

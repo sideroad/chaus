@@ -99,7 +99,7 @@ export default class Attributes extends Component {
                                if (result && typeof result.error === 'object') {
                                  return Promise.reject(result.error);
                                }
-                               this.props.push('/apps/' + lang + '/' + app + '/models');
+                               this.props.push('/' + lang + '/apps/' + app + '/models');
                              });
                   })}
               >

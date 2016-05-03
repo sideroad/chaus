@@ -67,7 +67,7 @@ recursive( __dirname + '/../i18n', (err, files) => {
   });
 });
 
-app.use('/apps/:lang', (req, res) => {
+app.use('/:lang/apps', (req, res) => {
   load( i18n[req.params.lang] );
   if (__DEVELOPMENT__) {
     // Do not cache webpack stats: the script file would change since
@@ -118,7 +118,7 @@ app.use('/apps/:lang', (req, res) => {
 });
 
 app.get('/', (req, res)=>{
-  res.redirect('/apps/en');
+  res.redirect('/en/apps');
 });
 
 if (config.port) {

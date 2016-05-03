@@ -39,13 +39,13 @@ export default class Header extends Component {
               <a className={'uk-navbar-toggle uk-visible-small ' + ( open ? styles.header.open : styles.header.close)} onClick={handleClick} ></a> :
               ''}
             <div className="uk-navbar-brand uk-navbar-center uk-visible-small" >
-              <IndexLink to={'/apps/' + lang} className={styles.base['cm-logo-small']}>
+              <IndexLink to={'/' + lang + '/apps'} className={styles.base['cm-logo-small']}>
                 <img src="/images/logo.png" />
               </IndexLink>
             </div>
             <ul className="uk-navbar-nav uk-container uk-container-center uk-hidden-small">
                 <li className={'uk-active ' + styles.base['cm-nav-active']}>
-                  <IndexLink to={'/apps/' + lang} className={styles.base['cm-logo']}>
+                  <IndexLink to={'/' + lang + '/apps'} className={styles.base['cm-logo']}>
                     <img src="/images/logo.png" /> chaus
                   </IndexLink>
                 </li>

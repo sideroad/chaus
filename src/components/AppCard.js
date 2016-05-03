@@ -53,7 +53,7 @@ export default class AppCard extends Component {
             <a className={styles.app.card + ' ' + (candidate === app.id ? styles.app.selected : '')}
                onClick={
                  () => {
-                   this.props.push('/apps/' + this.props.lang + '/' + app.id + '/models');
+                   this.props.push('/' + this.props.lang + '/apps/' + app.id + '/models');
                  }
                }>
               <div className={styles.app.primary}>

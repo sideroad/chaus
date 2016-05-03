@@ -130,7 +130,7 @@ export default class ConfigForm extends Component {
                this.props.removeApp(app)
                  .then(()=> {
                    this.props.finishLoad();
-                   this.props.push('/apps/' + lang);
+                   this.props.push('/' + lang + '/apps');
                  });
              }
            }>
