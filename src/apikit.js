@@ -80,7 +80,8 @@ export default function(app, mongoose) {
               router.use(path, cors({
                 origin: (origin, callback) => {
                   routes[application](origin, callback);
-                }
+                },
+                credentials: true
               }));
               app.use(router);
             }
