@@ -15,6 +15,83 @@
   padding: 0px;
 }
 
+.cloud1,
+.cloud2,
+.cloud3,
+.cloud4{
+  position: absolute;
+  width: 100px;
+  height: 10px;
+  border-radius: 5px;
+}
+.cloudconnect1,
+.cloudconnect2{
+  position: absolute;
+  width: 25px;
+  height: 10px;
+}
+.cloudhide1,
+.cloudhide2,
+.cloudhide3,
+.cloudhide4{
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  z-index: 1;
+}
+.cloudhide1{
+  background: @bottom-hide-back;
+  top: 30px;
+  left: 15px;
+}
+.cloudhide2{
+  background: @bottom-hide-back;
+  top: 30px;
+  left: 40px;
+}
+.cloudhide3{
+  background: @top-hide-back;
+  top: 140px;
+  left: 120px;
+}
+.cloudhide4{
+  background: @top-hide-back;
+  top: 140px;
+  left: 145px;
+}
+
+.cloud1{
+  background: @top-cloud-back;
+  top: 20px;
+  left: -20px;
+}
+.cloudconnect1{
+  background: @top-cloud-back;
+  top: 30px;
+  left: 20px;
+}
+.cloud2{
+  background: @top-cloud-back;
+  top: 40px;
+  left: -40px;
+}
+.cloud3{
+  background: @bottom-cloud-back;
+  top: 130px;
+  left: 90px;
+}
+.cloudconnect2{
+  background: @bottom-cloud-back;
+  top: 140px;
+  left: 125px;
+}
+.cloud4{
+  background: @bottom-cloud-back;
+  top: 150px;
+  left: 110px;
+}
+
 .copyright{
   color: @footer-text !important;
   width: 175px;
@@ -24,7 +101,9 @@
   justify-content: center;
   align-items: center;
   display: flex;
-  border: 3px solid @footer-border;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid @footer-border;
   background: linear-gradient(180deg, @footer-back-from, @footer-back-via 70%, @footer-back-to);
 
 }
