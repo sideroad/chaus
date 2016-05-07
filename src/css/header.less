@@ -9,5 +9,59 @@
   color: @nav-header-center;
 }
 
+.nav{
+  z-index: 2;
+  position: relative;
+  background: none !important;
+  padding: 10px 15px !important;
+}
+
+.circle{
+  position: absolute;
+  background-color: @header-back;
+  width: 200%;
+  border-radius: 50%;
+  height: 1475px;
+  top: -1410px;
+  left: -50%;
+}
+
+.lead{
+  list-style: none;
+  margin-left: -10px;
+  margin-top: -15px;
+}
+
+.logo{
+  font-size: 32px !important;
+  font-family: 'PT Sans'!important;
+  color: @nav-text!important;
+  text-decoration: none;
+}
+
+.logo:hover{
+  text-decoration: none;
+}
+
+.logo img,
+.logosmall img{
+  padding-right: 5px;
+  height: 40px;
+  vertical-align: text-top;
+}
+
+.logosmall{
+  font-size: 28px !important;
+}
+
 @media (max-width: @small-max-width){
+  .circle{
+    position: absolute;
+    background-color: @header-back;
+    width: 500%;
+    border-radius: 50%;
+    height: 200%;
+    top: -192%;
+    left: -200%;
+  }
 }

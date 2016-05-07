@@ -107,6 +107,9 @@ export default class Sidebar extends Component {
       <div className={'uk-width-medium-2-10 ' + styles.sidebar.sidebar + ' ' + ( open ? styles.sidebar.open : '' ) }>
         <div className={styles.sidebar.box}>
           <ul className="uk-nav uk-nav-side">
+            <li className={'uk-nav-header ' + styles.base['cm-nav-header'] + ' ' + styles.sidebar.lead + ' ' + styles.base['cm-title']}>
+              {app}
+            </li>
             <li className={'uk-nav-header ' + styles.base['cm-nav-header'] + ' ' + ( context === 'models' && !modelName ? styles.sidebar.active : '')} >
               <IndexLink to={'/' + lang + '/apps/' + app + '/models'} className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} >
                 <i className={'uk-icon-small uk-icon-cubes ' + styles.base['cm-icon']} />Models

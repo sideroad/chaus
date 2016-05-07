@@ -1,5 +1,11 @@
 @import "variables.less";
 
+.lead{
+  text-transform: none;
+  padding-left: 25px !important;
+  font-weight: 400;
+  font-size: 1.5em;
+}
 
 .active>a{
   color: @nav-back !important;
@@ -17,6 +23,7 @@
 }
 
 .open {
+  z-index: 100;
 }
 
 .sidebar,
@@ -47,6 +54,7 @@
     top: 0px !important;
     overflow-y: scroll;
     max-height: 100% !important;
+    background-color: @html-back;
   }
 
   .open {
