@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {IndexLink} from 'react-router';
 import { connect } from 'react-redux';
 import * as pageActions from 'redux/modules/page';
-
+import uris from '../uris';
 
 @connect(
   state => ({
@@ -39,13 +39,13 @@ export default class Header extends Component {
               <a className={'uk-navbar-toggle uk-visible-small ' + ( open ? styles.header.open : styles.header.close)} onClick={handleClick} ></a> :
               ''}
             <div className="uk-navbar-brand uk-navbar-center uk-visible-small" >
-              <IndexLink to={'/' + lang + '/apps'} className={styles.header.logosmall}>
+              <IndexLink to={uris.normalize(uris.apps.apps, {lang})} className={styles.header.logosmall}>
                 <img src="/images/logo.png" />
               </IndexLink>
             </div>
             <ul className="uk-navbar-center uk-hidden-small">
                 <li className={styles.header.lead}>
-                  <IndexLink to={'/' + lang + '/apps'} className={styles.header.logo}>
+                  <IndexLink to={uris.normalize(uris.apps.apps, {lang})} className={styles.header.logo}>
                     <img src="/images/logo.png" />
                     <span>chaus</span>
                   </IndexLink>

@@ -6,17 +6,20 @@ import cors from 'cors';
 import url from 'url';
 import wildcard from 'wildcard';
 import express from 'express';
+import uris from './uris';
 
 let creators = [];
 const routes = {};
 
 function fetchApps(application) {
   console.log('Loading apps...', application);
-  return fetch( 'http://' + config.host + ':' + config.port + '/admin/api/apps/' + encodeURIComponent( application ), {
+  return fetch( 'http://' + config.host + ':' + config.port + uris.normalize(uris.admin.app, {
+    app: application
+  }), {
     method: 'GET'
   }).then(res => res.json())
     .then(app => {
-      return fetch( 'http://' + config.host + ':' + config.port + '/admin/api/origins?app=' + encodeURIComponent( application ), {
+      return fetch( 'http://' + config.host + ':' + config.port + uris.admin.origins + '?app=' + encodeURIComponent( application ), {
         method: 'GET'
       }).then(res => res.json())
         .then(origins=>{
@@ -29,7 +32,7 @@ function fetchApps(application) {
 
 function fetchAttributes() {
   console.log('Loading attributes...');
-  return fetch( 'http://' + config.host + ':' + config.port + '/admin/api/attributes', {
+  return fetch( 'http://' + config.host + ':' + config.port + uris.admin.attributes, {
     method: 'GET'
   }).then(res => res.json())
     .catch(err => console.error(err));
@@ -68,12 +71,12 @@ export default function(app, mongoose) {
   fetchAttributes()
     .then(attributes=> {
       const schema = convert(attributes.items);
-      Object.keys(schema).map(application => {
+      Object.keys(schema).forEach(application => {
         fetchApps(application)
           .then(settings=> {
-            const path = '/apis/' + encodeURIComponent(application);
+            const path = uris.normalize(uris.apis.root, { app: application });
 
-            console.log('Apply CORS settings...', application, settings.origins);
+            console.log('Apply CORS settings...', path, settings.origins);
             if ( !routes[application] ) {
               const router = express.Router();
               routes[application] = ()=>{};

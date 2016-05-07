@@ -5,6 +5,7 @@ import * as configsActions from 'redux/modules/configs';
 import * as appsActions from 'redux/modules/apps';
 import * as pageActions from 'redux/modules/page';
 import { push } from 'react-router-redux';
+import uris from '../uris';
 
 @connect(
   ()=>({}),
@@ -60,7 +61,6 @@ export default class ConfigForm extends Component {
         event => {
           event.preventDefault();
           loadPage();
-          console.log(values);
           save(app, values)
             .then(() => {
               restartPage();
@@ -130,7 +130,7 @@ export default class ConfigForm extends Component {
                this.props.removeApp(app)
                  .then(()=> {
                    this.props.finishLoad();
-                   this.props.push('/' + lang + '/apps');
+                   this.props.push(uris.normalize(uris.apps.apps, {lang}));
                  });
              }
            }>

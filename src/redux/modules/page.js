@@ -1,3 +1,5 @@
+import uris from '../../uris';
+
 const RESTART = 'page/RESTART';
 const RESTART_SUCCESS = 'page/RESTART_SUCCESS';
 const RESTART_FAIL = 'page/RESTART_FAIL';
@@ -66,7 +68,9 @@ export default function reducer(state = initialState, action = {}) {
 export function restart() {
   return {
     types: [RESTART, RESTART_SUCCESS, RESTART_FAIL],
-    promise: (client) => client.fetchJSON('/admin/restart', 'GET')
+    promise: client =>
+      client
+        .fetchJSON(uris.admin.restart, 'GET')
   };
 }
 

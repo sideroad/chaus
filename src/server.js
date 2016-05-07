@@ -13,6 +13,7 @@ import Html from './containers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import recursive from 'recursive-readdir';
+import uris from './uris';
 
 import { match } from 'react-router';
 import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect';
@@ -42,7 +43,7 @@ app.use('/', creator.router({
   mongo: mongoose,
   schema: admin,
   cors: false,
-  prefix: '/admin/api'
+  prefix: uris.admin.root
 }));
 
 mongoose.connect(config.mongoURL || process.env.CHAUS_MONGO_URL || process.env.MONGOLAB_URI );
@@ -55,7 +56,7 @@ const retatch = (req, res)=>{
     res.json({ok: true});
   }
 };
-app.get('/admin/restart', retatch);
+app.get(uris.admin.restart, retatch);
 retatch();
 
 recursive( __dirname + '/../i18n', (err, files) => {
@@ -67,7 +68,7 @@ recursive( __dirname + '/../i18n', (err, files) => {
   });
 });
 
-app.use('/:lang/apps', (req, res) => {
+app.use(uris.apps.apps, (req, res) => {
   load( i18n[req.params.lang] );
   if (__DEVELOPMENT__) {
     // Do not cache webpack stats: the script file would change since
@@ -118,7 +119,7 @@ app.use('/:lang/apps', (req, res) => {
 });
 
 app.get('/', (req, res)=>{
-  res.redirect('/en/apps');
+  res.redirect(uris.apps.defaults);
 });
 
 if (config.port) {

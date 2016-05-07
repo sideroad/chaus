@@ -4,6 +4,7 @@ import {reduxForm} from 'redux-form';
 import * as appsActions from 'redux/modules/apps';
 import * as pageActions from 'redux/modules/page';
 import { push } from 'react-router-redux';
+import uris from '../uris';
 
 @connect(
   (state)=>({
@@ -65,7 +66,7 @@ export default class AppForm extends Component {
       loadApp(app).then(res => {
         if ( res.length ) {
           restartPage();
-          this.props.push('/' + lang + '/apps/' + app + '/models');
+          this.props.push(uris.normalize(uris.apps.models, {lang, app}));
         } else {
           save(app)
             .then(result => {
@@ -73,7 +74,7 @@ export default class AppForm extends Component {
                 return Promise.reject(result.error);
               }
               restartPage();
-              this.props.push('/' + lang + '/apps/' + app + '/models');
+              this.props.push(uris.normalize(uris.apps.models, {lang, app}));
             })
             .catch(() => {
               restartPage();

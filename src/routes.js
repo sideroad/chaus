@@ -1,5 +1,6 @@
 import React from 'react';
 import {Route, IndexRoute} from 'react-router';
+import uris from './uris';
 import {
     Container,
     Apps,
@@ -18,17 +19,17 @@ export default () => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route path="/:lang/apps" component={Container}>
+    <Route path={uris.apps.apps} component={Container}>
       <IndexRoute component={Apps} />
-      <Route path="/:lang/apps/:app/models" component={Model} >
+      <Route path={uris.apps.models} component={Model} >
         <IndexRoute component={ModelHome} />
-        <Route path="/:lang/apps/:app/models/:name" component={Attributes} />
+        <Route path={uris.apps.model} component={Attributes} />
       </Route>
-      <Route path="/:lang/apps/:app/data" component={Data} >
+      <Route path={uris.apps.data} component={Data} >
         <IndexRoute component={DataHome} />
-        <Route path="/:lang/apps/:app/data/:name" component={Records} />
+        <Route path={uris.apps.records} component={Records} />
       </Route>
-      <Route path="/:lang/apps/:app/config" component={Config} />
+      <Route path={uris.apps.configs} component={Config} />
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />
     </Route>

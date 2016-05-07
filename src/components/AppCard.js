@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import * as appsActions from 'redux/modules/apps';
 import { asyncConnect } from 'redux-async-connect';
 import { push } from 'react-router-redux';
-
+import uris from '../uris';
 
 @asyncConnect([{
   promise: ({store: {dispatch}}) => {
@@ -38,7 +38,8 @@ export default class AppCard extends Component {
       apps,
       query,
       candidate,
-      msg
+      msg,
+      lang
     } = this.props;
 
     const styles = {
@@ -53,7 +54,7 @@ export default class AppCard extends Component {
             <a className={styles.app.card + ' ' + (candidate === app.id ? styles.app.selected : '')}
                onClick={
                  () => {
-                   this.props.push('/' + this.props.lang + '/apps/' + app.id + '/models');
+                   this.props.push(uris.normalize(uris.apps.models, {lang, app: app.id}));
                  }
                }>
               <div className={styles.app.primary}>

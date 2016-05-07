@@ -1,3 +1,4 @@
+import uris from '../../uris';
 const LOAD = 'relation/LOAD';
 const LOAD_SUCCESS = 'relation/LOAD_SUCCESS';
 const LOAD_FAIL = 'relation/LOAD_FAIL';
@@ -36,18 +37,17 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState) {
-  console.log(globalState);
   return globalState.relations && globalState.relations.data[globalState.model];
 }
 
 export function load(model) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => {
-      return new Promise((relationsResolve) => {
+    promise: client =>
+      new Promise((relationsResolve) => {
         client
-          .fetchJSON('/admin/api/attributes', 'GET', {model})
-          .then((relations) => {
+          .fetchJSON(uris.admin.attributes, 'GET', {model})
+          .then(relations => {
             relationsResolve({
               items: relations.items.map((_relation)=>{
                 return _relation.name;
@@ -55,7 +55,6 @@ export function load(model) {
               model
             });
           });
-      });
-    }
+      })
   };
 }

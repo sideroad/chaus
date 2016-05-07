@@ -1,3 +1,4 @@
+import uris from '../../uris';
 
 const LOAD = 'app/LOAD';
 const LOAD_SUCCESS = 'app/LOAD_SUCCESS';
@@ -112,7 +113,7 @@ export function load(name) {
     promise: (client) => {
       return new Promise((appsResolve) => {
         client
-          .fetchJSON('/admin/api/apps', 'GET', name ? {
+          .fetchJSON(uris.admin.apps, 'GET', name ? {
             name: name + '*'
           } : {})
           .then((apps) => {
@@ -140,7 +141,7 @@ export function save(name) {
     types: [ADD, ADD_SUCCESS, ADD_FAIL],
     promise: (client) =>
       client
-        .fetchJSON('/admin/api/apps', 'POST', {name})
+        .fetchJSON(uris.admin.apps, 'POST', {name})
         .then(()=>{
           return load().promise(client);
         })
@@ -152,9 +153,9 @@ export function remove(name) {
     types: [REMOVE, REMOVE_SUCCESS, REMOVE_FAIL],
     promise: (client) =>
       client
-        .fetchJSON('/admin/api/apps/' + name, 'DELETE')
+        .fetchJSON(uris.normalize(uris.admin.app, { app: name }), 'DELETE')
         .then(()=>{
-          return client.fetchJSON('/admin/api/attributes', 'DELETE', {app: name});
+          return client.fetchJSON(uris.admin.attributes, 'DELETE', {app: name});
         })
         .then(()=>{
           return load().promise(client);

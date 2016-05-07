@@ -1,3 +1,5 @@
+import uris from '../../uris';
+
 const LOAD = 'attribute/LOAD';
 const LOAD_SUCCESS = 'attribute/LOAD_SUCCESS';
 const LOAD_FAIL = 'attribute/LOAD_FAIL';
@@ -86,7 +88,7 @@ export function load(app) {
     promise: (client) => {
       return new Promise((resolve, reject) => {
         client
-          .fetchJSON('/admin/api/attributes', 'GET', {
+          .fetchJSON(uris.admin.attributes, 'GET', {
             app
           })
           .then((attributes) => {
@@ -129,7 +131,8 @@ export function save(app, model, values) {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     promise: (client) =>
       new Promise((resolve, reject) =>
-        client.fetchJSON('/admin/api/attributes', 'DELETE', {app, model})
+        client
+          .fetchJSON(uris.admin.attributes, 'DELETE', {app, model})
           .then(()=>{
             return new Promise((_resolve, _reject) => {
               const attributes = values.attributes;
@@ -137,19 +140,20 @@ export function save(app, model, values) {
               function post(index) {
                 if (attributes.length) {
                   const _attribute = attributes.shift();
-                  client.fetchJSON('/admin/api/attributes', 'POST', {
-                    ..._attribute,
-                    type: _attribute.type ? _attribute.type : 'string',
-                    model,
-                    app
-                  })
-                  .then(
-                    ()=>post(index + 1),
-                    (err)=> _reject({
-                      err,
-                      index
+                  client
+                    .fetchJSON(uris.admin.attributes, 'POST', {
+                      ..._attribute,
+                      type: _attribute.type ? _attribute.type : 'string',
+                      model,
+                      app
                     })
-                  );
+                    .then(
+                      ()=>post(index + 1),
+                      (err)=> _reject({
+                        err,
+                        index
+                      })
+                    );
                 } else {
                   _resolve();
                 }

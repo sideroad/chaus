@@ -1,3 +1,4 @@
+import uris from '../../uris';
 
 const LOAD = 'config/LOAD';
 const LOAD_SUCCESS = 'config/LOAD_SUCCESS';
@@ -50,10 +51,10 @@ export function load(app) {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) =>
       client
-        .fetchJSON('/admin/api/apps/' + encodeURIComponent( app ), 'GET')
+        .fetchJSON(uris.normalize(uris.admin.app, {app}), 'GET')
         .then((config) => {
           return client
-                   .fetchJSON('/admin/api/origins', 'GET', {
+                   .fetchJSON(uris.admin.origins, 'GET', {
                      app
                    })
                    .then((origins) => {
@@ -69,40 +70,42 @@ export function save(app, values) {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     promise: (client) =>
       client
-       .fetchJSON('/admin/api/apps/' + encodeURIComponent( app ), 'POST', {
+       .fetchJSON(uris.normalize( uris.admin.apps, {app}), 'POST', {
          description: values.description
        })
-       .then(()=>{
-         return client.fetchJSON('/admin/api/origins', 'DELETE', {
-           app
-         });
-       })
-       .then(()=>{
-         return new Promise((resolve, reject) => {
+       .then(()=>
+         client
+           .fetchJSON( uris.admin.origins, 'DELETE', {
+             app
+           })
+       )
+       .then(()=>
+         new Promise((resolve, reject) => {
            const urls = values.urls;
 
            function post() {
              if (urls.length) {
                const url = urls.shift();
-               client.fetchJSON('/admin/api/origins', 'POST', {
-                 url,
-                 app
-               })
-               .then(
-                 ()=>post(),
-                 (err)=> reject({
-                   err
+               client
+                 .fetchJSON( uris.admin.origins, 'POST', {
+                   url,
+                   app
                  })
-               );
+                 .then(
+                   ()=>post(),
+                   (err)=> reject({
+                     err
+                   })
+                 );
              } else {
                resolve();
              }
            }
            post();
-         });
-       })
-       .then(()=> {
-         return load(app).promise(client);
-       })
+         })
+       )
+       .then(()=>
+         load(app).promise(client)
+       )
   };
 }

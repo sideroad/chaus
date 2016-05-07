@@ -1,4 +1,5 @@
 import pluralize from 'pluralize';
+import uris from '../../uris';
 
 const LOAD = 'record/LOAD';
 const LOAD_SUCCESS = 'record/LOAD_SUCCESS';
@@ -91,7 +92,9 @@ export function isLoaded(globalState) {
 export function load(app, model) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.fetchJSON('/apis/' + app + '/' + pluralize(model), 'GET')
+    promise: client =>
+      client
+        .fetchJSON(uris.normalize(uris.apis.collection, {app, model: pluralize(model)} ), 'GET')
   };
 }
 
@@ -104,19 +107,22 @@ export function add() {
 export function save(app, model, id, values) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    promise: (client) =>
+    promise: client =>
       new Promise((resolve, reject) =>
-        client.fetchJSON('/apis/' + app + '/' + pluralize(model) + ( id ? '/' + id : '' ), 'POST', {
-          ...values
-        })
-        .then(
-          () => {},
-          (err) => reject({
-            err: err,
-            id: id
-          })
-        )
-        .then(()=>load(app, model).promise(client).then((res)=>resolve(res)))
+        client
+          .fetchJSON(
+            id ? uris.normalize(uris.apis.instance, {app, model: pluralize(model), id})
+               : uris.normalize(uris.apis.collection, {app, model: pluralize(model)}),
+            'POST',
+            {...values})
+          .then(
+            () => {},
+            (err) => reject({
+              err: err,
+              id: id
+            })
+          )
+          .then(()=>load(app, model).promise(client).then((res)=>resolve(res)))
       )
   };
 }
@@ -124,15 +130,22 @@ export function save(app, model, id, values) {
 export function remove(app, model, id) {
   return {
     types: [REMOVE, REMOVE_SUCCESS, REMOVE_FAIL],
-    promise: (client) =>
+    promise: client =>
       new Promise((resolve) => {
         if ( id ) {
-          client.fetchJSON('/apis/' + app + '/' + pluralize(model) + '/' + encodeURIComponent(id), 'DELETE')
-          .then(
-            ()=>load(app, model)
-                .promise(client)
-                .then((res)=>resolve(res))
-          );
+          client
+            .fetchJSON(
+              uris.normalize(uris.apis.instance, {
+                app,
+                model: pluralize(model),
+                id
+              }),
+              'DELETE')
+            .then(
+              ()=>load(app, model)
+                  .promise(client)
+                  .then((res)=>resolve(res))
+            );
         } else {
           load(app, model)
             .promise(client)
@@ -146,10 +159,10 @@ export function remove(app, model, id) {
 export function removeAll(app, model) {
   return {
     types: [REMOVE, REMOVE_SUCCESS, REMOVE_FAIL],
-    promise: (client) =>
+    promise: client =>
       new Promise((resolve) => {
         client
-          .fetchJSON('/apis/' + app + '/' + pluralize(model), 'DELETE')
+          .fetchJSON(uris.normalize(uris.apis.collection, {app, model: pluralize(model)}), 'DELETE')
           .then(
             ()=>load(app, model)
                 .promise(client)

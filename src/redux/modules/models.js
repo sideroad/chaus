@@ -1,3 +1,4 @@
+import uris from '../../uris';
 
 const LOAD = 'model/LOAD';
 const LOAD_SUCCESS = 'model/LOAD_SUCCESS';
@@ -90,7 +91,7 @@ export function load(app) {
     promise: (client) => {
       return new Promise((modelsResolve) => {
         client
-          .fetchJSON('/admin/api/models', 'GET', {
+          .fetchJSON(uris.admin.models, 'GET', {
             app
           })
           .then((models) => {
@@ -119,22 +120,27 @@ export function cancel() {
 export function saveAdd(app, name) {
   return {
     types: [ADD, ADD_SUCCESS, ADD_FAIL],
-    promise: (client) => client.fetchJSON('/admin/api/models', 'POST', {app, name})
-                               .then(()=>{
-                                 return load(app).promise(client);
-                               })
+    promise: (client) =>
+      client
+        .fetchJSON(uris.admin.models, 'POST', {app, name})
+        .then(()=>
+          load(app).promise(client)
+        )
   };
 }
 
 export function remove(app, name) {
   return {
     types: [REMOVE, REMOVE_SUCCESS, REMOVE_FAIL],
-    promise: (client) => client.fetchJSON('/admin/api/models', 'DELETE', {app, name})
-                               .then(()=>{
-                                 return client.fetchJSON('/admin/api/attributes', 'DELETE', {app, model: name});
-                               })
-                               .then(()=>{
-                                 return load(app).promise(client);
-                               })
+    promise: (client) =>
+      client
+        .fetchJSON(uris.admin.models, 'DELETE', {app, name})
+        .then(()=>
+          client
+            .fetchJSON(uris.admin.attributes, 'DELETE', {app, model: name})
+        )
+        .then(()=>
+          load(app).promise(client)
+        )
   };
 }
