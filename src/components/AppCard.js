@@ -51,23 +51,28 @@ export default class AppCard extends Component {
       <div className={styles.app.items}>
         {apps && apps.map(app => (
           <div key={app.id} className={styles.app.item} >
-            <a className={styles.app.card + ' ' + (candidate === app.id ? styles.app.selected : '')}
-               onClick={
-                 () => {
-                   this.props.push(uris.normalize(uris.apps.models, {lang, app: app.id}));
-                 }
-               }>
+            <a
+              className={styles.app.card + ' ' + (candidate === app.id ? styles.app.selected : '')}
+              onClick={
+                () => {
+                  this.props.push(uris.normalize(uris.apps.models, {lang, app: app.id}));
+                }
+              }>
               <div className={styles.app.primary}>
-                <div className={styles.app.name} >{app.name}</div>
+                <div className={styles.app.name} >
+                  {app.name}
+                </div>
               </div>
             </a>
           </div>
         ))}
         {!query &&
-         !apps.length ? <div className={styles.app.lead}>
-                          {msg.app.lead}
-                        </div> : ''}
-      </div>
+         !apps.length ?
+          <div className={styles.app.lead}>
+            {msg.app.lead}
+          </div>
+         : ''}
+        </div>
     );
   }
 }

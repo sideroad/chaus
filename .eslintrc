@@ -22,7 +22,8 @@
     "no-alert": 0,
     "no-nested-ternary": 0,
     "no-constant-condition": 0,
-    "new-cap": 0
+    "new-cap": 0,
+    "spaced-comment": 0
   },
   "plugins": [
     "react", "import"
