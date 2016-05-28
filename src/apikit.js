@@ -7,9 +7,10 @@ import url from 'url';
 import wildcard from 'wildcard';
 import express from 'express';
 import uris from './uris';
-
-let creators = [];
+const version = JSON.parse( fs.readFileSync( __dirname + '/../package.json') ).version;
 const routes = {};
+let creators = [];
+
 
 function fetchApps(application) {
   console.log('Loading apps...', application);
@@ -105,16 +106,18 @@ export default function(app, mongoose) {
 
             creator.doc({
               'name': application,
-              'version': JSON.parse( fs.readFileSync( __dirname + '/../package.json') ).version,
+              version,
               'description': settings.description,
               'title': application,
               'url': url.format({
+                protocol: config.global.port === 443 ? 'https:' : 'http:',
                 hostname: config.global.host,
-                port: config.global.port
+                port: config.global.port === 443 || config.global.port === 80 ? '' : config.global.port
               }),
               'sampleUrl': url.format({
+                protocol: config.global.port === 443 ? 'https:' : 'http:',
                 hostname: config.global.host,
-                port: config.global.port
+                port: config.global.port === 443 || config.global.port === 80 ? '' : config.global.port
               }),
               'template': {
                 'withCompare': false,
