@@ -9,8 +9,8 @@ import express from 'express';
 import uris from './uris';
 const version = JSON.parse( fs.readFileSync( __dirname + '/../package.json') ).version;
 const routes = {};
+const port = Number( config.global.port );
 let creators = [];
-
 
 function fetchApps(application) {
   console.log('Loading apps...', application);
@@ -110,14 +110,12 @@ export default function(app, mongoose) {
               'description': settings.description,
               'title': application,
               'url': url.format({
-                protocol: config.global.port === 443 ? 'https:' : 'http:',
                 hostname: config.global.host,
-                port: config.global.port === 443 || config.global.port === 80 ? '' : config.global.port
+                port: port === 443 || port === 80 ? '' : port
               }),
               'sampleUrl': url.format({
-                protocol: config.global.port === 443 ? 'https:' : 'http:',
                 hostname: config.global.host,
-                port: config.global.port === 443 || config.global.port === 80 ? '' : config.global.port
+                port: port === 443 || port === 80 ? '' : port
               }),
               'template': {
                 'withCompare': false,
