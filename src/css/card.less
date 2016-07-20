@@ -1,0 +1,147 @@
+@import "variables.less";
+
+.app{
+  min-height: 200px;
+  width: 100%;
+}
+
+.box{
+  width: 100%;
+  text-align: center;
+  margin-top: 10%;
+  margin-bottom: 5%;
+  position: relative;
+  height: 50px;
+}
+
+.lead{
+  color: @app-lead !important;
+  font-size: 3em;
+  text-align: center;
+  margin-top: 15%;
+  line-height: 1.5em;
+}
+
+.glass{
+  width: 64px;
+  height: 64px;
+  opacity: 0.7;
+  position: absolute;
+  left: 16%;
+  top: 3px;
+}
+
+.input{
+  color: @app-input !important;
+  width: 70%;
+  height: 70px;
+  font-size: 50px;
+  padding-left: 83px;
+  border-width: 3px !important;
+  border-radius: 10px;
+  background: none !important;
+  position: absolute;
+  left: 15%;
+  top: 0px;
+  box-sizing: border-box;
+}
+
+.input:focus{
+  color: @app-input !important;
+  border-width: 3px !important;
+  background: none !important;
+}
+
+.input::-webkit-input-placeholder {
+  font-color: @app-input-placeholder !important;
+}
+.input:-ms-input-placeholder {
+  font-color: @app-input-placeholder !important;
+}
+.input::-moz-placeholder {
+  font-color: @app-input-placeholder !important;
+}
+
+.candidate{
+  position: absolute;
+  color: @app-candidate;
+  border: @input-border !important;
+  padding-top: 22px;
+  width: 70%;
+  left: 15%;
+  border-width: 3px !important;
+  border-radius: 10px;
+  height: 70px;
+  font-size: 50px;
+  padding-left: 83px;
+  top: 0px;
+  text-align: left;
+  box-sizing: border-box;
+  background-color: @gofun;
+}
+
+.items{
+  width: 80%;
+  margin-bottom: 5%;
+  margin: auto;
+}
+
+.item{
+  width: 33.333333333333336%;
+  background-clip: content-box;
+  box-sizing: border-box;
+  float: left;
+  margin-bottom: 5%;
+}
+
+.card{
+  color: @app-card;
+  background-color: @app-card-back;
+  border: 3px solid @app-card-border;
+  border-radius: 10px;
+  font-size: 2em;
+  height: 110px;
+  margin: 10px;
+  padding: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: relative;
+  display: block;
+  transition-duration: 0.2s;
+}
+
+.card:hover,
+.selected{
+  color: @app-card-hover;
+  background-color: @app-card-hover-back;
+  border-color: @app-card-hover-border;
+}
+
+.primary{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: @small-max-width){
+  .glass{
+    width: 44px !important;
+    height: 44px !important;
+    margin-top: 0px !important;
+  }
+  .item{
+    width: 100%;
+  }
+  .input{
+    font-size: 20px;
+    padding-left: 56px;
+    height: 50px;
+  }
+  .candidate{
+    font-size: 20px;
+    padding-left: 56px;
+    padding-top: 12px;
+    height: 50px;
+  }
+}

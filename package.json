@@ -18,40 +18,14 @@
   ],
   "main": "bin/server.js",
   "scripts": {
-    "start": "concurrent --kill-others \"npm run start-prod\"",
-    "start-prod": "better-npm-run start-prod",
+    "start": "pm2 start process.json --env production",
     "build": "better-npm-run build",
-    "postinstall": "npm run build",
+    "postinstall": "npm i -g pm2; if [ -n \"${PM2_SECRET_KEY}\" ]; then pm2 link ${PM2_SECRET_KEY} ${PM2_PUBLIC_KEY}; fi; npm run build",
     "lint": "eslint -c .eslintrc src",
-    "start-dev": "better-npm-run start-dev",
-    "watch-client": "better-npm-run watch-client",
-    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\"",
+    "dev": "pm2 start process.json",
     "test": "karma start"
   },
   "betterScripts": {
-    "start-prod": {
-      "command": "node ./bin/server.js",
-      "env": {
-        "NODE_PATH": "./src",
-        "NODE_ENV": "production"
-      }
-    },
-    "start-dev": {
-      "command": "node ./bin/server.js",
-      "env": {
-        "NODE_PATH": "./src",
-        "NODE_ENV": "development",
-        "HOST": "localhost",
-        "PORT": "3000"
-      }
-    },
-    "watch-client": {
-      "command": "node webpack/webpack-dev-server.js",
-      "env": {
-        "UV_THREADPOOL_SIZE": 100,
-        "NODE_PATH": "./src"
-      }
-    },
     "build": {
       "command": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
       "env": {

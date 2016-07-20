@@ -1,0 +1,28 @@
+{
+  "apps" : [
+    {
+      "name": "watch",
+      "script": "webpack/webpack-dev-server.js",
+      "env": {
+        "UV_THREADPOOL_SIZE": 100,
+        "NODE_PATH": "./src"
+      }
+    },
+    {
+      "name": "app",
+      "script": "bin/server.js",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "development",
+        "HOST": "localhost",
+        "PORT": "3000"
+      },
+      "env_production" : {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "production"
+      },
+      "instances"  : 4,
+      "exec_mode"  : "cluster"
+    }
+  ]
+}
