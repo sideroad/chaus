@@ -1,0 +1,14 @@
+{
+  "apps" : [
+    {
+      "name": "app",
+      "script": "bin/server.js",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "production"
+      },
+      "instances"  : 4,
+      "exec_mode"  : "cluster"
+    }
+  ]
+}

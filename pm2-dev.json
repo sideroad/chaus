@@ -17,10 +17,6 @@
         "HOST": "localhost",
         "PORT": "3000"
       },
-      "env_production" : {
-        "NODE_PATH": "./src",
-        "NODE_ENV": "production"
-      },
       "instances"  : 4,
       "exec_mode"  : "cluster"
     }
