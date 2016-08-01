@@ -20,7 +20,7 @@
   "scripts": {
     "start": "pm2 start pm2-prod.json && pm2 logs",
     "build": "better-npm-run build",
-    "postinstall": "npm i -g pm2; if [ -n \"${PM2_SECRET_KEY}\" ]; then pm2 link ${PM2_SECRET_KEY} ${PM2_PUBLIC_KEY} ${PM2_MACHINE}; fi; npm run build",
+    "postinstall": "npm i -g pm2; if [ -n \"${PM2_SECRET_KEY}\" ]; then pm2 link ${PM2_SECRET_KEY} ${PM2_PUBLIC_KEY}; fi; npm run build",
     "lint": "eslint -c .eslintrc src",
     "dev": "pm2 start pm2-dev.json",
     "test": "karma start"
