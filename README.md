@@ -1,5 +1,3 @@
-<link href="https://raw.githubusercontent.com/sideroad/chaus/master/readme.css" rel="stylesheet" ></link>
-
 <!-- $theme: gaia -->
 
 # <div class="lead" ><img src=https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png width="55px" /> chaus</div>
