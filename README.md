@@ -1,3 +1,5 @@
+<link href="https://raw.githubusercontent.com/sideroad/chaus/master/readme.css" rel="stylesheet" ></link>
+
 <!-- $theme: gaia -->
 
 # <div class="lead" ><img src=https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png width="55px" /> chaus</div>
@@ -61,5 +63,3 @@ open http://localhost:3000
 ## Color schema
 
 ###### https://coolors.co/app/82ae46-fffffc-aacf53-f6bfbc-def3de
-
-<link href="https://raw.githubusercontent.com/sideroad/chaus/master/readme.css" rel="stylesheet" ></link>
