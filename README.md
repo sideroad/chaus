@@ -1,9 +1,10 @@
 <!-- $theme: gaia -->
+# <link href="https://raw.githubusercontent.com/sideroad/chaus/master/readme.css"></link>
 
-# <div style="font-size: 2em" ><img src=https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png width="105px" /> chaus</div>
+# <div class="lead" ><img src=https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png width="55px" /> chaus</div>
 
 
-## Build RESTful API within 5 min
+### Build RESTful API within 5 min
 
 ---
 
