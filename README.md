@@ -1,8 +1,6 @@
 <!-- $theme: gaia -->
 
-# chaus
-
-###### <img src=https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png width="200px" />
+# <div style="font-size: 2em" ><img src=https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png width="105px" /> chaus</div>
 
 
 ## Build RESTful API within 5 min
@@ -11,12 +9,23 @@
 
 ## Running chaus
 
-###### http://chaus.herokuapp.com
+### https://chaus.herokuapp.com
 
+---
 
-### Deploy own chaus on Heroku
+## Why chaus?
+- Easy to create RESTful API
+- Easy to set linking to other resource
+- Easy to manipulate data
+- API document created automatically
 
-###### [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/sideroad/chaus)
+---
+
+## Deploy your chaus on Heroku
+
+##### if you want to create own dashboard
+
+##### [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/sideroad/chaus)
 
 ---
 
@@ -50,8 +59,6 @@ open http://localhost:3000
 
 ---
 
-## Contribute
+## Color schema
 
-### Color schema
-
-https://coolors.co/app/82ae46-fffffc-aacf53-f6bfbc-def3de
+###### https://coolors.co/app/82ae46-fffffc-aacf53-f6bfbc-def3de
