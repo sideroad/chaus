@@ -62,4 +62,4 @@ open http://localhost:3000
 
 ###### https://coolors.co/app/82ae46-fffffc-aacf53-f6bfbc-def3de
 
-<link href="https://raw.githubusercontent.com/sideroad/chaus/master/readme.css"></link>
+<link href="https://raw.githubusercontent.com/sideroad/chaus/master/readme.css" rel="stylesheet" ></link>
