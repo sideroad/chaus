@@ -2,7 +2,7 @@
 
 # chaus
 
-###### ![40% center](https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png)
+###### <img src=https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png width="200px" />
 
 
 ## Build RESTful API within 5 min
