@@ -1,5 +1,5 @@
 <!-- $theme: gaia -->
-
+# <style>hr{display: none;}</style>
 # <div style="font-size: 2em" ><img src=https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png width="105px" /> chaus</div>
 
 
