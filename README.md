@@ -1,11 +1,3 @@
-
-# chaus
-
-![70% center](https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png)
-
-## Build RESTful API within 5 min
-
----
 <!-- $theme: gaia -->
 
 # chaus
