@@ -3,6 +3,7 @@
     {
       "name": "app",
       "script": "bin/server.js",
+      "instances": 1,
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production"
