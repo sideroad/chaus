@@ -18,7 +18,7 @@
   ],
   "main": "bin/server.js",
   "scripts": {
-    "start": "pm2 start pm2-prod.json && pm2 logs",
+    "start": "better-npm-run prod",
     "build": "better-npm-run build",
     "postinstall": "npm i -g pm2; if [ -n \"${PM2_SECRET_KEY}\" ]; then pm2 link ${PM2_SECRET_KEY} ${PM2_PUBLIC_KEY}; fi; npm run build",
     "lint": "eslint -c .eslintrc src",
@@ -26,6 +26,13 @@
     "test": "karma start"
   },
   "betterScripts": {
+    "prod": {
+      "command": "node bin/server.js",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "production"
+      }
+    },
     "build": {
       "command": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
       "env": {
