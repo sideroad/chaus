@@ -70,7 +70,7 @@ export function save(app, values) {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     promise: (client) =>
       client
-       .fetchJSON(uris.normalize( uris.admin.apps, {app}), 'POST', {
+       .fetchJSON(uris.normalize( uris.admin.app, {app}), 'POST', {
          description: values.description
        })
        .then(()=>
