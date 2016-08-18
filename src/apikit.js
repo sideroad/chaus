@@ -16,11 +16,11 @@ function fetchApps(application) {
   console.log('Loading apps...', application);
   return fetch( 'http://' + config.host + ':' + config.port + uris.normalize(uris.admin.app, {
     app: application
-  }), {
+  }) + '?limit=1000', {
     method: 'GET'
   }).then(res => res.json())
     .then(app => {
-      return fetch( 'http://' + config.host + ':' + config.port + uris.admin.origins + '?app=' + encodeURIComponent( application ), {
+      return fetch( 'http://' + config.host + ':' + config.port + uris.admin.origins + '?app=' + encodeURIComponent( application ) + '&limit=1000', {
         method: 'GET'
       }).then(res => res.json())
         .then(origins=>{
@@ -33,7 +33,7 @@ function fetchApps(application) {
 
 function fetchAttributes() {
   console.log('Loading attributes...');
-  return fetch( 'http://' + config.host + ':' + config.port + uris.admin.attributes, {
+  return fetch( 'http://' + config.host + ':' + config.port + uris.admin.attributes + '?limit=10000', {
     method: 'GET'
   }).then(res => res.json())
     .catch(err => console.error(err));
