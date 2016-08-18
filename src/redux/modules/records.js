@@ -94,7 +94,9 @@ export function load(app, model) {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: client =>
       client
-        .fetchJSON(uris.normalize(uris.apis.collection, {app, model: pluralize(model)} ), 'GET')
+        .fetchJSON(uris.normalize(uris.apis.collection, {app, model: pluralize(model)} ), 'GET', {
+          limit: 10000
+        })
   };
 }
 

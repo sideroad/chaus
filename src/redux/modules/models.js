@@ -92,7 +92,8 @@ export function load(app) {
       return new Promise((modelsResolve) => {
         client
           .fetchJSON(uris.admin.models, 'GET', {
-            app
+            app,
+            limit: 10000
           })
           .then((models) => {
             modelsResolve({

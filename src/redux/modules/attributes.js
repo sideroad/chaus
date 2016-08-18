@@ -89,7 +89,8 @@ export function load(app) {
       return new Promise((resolve, reject) => {
         client
           .fetchJSON(uris.admin.attributes, 'GET', {
-            app
+            app,
+            limit: 10000
           })
           .then((attributes) => {
             const items = {};

@@ -46,7 +46,10 @@ export function load(model) {
     promise: client =>
       new Promise((relationsResolve) => {
         client
-          .fetchJSON(uris.admin.attributes, 'GET', {model})
+          .fetchJSON(uris.admin.attributes, 'GET', {
+            model,
+            limit: 10000
+          })
           .then(relations => {
             relationsResolve({
               items: relations.items.map((_relation)=>{
