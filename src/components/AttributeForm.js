@@ -112,7 +112,6 @@ export default class AttributeForm extends Component {
     //       redux-form might has a bug
 
     // TODO: [Bug]When data is null, previous value will be used.
-    console.log(attributes, relations);
 
     return (
       <form className="uk-form">
@@ -201,7 +200,7 @@ export default class AttributeForm extends Component {
                         relationTypes.includes(attribute.type.value) &&
                         <select className={styles['cm-selectbox']} name="relation" {...attribute.relation} value={attribute.relation.value}>
                           <option >Select {attribute.type.value} model</option>
-                          {relations.map(relation => console.log(relation) || <option value={relation.id} key={relation.id} >{relation.name}</option>)}
+                          {relations.map(relation => <option value={relation.id} key={relation.id} >{relation.name}</option>)}
                         </select>
                       }
                       {

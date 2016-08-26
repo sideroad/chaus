@@ -66,7 +66,6 @@ function convert(models, attributes) {
     delete attribute.name;
     delete attribute.model;
     const relation = __.find(models, {app: {id: app}, id: attribute.relation.id});
-    console.log(attribute);
     if ( attribute.relationAttribute ) {
       attribute.relation = relation.name + '.' + attribute.relationAttribute;
     } else {
@@ -74,7 +73,6 @@ function convert(models, attributes) {
     }
     dist[app][model.name][name] = attribute;
   });
-  console.log('kitemasu', dist);
   return dist;
 }
 
@@ -111,7 +109,6 @@ export default function(app, mongoose) {
                     }, false)
                   );
                 };
-                console.log(schema.a);
 
                 app.use('/', creator.router({
                   mongo: mongoose,

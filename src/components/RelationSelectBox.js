@@ -29,7 +29,6 @@ export default class RelationSelectBox extends Component {
       attributes
     } = this.props;
     const styles = require('../css/customize.less');
-    console.log(model, relation, attributes);
 
     return (
       <p className={styles['cm-parent-attribution']}>
