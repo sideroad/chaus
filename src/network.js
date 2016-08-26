@@ -46,7 +46,7 @@ export default app => {
               }
             });
             res.json({
-              network: networks.join(';')
+              network: __.uniq(networks).join(';')
             });
           });
       });
