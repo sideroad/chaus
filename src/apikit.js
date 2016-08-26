@@ -62,15 +62,16 @@ function convert(models, attributes) {
     }
 
     const name = attribute.name;
-    delete attribute.id;
-    delete attribute.name;
-    delete attribute.model;
     const relation = __.find(models, {app: {id: app}, id: attribute.relation.id});
     if ( attribute.relationAttribute ) {
       attribute.relation = relation.name + '.' + attribute.relationAttribute;
     } else {
       attribute.relation = relation ? relation.name : null;
     }
+    delete attribute.id;
+    delete attribute.name;
+    delete attribute.model;
+    delete attribute.relationAttribute;
     dist[app][model.name][name] = attribute;
   });
   return dist;
