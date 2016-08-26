@@ -69,9 +69,9 @@ class Graph extends Component {
       },
       physics: {
         barnesHut: {
-          springLength: 120,
-          springConstant: 0.03,
-          damping: 0.05
+          // springLength: 120,
+          // springConstant: 0.03,
+          // damping: 0.05
         },
         solver: 'barnesHut',
         minVelocity: 0
