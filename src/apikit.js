@@ -7,6 +7,7 @@ import url from 'url';
 import wildcard from 'wildcard';
 import express from 'express';
 import uris from './uris';
+import __ from 'lodash';
 const version = JSON.parse( fs.readFileSync( __dirname + '/../package.json') ).version;
 const routes = {};
 const port = Number( config.global.port );
@@ -31,6 +32,14 @@ function fetchApps(application) {
     .catch(err => console.error(err));
 }
 
+function fetchModels() {
+  console.log('Loading models...');
+  return fetch( 'http://' + config.host + ':' + config.port + uris.admin.models + '?limit=10000', {
+    method: 'GET'
+  }).then(res => res.json())
+    .catch(err => console.error(err));
+}
+
 function fetchAttributes() {
   console.log('Loading attributes...');
   return fetch( 'http://' + config.host + ':' + config.port + uris.admin.attributes + '?limit=10000', {
@@ -39,29 +48,33 @@ function fetchAttributes() {
     .catch(err => console.error(err));
 }
 
-function convert(source) {
+function convert(models, attributes) {
   const dist = {};
-  source.map(attribute => {
-    if ( !dist[attribute.app] ) {
-      dist[attribute.app] = {};
+  attributes.map(attribute => {
+    const app = attribute.app;
+    if ( !dist[app] ) {
+      dist[app] = {};
     }
-    if ( !dist[attribute.app][attribute.model] ) {
-      dist[attribute.app][attribute.model] = {};
+
+    const model = __.find(models, {app: {id: app}, id: attribute.model.id});
+    if ( !dist[app][model.name] ) {
+      dist[app][model.name] = {};
     }
 
     const name = attribute.name;
-    const model = attribute.model;
     delete attribute.id;
     delete attribute.name;
     delete attribute.model;
-    const relation = attribute.relation;
+    const relation = __.find(models, {app: {id: app}, id: attribute.relation.id});
+    console.log(attribute);
     if ( attribute.relationAttribute ) {
-      attribute.relation = relation + '.' + attribute.relationAttribute;
+      attribute.relation = relation.name + '.' + attribute.relationAttribute;
     } else {
-      attribute.relation = relation;
+      attribute.relation = relation ? relation.name : null;
     }
-    dist[attribute.app][model][name] = attribute;
+    dist[app][model.name][name] = attribute;
   });
+  console.log('kitemasu', dist);
   return dist;
 }
 
@@ -69,63 +82,67 @@ export default function(app, mongoose) {
   console.log('Loading APIs...');
   creators.map(_creator => _creator.destroy());
   creators = [];
-  fetchAttributes()
-    .then(attributes=> {
-      const schema = convert(attributes.items);
-      Object.keys(schema).forEach(application => {
-        fetchApps(application)
-          .then(settings=> {
-            const path = uris.normalize(uris.apis.root, { app: application });
+  fetchModels()
+    .then(models => {
+      fetchAttributes()
+        .then(attributes=> {
+          const schema = convert(models.items, attributes.items);
+          Object.keys(schema).forEach(application => {
+            fetchApps(application)
+              .then(settings=> {
+                const path = uris.normalize(uris.apis.root, { app: application });
 
-            console.log('Apply CORS settings...', path, settings.origins);
-            if ( !routes[application] ) {
-              const router = express.Router();
-              routes[application] = ()=>{};
-              router.use(path, cors({
-                origin: (origin, callback) => {
-                  routes[application](origin, callback);
-                },
-                credentials: true
-              }));
-              app.use(router);
-            }
-            routes[application] = (origin, callback)=>{
-              callback(null, settings.origins.reduce(
-                (memo, _url)=> {
-                  return ( wildcard(_url, origin) ? true : false ) || memo;
-                }, false)
-              );
-            };
+                console.log('Apply CORS settings...', path, settings.origins);
+                if ( !routes[application] ) {
+                  const router = express.Router();
+                  routes[application] = ()=>{};
+                  router.use(path, cors({
+                    origin: (origin, callback) => {
+                      routes[application](origin, callback);
+                    },
+                    credentials: true
+                  }));
+                  app.use(router);
+                }
+                routes[application] = (origin, callback)=>{
+                  callback(null, settings.origins.reduce(
+                    (memo, _url)=> {
+                      return ( wildcard(_url, origin) ? true : false ) || memo;
+                    }, false)
+                  );
+                };
+                console.log(schema.a);
 
-            app.use('/', creator.router({
-              mongo: mongoose,
-              schema: schema[application],
-              cors: true,
-              prefix: path
-            }));
+                app.use('/', creator.router({
+                  mongo: mongoose,
+                  schema: schema[application],
+                  cors: true,
+                  prefix: path
+                }));
 
-            creator.doc({
-              'name': application,
-              version,
-              'description': settings.description,
-              'title': application,
-              'url': url.format({
-                hostname: config.global.host,
-                port: port === 443 || port === 80 ? '' : port
-              }),
-              'sampleUrl': url.format({
-                hostname: config.global.host,
-                port: port === 443 || port === 80 ? '' : port
-              }),
-              'template': {
-                'withCompare': false,
-                'withGenerator': true
-              },
-              'dest': __dirname + '/../static/docs/' + application
-            });
-            creators.push(creator);
+                creator.doc({
+                  'name': application,
+                  version,
+                  'description': settings.description,
+                  'title': application,
+                  'url': url.format({
+                    hostname: config.global.host,
+                    port: port === 443 || port === 80 ? '' : port
+                  }),
+                  'sampleUrl': url.format({
+                    hostname: config.global.host,
+                    port: port === 443 || port === 80 ? '' : port
+                  }),
+                  'template': {
+                    'withCompare': false,
+                    'withGenerator': true
+                  },
+                  'dest': __dirname + '/../static/docs/' + application
+                });
+                creators.push(creator);
+              });
           });
-      });
+        });
     })
     .catch(err => console.error(err));
 }

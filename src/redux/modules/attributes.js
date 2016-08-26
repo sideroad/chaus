@@ -1,4 +1,5 @@
 import uris from '../../uris';
+import __ from 'lodash';
 
 const LOAD = 'attribute/LOAD';
 const LOAD_SUCCESS = 'attribute/LOAD_SUCCESS';
@@ -88,24 +89,33 @@ export function load(app) {
     promise: (client) => {
       return new Promise((resolve, reject) => {
         client
-          .fetchJSON(uris.admin.attributes, 'GET', {
+          .fetchJSON(uris.admin.models, 'GET', {
             app,
             limit: 10000
           })
-          .then((attributes) => {
-            const items = {};
-            attributes.items.map((_attribute)=>{
-              _attribute.relation = _attribute.relation;
-              if ( !items[_attribute.model] ) {
-                items[_attribute.model] = [];
-              }
-              items[_attribute.model].push(_attribute);
+          .then(models => {
+            client.fetchJSON(uris.admin.attributes, 'GET', {
+              app,
+              limit: 10000
+            })
+            .then((attributes) => {
+              const items = {};
+              attributes.items.map((_attribute)=>{
+                _attribute.relation = _attribute.relation.id;
+                _attribute.model = __.find(models.items, { id: _attribute.model.id});
+                const model = _attribute.model;
+                if ( !items[model.name] ) {
+                  items[model.name] = [];
+                }
+                items[model.name].push(_attribute);
+              });
+              resolve({
+                items: items
+              });
+            }, ()=> {
+              reject();
             });
-            resolve({
-              items: items
-            });
-          }, ()=> {
-            reject();
+
           });
       });
     }

@@ -1,20 +1,18 @@
 import React, {Component, PropTypes} from 'react';
 import {Card} from 'components';
 import uris from '../uris';
-import {isLoaded, load} from 'redux/modules/models';
+import {load} from 'redux/modules/models';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
-  promise: ({store: {dispatch, getState}, params}) => {
-    if (!isLoaded(getState(), params.app)) {
-      return dispatch(load(params.app));
-    }
+  promise: ({store: {dispatch}, params}) => {
+    return dispatch(load(params.app));
   }
 }])
 @connect(
-  (state, props) => ({
-    models: state.models[props.params.app].data,
+  (state) => ({
+    models: state.models.data,
     open: state.page.open
   }),
   {}

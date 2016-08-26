@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
+import __ from 'lodash';
 import {connect} from 'react-redux';
-import {load} from 'redux/modules/attributes';
+import {load as loadModels} from 'redux/modules/models';
+import {load as loadAttributes} from 'redux/modules/attributes';
 import {AttributeForm} from 'components';
 import {initializeWithKey} from 'redux-form';
 import {reduxForm} from 'redux-form';
@@ -12,11 +14,15 @@ import * as recordActions from 'redux/modules/records';
 
 @asyncConnect([{
   promise: ({store: {dispatch}, params}) => {
-    return dispatch(load(params.app));
+    const promises = [];
+    promises.push(dispatch(loadModels(params.app)));
+    promises.push(dispatch(loadAttributes(params.app)));
+    return Promise.all(promises);
   }
 }])
 @connect(
   (state) => ({
+    models: state.models.data,
     attributes: state.attributes.data,
     loaded: state.attributes.loaded,
     loading: state.attributes.loading,
@@ -41,6 +47,7 @@ export default class Attributes extends Component {
     removeRecords: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    models: PropTypes.array.isRequired,
     attributes: PropTypes.object.isRequired,
     loaded: PropTypes.bool,
     loading: PropTypes.bool,
@@ -52,6 +59,7 @@ export default class Attributes extends Component {
 
   render() {
     const {
+      models,
       attributes,
       remove,
       removeRecords,
@@ -113,7 +121,7 @@ export default class Attributes extends Component {
             app={app}
             initialValues={{
               attributes: attributes[name],
-              model: name
+              model: __.find(models, {name}).id
             }}
             saveError={saveError} />
         </div>

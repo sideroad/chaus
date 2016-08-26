@@ -25,24 +25,26 @@ module.exports = {
   model: {
     app: {
       uniq: true,
-      parent: 'app.models'
+      type: 'parent',
+      relation: 'app.models'
     },
     name: {
       uniq: true,
       pattern: /^[0-9a-z]+$/
     },
     attributes: {
-      children: 'attribute'
+      type: 'children',
+      relation: 'attribute'
     }
   },
   attribute: {
     app: {
-      uniq: true,
-      parent: 'app.models'
+      uniq: true
     },
     model: {
       uniq: true,
-      parent: 'model.attributes'
+      type: 'parent',
+      relation: 'model.attributes'
     },
     name: {
       uniq: true,
@@ -58,7 +60,8 @@ module.exports = {
       pattern: /^(string|number|date|boolean|parent|children|instance)$/
     },
     relation: {
-      instance: 'model'
+      type: 'instance',
+      relation: 'model'
     },
     relationAttribute: {},
     pattern: {},

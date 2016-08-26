@@ -4,25 +4,23 @@ import {ConfigForm} from 'components';
 import { connect } from 'react-redux';
 import * as configsActions from 'redux/modules/configs';
 import {load as loadConfigs} from 'redux/modules/configs';
-import {isLoaded, load as loadModels} from 'redux/modules/models';
+import {load as loadModels} from 'redux/modules/models';
 import {initializeWithKey} from 'redux-form';
 import Helmet from 'react-helmet';
 import config from '../config';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
-  promise: ({params, store: {dispatch, getState}}) => {
+  promise: ({params, store: {dispatch}}) => {
     const promises = [];
-    if (!isLoaded(getState(), params.app)) {
-      promises.push(dispatch(loadModels(params.app)));
-    }
+    promises.push(dispatch(loadModels(params.app)));
     promises.push(dispatch(loadConfigs(params.app)));
     return Promise.all(promises);
   }
 }])
 @connect(
-  (state, props) => ({
-    models: state.models[props.params.app].data,
+  (state) => ({
+    models: state.models.data,
     configs: state.configs.data || {},
     open: state.page.open
   }),

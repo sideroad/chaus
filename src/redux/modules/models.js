@@ -26,9 +26,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loading: false,
-        [action.result.app]: {
-          data: action.result.items
-        }
+        data: action.result.items
       };
     case LOAD_FAIL:
       return {
@@ -52,9 +50,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         editing: false,
-        [action.result.app]: {
-          data: action.result.items
-        }
+        data: action.result.items
       };
     case ADD_FAIL:
       return {
@@ -67,9 +63,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         editing: false,
-        [action.result.app]: {
-          data: action.result.items
-        }
+        data: action.result.items
       };
     case REMOVE_FAIL:
       return {
@@ -81,22 +75,22 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-export function isLoaded(globalState, app) {
-  return globalState.models[app] && globalState.models[app].data;
+export function isLoaded(globalState) {
+  return globalState.models && globalState.models.data;
 }
 
 export function load(app) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      return new Promise((modelsResolve) => {
+      return new Promise(resolve => {
         client
           .fetchJSON(uris.admin.models, 'GET', {
             app,
             limit: 10000
           })
           .then((models) => {
-            modelsResolve({
+            resolve({
               app: app,
               items: models.items
             });
