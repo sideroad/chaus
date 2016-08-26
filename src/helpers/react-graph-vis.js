@@ -74,7 +74,7 @@ class Graph extends Component {
           // damping: 0.05
         },
         solver: 'barnesHut',
-        minVelocity: 0
+        minVelocity: 0.01
       },
       interaction: {
         dragView: false,
