@@ -6,7 +6,8 @@ const uris = {
     origins: '/admin/api/origins',
     models: '/admin/api/models',
     attributes: '/admin/api/attributes',
-    restart: '/admin/restart'
+    restart: '/admin/restart',
+    network: '/admin/networks/:app'
   },
   apps: {
     defaults: '/en/apps',

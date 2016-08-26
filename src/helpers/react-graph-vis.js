@@ -68,6 +68,7 @@ class Graph extends Component {
           springConstant: 0.03,
           damping: 0.05
         },
+        solver: 'barnesHut',
         minVelocity: 0
       },
       interaction: {

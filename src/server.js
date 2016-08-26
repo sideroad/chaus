@@ -14,6 +14,7 @@ import PrettyError from 'pretty-error';
 import http from 'http';
 import recursive from 'recursive-readdir';
 import uris from './uris';
+import network from './network';
 
 import { match } from 'react-router';
 import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect';
@@ -58,6 +59,8 @@ const retatch = (req, res)=>{
 };
 app.get(uris.admin.restart, retatch);
 retatch();
+
+network(app);
 
 recursive( __dirname + '/../i18n', (err, files) => {
   files.map(file => {

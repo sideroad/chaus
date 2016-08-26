@@ -1,20 +1,24 @@
 import React, {Component, PropTypes} from 'react';
-import {load} from 'redux/modules/models';
+import {load as loadModels} from 'redux/modules/models';
+import {load as loadNetworks} from 'redux/modules/networks';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-async-connect';
-import {Card} from 'components';
 import uris from '../uris';
 import Graph from '../helpers/react-graph-vis';
 import { push } from 'react-router-redux';
 
 @asyncConnect([{
   promise: ({store: {dispatch}, params}) => {
-    return dispatch(load(params.app));
+    const promises = [];
+    promises.push(dispatch(loadModels(params.app)));
+    promises.push(dispatch(loadNetworks(params.app)));
+    return Promise.all(promises);
   }
 }])
 @connect(
   (state) => ({
     models: state.models.data,
+    networks: state.networks.data,
     open: state.page.open
   }),
   {
@@ -23,7 +27,7 @@ import { push } from 'react-router-redux';
 )
 export default class ModelHome extends Component {
   static propTypes = {
-    models: PropTypes.array,
+    networks: PropTypes.string,
     params: PropTypes.object.isRequired,
     push: PropTypes.func.isRequired
   }
@@ -35,7 +39,7 @@ export default class ModelHome extends Component {
       lead: 'Build RESTful API within 5 min'
     };
     const {
-      models,
+      networks,
       params: {lang, app}
     } = this.props;
 
@@ -45,20 +49,13 @@ export default class ModelHome extends Component {
           <h1 className={'uk-article-title ' + styles['cm-title']}>{contents.title}</h1>
           <hr className="uk-article-divider" />
           <Graph
-            dot={'dinetwork {user -> event; event -> candidate; user -> candidate }'}
+            dot={'dinetwork {' + networks + '}'}
             onSelectNode={
               node => {
                 this.props.push(uris.normalize(uris.apps.model, {lang, app, name: node}));
               }
             }
           />
-          <Card items={
-              models.map(_model => {
-                _model.url = uris.normalize(uris.apps.model, {lang, app, name: _model.name});
-                console.log(_model);
-                return _model;
-              })
-            } />
         </article>
       </div>
     );
