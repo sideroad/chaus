@@ -38,6 +38,11 @@ class Graph extends Component {
           hover: '#aacf53',
           inherit: 'from',
           opacity: 1.0
+        },
+        font: {
+          color: '#5AC2D9',
+          size: 15,
+          strokeWidth: 2
         }
       },
       nodes: {
@@ -64,7 +69,7 @@ class Graph extends Component {
       },
       physics: {
         barnesHut: {
-          springLength: 100,
+          springLength: 120,
           springConstant: 0.03,
           damping: 0.05
         },

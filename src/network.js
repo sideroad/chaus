@@ -33,13 +33,15 @@ export default app => {
                   networks.push(
                     __.find(models.items, { id: item.model.id }).name +
                     ' -> ' +
-                    __.find(models.items, { id: item.relation.id}).name);
+                    __.find(models.items, { id: item.relation.id}).name +
+                    ' [label=children]');
                   break;
                 case 'instance':
                   networks.push(
                     __.find(models.items, { id: item.model.id }).name +
                     ' -> ' +
-                    __.find(models.items, { id: item.relation.id}).name);
+                    __.find(models.items, { id: item.relation.id}).name +
+                    ' [label=instance]');
                   break;
                 default:
                   return;
