@@ -3,22 +3,20 @@ import {Main} from 'containers';
 import { connect } from 'react-redux';
 import * as modelsActions from 'redux/modules/models';
 import * as pageActions from 'redux/modules/page';
-import {isLoaded, load} from 'redux/modules/models';
+import {load} from 'redux/modules/models';
 import {initializeWithKey} from 'redux-form';
 import Helmet from 'react-helmet';
 import config from '../config';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
-  promise: ({store: {dispatch, getState}, params}) => {
-    if (!isLoaded(getState(), params.app)) {
-      return dispatch(load(params.app));
-    }
+  promise: ({store: {dispatch}, params}) => {
+    return dispatch(load(params.app));
   }
 }])
 @connect(
-  (state, props) => ({
-    models: state.models[props.params.app].data,
+  (state) => ({
+    models: state.models.data,
     open: state.page.open
   }),
   {

@@ -16,9 +16,7 @@
         "NODE_ENV": "development",
         "HOST": "localhost",
         "PORT": "3000"
-      },
-      "instances"  : 4,
-      "exec_mode"  : "cluster"
+      }
     }
   ]
 }

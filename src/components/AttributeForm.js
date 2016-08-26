@@ -4,10 +4,11 @@ import {reduxForm} from 'redux-form';
 import * as attributeActions from 'redux/modules/attributes';
 import * as pageActions from 'redux/modules/page';
 import {RelationSelectBox} from 'components';
+import __ from 'lodash';
 
 @connect(
-  (state, props) => ({
-    relations: state.models[props.app].data,
+  (state) => ({
+    relations: state.models.data,
     from: state.attributes.from,
     to: state.attributes.to
   }),
@@ -111,6 +112,7 @@ export default class AttributeForm extends Component {
     //       redux-form might has a bug
 
     // TODO: [Bug]When data is null, previous value will be used.
+    console.log(attributes, relations);
 
     return (
       <form className="uk-form">
@@ -198,12 +200,14 @@ export default class AttributeForm extends Component {
                       {
                         relationTypes.includes(attribute.type.value) &&
                         <select className={styles['cm-selectbox']} name="relation" {...attribute.relation} value={attribute.relation.value}>
-                        <option >Select {attribute.type.value} model</option>
-                        {relations.map(relation => <option value={relation.name} key={relation.name} >{relation.name}</option>)}
+                          <option >Select {attribute.type.value} model</option>
+                          {relations.map(relation => console.log(relation) || <option value={relation.id} key={relation.id} >{relation.name}</option>)}
                         </select>
                       }
-                      {attribute.type.value === 'parent' &&
-                        <RelationSelectBox relation={attribute.relationAttribute} model={attribute.relation.value} />
+                      {
+                        attribute.type.value === 'parent' &&
+                        attribute.relation.value &&
+                        <RelationSelectBox relation={attribute.relationAttribute} model={__.find(relations, {id: attribute.relation.value}).name} />
                       }
                     </div>
                   </div>

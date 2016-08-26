@@ -11,6 +11,7 @@ import records from './records';
 import page from './page';
 import apps from './apps';
 import configs from './configs';
+import networks from './networks';
 import logger from './logger';
 
 export default combineReducers({
@@ -25,5 +26,6 @@ export default combineReducers({
   page,
   apps,
   configs,
+  networks,
   logger
 });
