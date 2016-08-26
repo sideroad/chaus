@@ -136,6 +136,8 @@ export default function(app, mongoose) {
                   },
                   'dest': __dirname + '/../static/docs/' + application
                 });
+
+                fs.writeFileSync( __dirname + '/../static/docs/' + application + '/schema.json', JSON.stringify(schema[application]), 'utf8');
                 creators.push(creator);
               });
           });
