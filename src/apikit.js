@@ -66,10 +66,18 @@ function convert(models, attributes) {
 
     const name = attribute.name;
     const relation = __.find(models, {app: {id: app}, id: attribute.relation.id});
-    if ( relation && attribute.relationAttribute ) {
-      attribute.relation = relation.name + '.' + attribute.relationAttribute;
-    } else {
-      attribute.relation = relation ? relation.name : null;
+    switch (attribute.type) {
+      case 'children':
+        attribute.relation = relation ? relation.name : null;
+        break;
+      case 'instance':
+        attribute.relation = relation ? relation.name : null;
+        break;
+      case 'parent':
+        attribute.relation = relation ? relation.name + '.' + attribute.relationAttribute : null;
+        break;
+      default:
+        attribute.relation = null;
     }
     delete attribute.id;
     delete attribute.name;
