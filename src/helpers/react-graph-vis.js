@@ -42,7 +42,7 @@ class Graph extends Component {
         font: {
           color: '#5AC2D9',
           size: 15,
-          strokeWidth: 2
+          strokeWidth: 0
         }
       },
       nodes: {
@@ -92,7 +92,6 @@ class Graph extends Component {
       nodes: parsed.nodes,
       edges: parsed.edges.map(edge => {
         edge.font = {align: 'bottom'};
-        console.log(edge);
         return edge;
       })
     }, options);
