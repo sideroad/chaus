@@ -84,7 +84,11 @@ class Graph extends Component {
     const parsed = vis.network.convertDot(this.props.dot);
     const network = new vis.Network(container, {
       nodes: parsed.nodes,
-      edges: parsed.edges
+      edges: parsed.edges.map(edge => {
+        edge.font = {align: 'bottom'};
+        console.log(edge);
+        return edge;
+      })
     }, options);
     network.on('selectNode', evt => {
       this.props.onSelectNode(evt.nodes[0]);

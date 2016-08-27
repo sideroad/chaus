@@ -206,7 +206,7 @@ export default class AttributeForm extends Component {
                       {
                         attribute.type.value === 'parent' &&
                         attribute.relation.value &&
-                        <RelationSelectBox relation={attribute.relationAttribute} model={__.find(relations, {id: attribute.relation.value}).name} />
+                        <RelationSelectBox relation={attribute.relationAttribute} model={(__.find(relations, {id: attribute.relation.value}) || {name: ''}).name} />
                       }
                     </div>
                   </div>

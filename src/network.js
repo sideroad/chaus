@@ -28,20 +28,30 @@ export default app => {
             const networks = [];
             models.items.map(item => networks.push(item.name));
             attributes.items.map(item => {
+
+              if ( !item.model || !item.relation ) {
+                return;
+              }
+              const model = __.find(models.items, { id: item.model.id });
+              const relation = __.find(models.items, { id: item.relation.id});
+
+              if ( !model || !relation ) {
+                return;
+              }
               switch (item.type) {
                 case 'children':
                   networks.push(
-                    __.find(models.items, { id: item.model.id }).name +
+                    model.name +
                     ' -> ' +
-                    __.find(models.items, { id: item.relation.id}).name +
-                    ' [label=children]');
+                    relation.name +
+                    ' [label="has-a"]');
                   break;
                 case 'instance':
                   networks.push(
-                    __.find(models.items, { id: item.model.id }).name +
+                    model.name +
                     ' -> ' +
-                    __.find(models.items, { id: item.relation.id}).name +
-                    ' [label=instance]');
+                    relation.name +
+                    ' [label="ref"]');
                   break;
                 default:
                   return;

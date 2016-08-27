@@ -104,6 +104,9 @@ export function load(app) {
                 _attribute.relation = _attribute.relation.id;
                 _attribute.model = __.find(models.items, { id: _attribute.model.id});
                 const model = _attribute.model;
+                if (!model) {
+                  return;
+                }
                 if ( !items[model.name] ) {
                   items[model.name] = [];
                 }
