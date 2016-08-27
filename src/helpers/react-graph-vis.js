@@ -79,6 +79,12 @@ class Graph extends Component {
       interaction: {
         dragView: false,
         zoomView: false
+      },
+      layout: {
+        hierarchical: {
+          enabled: true,
+          sortMethod: 'directed'
+        }
       }
     };
     const parsed = vis.network.convertDot(this.props.dot);

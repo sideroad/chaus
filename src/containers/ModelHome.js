@@ -49,7 +49,7 @@ export default class ModelHome extends Component {
           <h1 className={'uk-article-title ' + styles['cm-title']}>{contents.title}</h1>
           <hr className="uk-article-divider" />
           <Graph
-            dot={'dinetwork {' + networks + '}'}
+            dot={'digraph {' + networks + '}'}
             onSelectNode={
               node => {
                 this.props.push(uris.normalize(uris.apps.model, {lang, app, name: node}));

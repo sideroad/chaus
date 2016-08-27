@@ -25,8 +25,8 @@ export default app => {
       .then(models => {
         fetchAttributes(req.params.app)
           .then(attributes => {
-            const networks = [];
-            models.items.map(item => networks.push(item.name));
+            const nodes = models.items.map(item => item.name);
+            const edges = [];
             attributes.items.map(item => {
 
               if ( !item.model || !item.relation ) {
@@ -38,27 +38,27 @@ export default app => {
               if ( !model || !relation ) {
                 return;
               }
+              const edge = model.name + ' -> ' + relation.name;
               switch (item.type) {
                 case 'children':
-                  networks.push(
-                    model.name +
-                    ' -> ' +
-                    relation.name +
-                    ' [label="has-a"]');
+                  if ( ! edges[edge] ) {
+                    edges[edge] = [];
+                  }
+                  edges[edge].push('has-a');
                   break;
                 case 'instance':
-                  networks.push(
-                    model.name +
-                    ' -> ' +
-                    relation.name +
-                    ' [label="ref"]');
+                  if ( ! edges[edge] ) {
+                    edges[edge] = [];
+                  }
+                  edges[edge].push('ref');
                   break;
                 default:
                   return;
               }
             });
+            const networks = __.uniq(nodes).concat(Object.keys(edges).map(edge => edge + '[label="' + __.uniq( edges[edge] ).join(' / ') + '"]'));
             res.json({
-              network: __.uniq(networks).join(';')
+              network: networks.join(';')
             });
           });
       });
