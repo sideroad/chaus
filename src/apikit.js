@@ -66,10 +66,7 @@ function convert(models, attributes) {
 
     const name = attribute.name;
     const relation = __.find(models, {app: {id: app}, id: attribute.relation.id});
-    if (!relation) {
-      return;
-    }
-    if ( attribute.relationAttribute ) {
+    if ( relation && attribute.relationAttribute ) {
       attribute.relation = relation.name + '.' + attribute.relationAttribute;
     } else {
       attribute.relation = relation ? relation.name : null;
