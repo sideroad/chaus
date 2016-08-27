@@ -1,7 +1,8 @@
 {
   "msg": {
     "app": {
-      "lead": "Type to Find or Create API"
+      "start": "Type to Find or Create API",
+      "create": "Press enter to create API"
     }
   }
 }

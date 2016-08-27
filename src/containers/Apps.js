@@ -61,7 +61,10 @@ export default class Apps extends Component {
               values
             } lang={lang}/>
             <Card
-              lead={msg.app.lead}
+              lead={{
+                start: msg.app.start,
+                create: msg.app.create
+              }}
               items={apps.map(_app => {
                 _app.url = uris.normalize(uris.apps.models, {lang, app: _app.id});
                 return _app;

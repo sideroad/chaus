@@ -7,7 +7,7 @@ export default class Card extends Component {
     items: PropTypes.array,
     query: PropTypes.string,
     candidate: PropTypes.string,
-    lead: PropTypes.string
+    lead: PropTypes.object
   };
 
   render() {
@@ -42,9 +42,15 @@ export default class Card extends Component {
         {!query &&
          !items.length ?
           <div className={styles.card.lead}>
-            {lead}
+            {lead.start}
           </div>
          : ''}
+         {query &&
+          !items.length ?
+           <div className={styles.card.lead}>
+             {lead.create}
+           </div>
+          : ''}
         </div>
     );
   }
