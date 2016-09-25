@@ -1,18 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
-import * as recordActions from 'redux/modules/records';
-import * as pageActions from 'redux/modules/page';
 
-@connect(
-  ()=>{
-    return {};
-  },
-  {
-    ...recordActions,
-    loadPage: pageActions.load,
-    restartPage: pageActions.restart
-  })
 @reduxForm({
   form: 'record'
 })
@@ -22,51 +10,27 @@ export default class RecordForm extends Component {
     app: PropTypes.string.isRequired,
     model: PropTypes.string.isRequired,
     id: PropTypes.string,
+    handleSubmit: PropTypes.func.isRequired,
     targets: PropTypes.array.isRequired,
-    saveError: PropTypes.object,
+    err: PropTypes.object,
     fields: PropTypes.object.isRequired,
-    save: PropTypes.func.isRequired,
-    remove: PropTypes.func.isRequired,
-    values: PropTypes.object.isRequired,
-    loadPage: PropTypes.func.isRequired,
-    restartPage: PropTypes.func.isRequired
+    onUpdate: PropTypes.func.isRequired,
+    onCreate: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    values: PropTypes.object.isRequired
   };
 
   render() {
     const {
-      model,
       id,
       fields,
       targets,
-      saveError,
-      save,
-      remove,
-      values,
-      loadPage,
-      restartPage,
-      app,
+      handleSubmit,
+      err,
       formKey
     } = this.props;
-    const edit = id !== undefined ? true : false;
+    const editing = id !== undefined ? true : false;
     const styles = require('../css/customize.less');
-    const saveRecord = (event) => {
-      event.preventDefault(); // prevent form submission
-      const postValues = {};
-      targets.map((attribute)=>{
-        if ( !attribute.uniq || !edit ) {
-          postValues[attribute.name] = values[attribute.name];
-        }
-      });
-
-      loadPage();
-      return save(app, model, id, postValues)
-               .then(() => {
-                 restartPage();
-               })
-               .catch(() => {
-                 restartPage();
-               });
-    };
     // TODO: Realtime validation
 
     return (
@@ -81,8 +45,8 @@ export default class RecordForm extends Component {
         </td>
         {
           targets.map((attribute, index) => {
-            const isInvalid = saveError &&
-                              saveError.err[attribute.name] ? true : false;
+            const isInvalid = err &&
+                              err[attribute.name] ? true : false;
             return (
               <td className="uk-text-left" key={index}>
                 <div className="uk-grid" >
@@ -91,7 +55,7 @@ export default class RecordForm extends Component {
                     {
                       attribute.uniq === true &&
                       attribute.type !== 'boolean' &&
-                      edit ?
+                      editing ?
                         <span>{fields[attribute.name].value}</span>
                       :
                         <input
@@ -111,8 +75,10 @@ export default class RecordForm extends Component {
                             (event)=>{
                               switch (event.key) {
                                 case 'Enter':
-                                  event.preventDefault();
-                                  saveRecord(event);
+                                  handleSubmit(
+                                    values =>
+                                      editing ? this.props.onUpdate(id, values) : this.props.onCreate(values)
+                                  )(event);
                                   break;
                                 default:
                                   return;
@@ -120,7 +86,7 @@ export default class RecordForm extends Component {
                             }
                           }
                           disabled={attribute.uniq &&
-                                    edit ? 'disabled' : ''}
+                                    editing ? 'disabled' : ''}
                         />
                     }
                     {
@@ -135,23 +101,22 @@ export default class RecordForm extends Component {
         <td className="uk-text-center">
           <div className="uk-grid" >
             <div className="uk-width-1-2" >
-              <a onClick={saveRecord}>
+              <a onClick={
+                  handleSubmit( values => {
+                    if ( editing ) {
+                      this.props.onUpdate(id, values);
+                    } else {
+                      this.props.onCreate(values);
+                    }
+                  })
+                }>
                 <i className={'uk-icon-save uk-icon-small ' + styles['cm-icon']} />
               </a>
             </div>
             <div className="uk-width-1-2" >
               <a onClick={event => {
                 event.preventDefault(); // prevent form submission
-
-
-                loadPage();
-                return remove(app, model, id)
-                         .then(() => {
-                           restartPage();
-                         })
-                         .catch(() => {
-                           restartPage();
-                         });
+                this.props.onDelete(id);
               }}>
                 <i className={'uk-icon-close uk-icon-small ' + styles['cm-icon']} />
               </a>

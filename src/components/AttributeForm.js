@@ -1,26 +1,13 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
-import * as attributeActions from 'redux/modules/attributes';
-import * as pageActions from 'redux/modules/page';
 import {RelationSelectBox} from 'components';
 import __ from 'lodash';
 
-@connect(
-  (state) => ({
-    relations: state.models.data,
-    from: state.attributes.from,
-    to: state.attributes.to
-  }),
-  {
-    ...attributeActions,
-    loadPage: pageActions.load,
-    restartPage: pageActions.restart
-  })
 @reduxForm({
   form: 'attribute',
   fields: [
     'model',
+    'attributes[].id',
     'attributes[].name',
     'attributes[].uniq',
     'attributes[].required',
@@ -38,33 +25,23 @@ export default class AttributeForm extends Component {
     fields: PropTypes.object.isRequired,
     params: PropTypes.object,
     handleSubmit: PropTypes.func.isRequired,
-    save: PropTypes.func.isRequired,
     relations: PropTypes.array.isRequired,
-    values: PropTypes.object.isRequired,
-    from: PropTypes.number,
-    to: PropTypes.number,
-    drag: PropTypes.func.isRequired,
-    drop: PropTypes.func.isRequired,
-    loadPage: PropTypes.func.isRequired,
-    restartPage: PropTypes.func.isRequired,
-    saveError: PropTypes.object
+    onSave: PropTypes.func.isRequired,
+    err: PropTypes.object,
+    index: PropTypes.number
   };
+
+  state = {
+    dragFrom: null,
+    dragTo: null
+  }
 
   render() {
     const {
       fields: {attributes, model},
       handleSubmit,
       relations,
-      app,
-      save,
-      values,
-      from,
-      to,
-      drag,
-      drop,
-      loadPage,
-      restartPage,
-      saveError
+      err
     } = this.props;
 
     const types = [
@@ -82,26 +59,37 @@ export default class AttributeForm extends Component {
       'instance'
     ];
 
-    const handleDrag = (event, _from) => {
+    const handleDrag = (event, dragFrom) => {
       const img = document.createElement('img');
       img.src = '/images/null.png';
       event.dataTransfer.setDragImage( img, 0, 0);
-      drag(_from);
+      this.setState({
+        dragFrom,
+        dragTo: null
+      });
     };
     const handleDragOver = (event) => {
       event.preventDefault();
       return false;
     };
-    const handleDragEnter = (event, _to) => {
-      attributes.swapFields(from, _to);
-      event.stopPropagation(); // Stops some browsers from redirecting.
-    };
-    const handleDragLeave = (event, _from) => {
-      attributes.swapFields(_from, to);
+    const handleDragEnter = (event, dragTo) => {
+      if ( this.state.dragFrom !== null &&
+           dragTo !== null &&
+           this.state.dragFrom !== dragTo ) {
+        attributes.swapFields(this.state.dragFrom, dragTo);
+        this.setState({
+          dragFrom: dragTo,
+          dragTo: this.state.dragFrom
+        });
+      }
+      event.stopPropagation(); // Stops some browsers dragFrom redirecting.
     };
     const handleDrop = (event) => {
       event.stopPropagation(); // Stops some browsers from redirecting.
-      drop(to);
+      this.setState({
+        dragFrom: null,
+        dragTo: null
+      });
       return false;
     };
     const styles = require('../css/customize.less');
@@ -112,7 +100,6 @@ export default class AttributeForm extends Component {
     //       redux-form might has a bug
 
     // TODO: [Bug]When data is null, previous value will be used.
-
     return (
       <form className="uk-form">
         <table className={styles['cm-table'] + ' uk-table uk-table-striped uk-table-condensed'}>
@@ -130,15 +117,15 @@ export default class AttributeForm extends Component {
           </thead>
           <tbody>
             {
-              attributes && attributes.length &&
               attributes.map((attribute, index) =>
-              <tr key={index} className={from === index ? styles['cm-drag'] :
-                                         to === index ? styles['cm-drop'] : ''} >
+              <tr
+                key={model.value + index}
+                className={this.state.dragFrom === index ? styles['cm-drag'] :
+                           this.state.dragTo === index ? styles['cm-drop'] : ''} >
                 <td draggable="true"
                   onDragStart={(event)=>{handleDrag(event, index);}}
                   onDragOver={(event)=>{handleDragOver(event, index);}}
                   onDragEnter={(event)=>{handleDragEnter(event, index);}}
-                  onDragLeave={(event)=>{handleDragLeave(event, index);}}
                   onDrop={(event)=>{handleDrop(event, index);}}
                   dropzone="move"
                   className={styles['cm-handle']}>
@@ -159,7 +146,7 @@ export default class AttributeForm extends Component {
                              placeholder="Attribute name"
                              {...attribute.name}
                              className={styles['cm-input'] + ' ' +
-                                        (saveError && saveError.index === index ? 'uk-form-danger' : '')}
+                                        (err && this.props.index === index ? 'uk-form-danger' : '')}
                       />
                     </div>
                   </div>
@@ -186,8 +173,8 @@ export default class AttributeForm extends Component {
                   <div className="uk-grid" >
                     <div className={'uk-visible-small ' + styles['cm-attribute-text']}>Type</div>
                     <div className={'uk-width-7-10 ' + styles['cm-attribute-value']} >
-                      <select className={styles['cm-selectbox']} {...attribute.type} value={attribute.type.value} >
-                      {types.map(option => <option value={option} key={option} >{option}</option>)}
+                      <select className={styles['cm-selectbox']} {...attribute.type} >
+                        {types.map(option => <option value={option} key={option} >{option}</option>)}
                       </select>
                     </div>
                   </div>
@@ -245,7 +232,9 @@ export default class AttributeForm extends Component {
               <td colSpan="8" className={styles['cm-row-plus']} >
                 <button className={'uk-button ' + styles['cm-row-plus']} onClick={event => {
                   event.preventDefault(); // prevent form submission
-                  attributes.addField();    // pushes empty child field onto the end of the array
+                  attributes.addField({
+                    type: 'string'
+                  });    // pushes empty child field onto the end of the array
                 }}>
                   <i className="uk-icon-plus uk-icon-small"></i>
                 </button>
@@ -254,15 +243,8 @@ export default class AttributeForm extends Component {
           </tfoot>
         </table>
         <button className={'uk-button uk-button-primary uk-button-large ' + styles['cm-button']}
-          onClick={handleSubmit(() => {
-            loadPage();
-            return save(app, model.value, values)
-              .then(() => {
-                restartPage();
-              })
-              .catch(() => {
-                restartPage();
-              });
+          onClick={handleSubmit(values => {
+            this.props.onSave(values);
           })}
         >
           <i className={'uk-icon-floppy-o ' + styles['cm-icon']}/>

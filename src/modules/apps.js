@@ -1,19 +1,19 @@
-import uris from '../../uris';
 
-const LOAD = 'app/LOAD';
-const LOAD_SUCCESS = 'app/LOAD_SUCCESS';
-const LOAD_FAIL = 'app/LOAD_FAIL';
-const ADD = 'app/ADD';
-const ADD_SUCCESS = 'app/ADD_SUCCESS';
-const ADD_FAIL = 'app/ADD_FAIL';
-const REMOVE = 'app/REMOVE';
-const REMOVE_SUCCESS = 'app/REMOVE_SUCCESS';
-const REMOVE_FAIL = 'app/REMOVE_FAIL';
+const LOAD_START = 'apps/LOAD_START';
+const LOAD_SUCCESS = 'apps/LOAD_SUCCESS';
+const LOAD_FAIL = 'apps/LOAD_FAIL';
+const ADD_START = 'apps/ADD_START';
+const ADD_SUCCESS = 'apps/ADD_SUCCESS';
+const ADD_FAIL = 'apps/ADD_FAIL';
+const REMOVE_START = 'apps/REMOVE_START';
+const REMOVE_SUCCESS = 'apps/REMOVE_SUCCESS';
+const REMOVE_FAIL = 'apps/REMOVE_FAIL';
 
-const EDITING = 'app/EDITING';
-const CANCEL = 'app/CANCEL';
-const PREV = 'app/PREV';
-const NEXT = 'app/NEXT';
+const QUERY = 'apps/QUERY';
+const EDITING = 'apps/EDITING';
+const CANCEL = 'apps/CANCEL';
+const PREV = 'apps/PREV';
+const NEXT = 'apps/NEXT';
 
 const initialState = {
   data: [],
@@ -22,14 +22,13 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   let index;
   switch (action.type) {
-    case LOAD:
+    case LOAD_START:
       return {
         ...state,
-        query: action.query,
         loading: true
       };
     case LOAD_SUCCESS:
-      const items = action.result;
+      const items = action.res.items;
       return {
         ...state,
         loading: false,
@@ -46,6 +45,11 @@ export default function reducer(state = initialState, action = {}) {
         error: action.error,
         selected: undefined
       };
+    case QUERY:
+      return {
+        ...state,
+        query: action.query
+      };
     case PREV:
       index = state.index > 0 ? state.index - 1 : 0;
       return {
@@ -60,7 +64,7 @@ export default function reducer(state = initialState, action = {}) {
         index,
         candidate: state.data.length ? state.data[index].id : ''
       };
-    case ADD:
+    case ADD_START:
       return state; // 'saving' flag handled by redux-form
     case ADD_SUCCESS:
       return {
@@ -73,7 +77,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         name: action.result.name
       };
-    case REMOVE:
+    case REMOVE_START:
       return state; // 'saving' flag handled by redux-form
     case REMOVE_SUCCESS:
       return {
@@ -91,6 +95,12 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
+export function query(value) {
+  return {
+    query: value,
+    type: QUERY
+  };
+}
 export function next() {
   return {
     type: NEXT
@@ -106,24 +116,6 @@ export function isLoaded(globalState) {
   return globalState.apps && globalState.apps.loaded;
 }
 
-export function load(name) {
-  return {
-    query: name,
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => {
-      return new Promise((appsResolve) => {
-        client
-          .fetchJSON(uris.admin.apps, 'GET', name ? {
-            name: name + '*'
-          } : {})
-          .then((apps) => {
-            appsResolve(apps.items);
-          });
-      });
-    }
-  };
-}
-
 export function add() {
   return {
     type: EDITING
@@ -133,32 +125,5 @@ export function add() {
 export function cancel() {
   return {
     type: CANCEL
-  };
-}
-
-export function save(name) {
-  return {
-    types: [ADD, ADD_SUCCESS, ADD_FAIL],
-    promise: (client) =>
-      client
-        .fetchJSON(uris.admin.apps, 'POST', {name})
-        .then(()=>{
-          return load().promise(client);
-        })
-  };
-}
-
-export function remove(name) {
-  return {
-    types: [REMOVE, REMOVE_SUCCESS, REMOVE_FAIL],
-    promise: (client) =>
-      client
-        .fetchJSON(uris.normalize(uris.admin.app, { app: name }), 'DELETE')
-        .then(()=>{
-          return client.fetchJSON(uris.admin.attributes, 'DELETE', {app: name});
-        })
-        .then(()=>{
-          return load().promise(client);
-        })
   };
 }

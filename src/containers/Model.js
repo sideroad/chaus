@@ -1,16 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {Main} from 'containers';
 import { connect } from 'react-redux';
-import * as modelsActions from 'redux/modules/models';
-import {load} from 'redux/modules/models';
-import {initializeWithKey} from 'redux-form';
 import Helmet from 'react-helmet';
 import config from '../config';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
-  promise: ({store: {dispatch}, params}) => {
-    return dispatch(load(params.app));
+  promise: ({helpers: {fetcher}, params}) => {
+    return fetcher.models.load({
+      app: params.app
+    });
   }
 }])
 @connect(
@@ -18,10 +17,7 @@ import { asyncConnect } from 'redux-async-connect';
     models: state.models.data,
     open: state.page.open
   }),
-  {
-    ...modelsActions,
-    initializeWithKey
-  }
+  {}
 )
 export default class Model extends Component {
   static propTypes = {

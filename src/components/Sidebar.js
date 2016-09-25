@@ -1,43 +1,18 @@
 import React, {Component, PropTypes} from 'react';
 import { IndexLink } from 'react-router';
-import { connect } from 'react-redux';
-import * as modelsActions from 'redux/modules/models';
-import * as pageActions from 'redux/modules/page';
 import uris from '../uris';
-import {initializeWithKey} from 'redux-form';
-import { push } from 'react-router-redux';
 
-@connect(
-  (state) => ({
-    add: state.models.add,
-    save: state.models.save,
-    cancel: state.models.cancel,
-    editing: state.models.editing
-  }),
-  {
-    ...modelsActions,
-    loadPage: pageActions.load,
-    initializeWithKey,
-    finishLoad: pageActions.finishLoad,
-    closeSidebar: pageActions.closeSidebar,
-    push
-  }
-)
 export default class Sidebar extends Component {
   static propTypes = {
     app: PropTypes.string.isRequired,
     context: PropTypes.string.isRequired,
     modelName: PropTypes.string,
-    push: PropTypes.func.isRequired,
     models: PropTypes.array.isRequired,
-    add: PropTypes.func.isRequired,
-    saveAdd: PropTypes.func.isRequired,
-    cancel: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
     editing: PropTypes.bool,
-    loadPage: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
-    finishLoad: PropTypes.func.isRequired,
-    closeSidebar: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired
   };
   componentDidUpdate = () => {
@@ -48,31 +23,25 @@ export default class Sidebar extends Component {
 
   handleAdd = (event)=>{
     event.preventDefault();
-    this.props.add();
+    this.props.onAdd();
   }
 
   handleSubmit = (event)=>{
     event.preventDefault();
     const name = this.refs.name.value;
     const app = this.props.app;
-    const lang = this.props.lang;
-    if (name) {
-      this.props.closeSidebar();
-      this.props.loadPage();
-      this.refs.name.value = '';
-      this.props.saveAdd(app, name).then(()=>{
-        this.props.finishLoad();
-        this.props.push(uris.normalize(uris.apps.model, {lang, app, name}));
-      });
-    }
+    this.props.onSave({
+      app,
+      name
+    });
   }
 
   handleBlur = () => {
-    this.props.cancel();
+    this.props.onBlur();
   }
 
   handleClick = (event) => {
-    this.props.closeSidebar();
+    this.props.onBlur();
     event.target.blur();
   }
 

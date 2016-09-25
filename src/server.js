@@ -6,9 +6,10 @@ import fs from 'fs-extra';
 import favicon from 'serve-favicon';
 import compression from 'compression';
 import path from 'path';
-import createStore from './redux/create';
-import {load} from './redux/modules/i18n';
-import ApiClient from './helpers/ApiClient';
+import createStore from './create';
+import {load} from './modules/i18n';
+import ApiClient from 'promise-apiclient';
+import Fetcher from 'redux-fetch-dispatcher';
 import Html from './containers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
@@ -78,10 +79,20 @@ app.use(uris.apps.apps, (req, res) => {
     // hot module replacement is enabled in the development env
     webpackIsomorphicTools.refresh();
   }
-  const client = new ApiClient(req);
+  const client = new ApiClient({
+    cookie: req.get('cookie'),
+    origin: uris.base,
+    referer: uris.base
+  });
   const history = createHistory(req.originalUrl);
 
-  const store = createStore(history, client);
+  const store = createStore(history);
+
+  const fetcher = new Fetcher({
+    client,
+    dispatch: store.dispatch,
+    urls: uris.resources
+  });
 
   function hydrateOnClient() {
     res.send('<!doctype html>\n' +
@@ -101,10 +112,10 @@ app.use(uris.apps.apps, (req, res) => {
       res.status(500);
       hydrateOnClient();
     } else if (renderProps) {
-      loadOnServer({...renderProps, store, helpers: {client}}).then(() => {
+      loadOnServer({...renderProps, store, helpers: {fetcher}}).then(() => {
         const component = (
           <Provider store={store} key="provider">
-            <ReduxAsyncConnect {...renderProps} />
+            <ReduxAsyncConnect {...renderProps} store={store} />
           </Provider>
         );
 

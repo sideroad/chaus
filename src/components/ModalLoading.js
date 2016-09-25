@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import * as pageActions from 'redux/modules/page';
+import * as pageActions from 'modules/page';
 
 @connect(
   (state) => ({

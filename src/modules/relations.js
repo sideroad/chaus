@@ -1,7 +1,6 @@
-import uris from '../../uris';
-const LOAD = 'network/LOAD';
-const LOAD_SUCCESS = 'network/LOAD_SUCCESS';
-const LOAD_FAIL = 'network/LOAD_FAIL';
+const LOAD = 'relation/LOAD';
+const LOAD_SUCCESS = 'relation/LOAD_SUCCESS';
+const LOAD_FAIL = 'relation/LOAD_FAIL';
 
 const initialState = {
   data: {},
@@ -19,7 +18,10 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        data: action.result.network
+        data: {
+          ...state.data,
+          [action.result.model]: action.result.items
+        }
       };
     case LOAD_FAIL:
       return {
@@ -33,14 +35,6 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-export function load(app) {
-  return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: client =>
-      client
-        .fetchJSON(uris.normalize(uris.admin.network, { app }), 'GET', {
-          app,
-          limit: 10000
-        })
-  };
+export function isLoaded(globalState) {
+  return globalState.relations && globalState.relations.data[globalState.model];
 }

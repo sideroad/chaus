@@ -1,29 +1,33 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {load} from 'redux/modules/attributes';
-import * as relationActions from 'redux/modules/relations';
 import { asyncConnect } from 'redux-async-connect';
+import __ from 'lodash';
 
 @asyncConnect([{
-  promise: ({store: {dispatch}, params}) => {
-    return dispatch(load(params.app));
+  promise: ({helpers: {fetcher}, params}) => {
+    return fetcher.attributes.load({
+      app: params.app
+    });
   }
 }])
 @connect(
   (state) => ({
-    attributes: state.attributes.data
+    attributes: state.attributes.data,
+    models: state.models.data
   }),
-  {...relationActions}
+  {}
 )
 export default class RelationSelectBox extends Component {
   static propTypes = {
+    models: PropTypes.array.isRequired,
     model: PropTypes.string.isRequired,
     relation: PropTypes.object.isRequired,
-    attributes: PropTypes.object.isRequired
+    attributes: PropTypes.array.isRequired
   };
 
   render() {
     const {
+      models,
       model,
       relation,
       attributes
@@ -32,9 +36,25 @@ export default class RelationSelectBox extends Component {
 
     return (
       <p className={styles['cm-parent-attribution']}>
-      {attributes[model] &&
+      {attributes.length &&
         <select name="relation" className={styles['cm-selectbox']} {...relation} value={relation.value}>
-          {attributes[model].map(_relation => <option value={_relation.name} key={_relation.name} >{_relation.name}</option>)}
+          {attributes
+            .map(attribute => {
+              const _attribute = Object.assign({}, attribute);
+              if ( _attribute.relation ) {
+                _attribute.relation = _attribute.relation.id;
+              }
+              const _model = __.find(models, {id: _attribute.model.id, name: model});
+              if ( !_model ) {
+                return false;
+              }
+              _attribute.model = _model;
+              return _attribute;
+            })
+            .filter(attribute => attribute ? true : false)
+            .map(_relation =>
+              <option value={_relation.name} key={_relation.name} >{_relation.name}</option>
+            )}
         </select>
       }
       </p>

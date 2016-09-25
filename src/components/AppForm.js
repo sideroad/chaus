@@ -1,24 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
-import * as appsActions from 'redux/modules/apps';
-import * as pageActions from 'redux/modules/page';
-import { push } from 'react-router-redux';
-import uris from '../uris';
 
-@connect(
-  (state)=>({
-    candidate: state.apps.candidate
-  }),
-  {
-    ...appsActions,
-    loadApp: appsActions.load,
-    next: appsActions.next,
-    prev: appsActions.prev,
-    loadPage: pageActions.load,
-    push,
-    restartPage: pageActions.restart
-  })
 @reduxForm({
   form: 'apps',
   fields: [
@@ -29,61 +11,35 @@ export default class AppForm extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    save: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired,
-    loadPage: PropTypes.func.isRequired,
-    loadApp: PropTypes.func.isRequired,
-    push: PropTypes.func.isRequired,
-    restartPage: PropTypes.func.isRequired,
     candidate: PropTypes.string,
-    next: PropTypes.func.isRequired,
-    prev: PropTypes.func.isRequired,
-    lang: PropTypes.string.isRequired
+    onNext: PropTypes.func.isRequired,
+    onPrev: PropTypes.func.isRequired,
+    onTab: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onEnter: PropTypes.func.isRequired
   };
 
   render() {
     const {
       values,
       fields,
-      save,
-      loadPage,
-      loadApp,
-      restartPage,
       candidate,
-      next,
-      prev
+      onPrev,
+      onNext,
+      onTab,
+      onChange,
+      onEnter
     } = this.props;
     const styles = {
       base: require('../css/customize.less'),
       app: require('../css/app.less')
     };
     const submit = (app) => {
-      const lang = this.props.lang;
-      if ( !app ) {
-        return;
-      }
-      loadPage();
-      loadApp(app).then(res => {
-        if ( res.length ) {
-          restartPage();
-          this.props.push(uris.normalize(uris.apps.models, {lang, app}));
-        } else {
-          save(app)
-            .then(result => {
-              if (result && typeof result.error === 'object') {
-                return Promise.reject(result.error);
-              }
-              restartPage();
-              this.props.push(uris.normalize(uris.apps.models, {lang, app}));
-            })
-            .catch(() => {
-              restartPage();
-            });
-        }
-      });
+      onEnter(app);
     };
-    const search = (app) => {
-      loadApp(app);
+    const search = (query) => {
+      onChange(query);
     };
 
     return (
@@ -99,19 +55,17 @@ export default class AppForm extends Component {
                   submit(evt.target.value);
                   break;
                 case 'Tab':
-                  if ( candidate ) {
-                    loadApp(candidate);
-                  }
+                  onTab(candidate);
                   fields.app.value = candidate;
                   values.app = candidate;
                   evt.preventDefault();
                   break;
                 case 'ArrowUp':
-                  prev();
+                  onPrev();
                   evt.preventDefault();
                   break;
                 case 'ArrowDown':
-                  next();
+                  onNext();
                   evt.preventDefault();
                   break;
                 default:

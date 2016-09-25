@@ -1,13 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {Card} from 'components';
 import uris from '../uris';
-import {load} from 'redux/modules/models';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
-  promise: ({store: {dispatch}, params}) => {
-    return dispatch(load(params.app));
+  promise: ({helpers: {fetcher}, params}) => {
+    return fetcher.models.load({
+      app: params.app
+    });
   }
 }])
 @connect(
@@ -36,12 +37,18 @@ export default class DataHome extends Component {
         <article className="uk-article">
           <h1 className={'uk-article-title ' + styles['cm-title']}>{contents.title}</h1>
           <hr className="uk-article-divider" />
-          <Card items={
+          <Card
+            lead={{
+              start: 'Please create models on sidebar',
+              create: ''
+            }}
+            items={
               models.map(_model => {
                 _model.url = uris.normalize(uris.apps.records, {lang, app, name: _model.name});
                 return _model;
               })
-            } />
+            }
+          />
         </article>
       </div>
     );

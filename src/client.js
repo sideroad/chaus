@@ -6,21 +6,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 import useScroll from 'scroll-behavior/lib/useStandardScroll';
-import createStore from './redux/create';
-import ApiClient from './helpers/ApiClient';
+import createStore from './create';
+import ApiClient from 'promise-apiclient';
 import {Provider} from 'react-redux';
 import { ReduxAsyncConnect } from 'redux-async-connect';
 import getRoutes from './routes';
+import Fetcher from 'redux-fetch-dispatcher';
+import uris from './uris';
 import 'react-fastclick';
 
 const client = new ApiClient();
 const history = useScroll(() => browserHistory)();
 const dest = document.getElementById('content');
-const store = createStore(history, client, window.__data);
+const store = createStore(history, window.__data);
+const fetcher = new Fetcher({
+  dispatch: store.dispatch,
+  client,
+  urls: uris.resources
+});
 
 const component = (
   <Router render={(props) =>
-        <ReduxAsyncConnect {...props} helpers={{client}} filter={item => !item.deferred} />
+        <ReduxAsyncConnect {...props} helpers={{fetcher}} filter={item => !item.deferred} />
       } history={history}>
     {getRoutes(store)}
   </Router>

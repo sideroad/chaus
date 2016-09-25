@@ -1,55 +1,25 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
-import * as configsActions from 'redux/modules/configs';
-import * as appsActions from 'redux/modules/apps';
-import * as pageActions from 'redux/modules/page';
-import { push } from 'react-router-redux';
-import uris from '../uris';
 
-@connect(
-  ()=>({}),
-  {
-    ...configsActions,
-    loadPage: pageActions.load,
-    push,
-    restartPage: pageActions.restart,
-    finishLoad: pageActions.finishLoad,
-    closeSidebar: pageActions.closeSidebar,
-    removeApp: appsActions.remove
-  })
 @reduxForm({
   form: 'apps',
   fields: [
     'description',
-    'urls[]'
+    'origins[].url'
   ]
 })
 export default class ConfigForm extends Component {
   static propTypes = {
-    app: PropTypes.string.isRequired,
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    save: PropTypes.func.isRequired,
-    values: PropTypes.object.isRequired,
-    loadPage: PropTypes.func.isRequired,
-    push: PropTypes.func.isRequired,
-    restartPage: PropTypes.func.isRequired,
-    lang: PropTypes.string.isRequired,
-    finishLoad: PropTypes.func.isRequired,
-    removeApp: PropTypes.func.isRequired,
-    closeSidebar: PropTypes.func.isRequired
+    onSave: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
   };
 
   render() {
     const {
-      app,
-      lang,
       fields,
-      save,
-      values,
-      loadPage,
-      restartPage
+      handleSubmit,
     } = this.props;
     const styles = {
       base: require('../css/customize.less'),
@@ -58,17 +28,9 @@ export default class ConfigForm extends Component {
 
     return (
       <form className={styles.config.form + ' uk-form'} onSubmit={
-        event => {
-          event.preventDefault();
-          loadPage();
-          save(app, values)
-            .then(() => {
-              restartPage();
-            })
-            .catch(() => {
-              restartPage();
-            });
-        }
+        handleSubmit(values => {
+          this.props.onSave(values);
+        })
       }>
         <article className="uk-article">
           <h1 className={'uk-article-title ' + styles.base['cm-title']}>Description</h1>
@@ -82,17 +44,17 @@ export default class ConfigForm extends Component {
           <table className={styles.base['cm-table'] + ' uk-table uk-table-striped uk-table-condensed'}>
             <tbody>
             {
-              fields.urls.map((url, index)=>
+              fields.origins.map((origin, index)=>
                 <tr key={index}>
                   <td className="uk-text-center" >
                     <div className="uk-grid" >
                       <div className="uk-width-8-10" >
-                        <input className={styles.config.url + ' ' + styles.base['cm-input']} {...url} placeholder="Client domain" />
+                        <input className={styles.config.url + ' ' + styles.base['cm-input']} {...origin.url} placeholder="Client domain" />
                       </div>
                       <div className={'uk-width-2-10 ' + styles.config.remove}>
                         <a onClick={event => {
                           event.preventDefault(); // prevent form submission
-                          fields.urls.removeField(index);
+                          fields.origins.removeField(index);
                         }}>
                           <i className={'uk-icon-close uk-icon-small ' + styles.base['cm-icon']} />
                         </a>
@@ -108,7 +70,7 @@ export default class ConfigForm extends Component {
                 <td className={styles.base['cm-row-plus']}>
                   <button className={'uk-button ' + styles.base['cm-row-plus']} onClick={event => {
                     event.preventDefault();
-                    fields.urls.addField();
+                    fields.origins.addField();
                   }}>
                     <i className="uk-icon-plus uk-icon-small"></i>
                   </button>
@@ -125,13 +87,7 @@ export default class ConfigForm extends Component {
           <button className={'uk-button uk-button-danger uk-button-large ' + styles.base['cm-button'] + ' ' + styles.config.delete} type="button"
            onClick={
              () => {
-               this.props.closeSidebar();
-               this.props.loadPage();
-               this.props.removeApp(app)
-                 .then(()=> {
-                   this.props.finishLoad();
-                   this.props.push(uris.normalize(uris.apps.apps, {lang}));
-                 });
+               this.props.onDelete();
              }
            }>
             <i className={'uk-icon-trash ' + styles.base['cm-icon']}/>Delete API

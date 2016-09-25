@@ -4,15 +4,18 @@ import {Card, AppForm} from 'components';
 import config from '../config';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
-import * as appsActions from 'redux/modules/apps';
+import * as appsActions from 'modules/apps';
+import * as pageActions from 'modules/page';
 import { asyncConnect } from 'redux-async-connect';
 import { push } from 'react-router-redux';
 import uris from '../uris';
 
 @asyncConnect([{
-  promise: ({store: {dispatch}}) => {
+  promise: ({helpers: {fetcher}}) => {
     const promises = [];
-    promises.push(dispatch(appsActions.load()));
+    promises.push(
+      fetcher.apps.load()
+    );
     return Promise.all(promises);
   }
 }])
@@ -23,9 +26,50 @@ import uris from '../uris';
     apps: state.apps.data,
     candidate: state.apps.candidate
   }),
-  {
+  dispatch => ({
+    search: (fetcher, query) => {
+      dispatch(appsActions.query(query));
+      fetcher.apps.load({
+        name: query ? query + '*' : ''
+      });
+    },
+    prev: () => dispatch(appsActions.prev()),
+    next: () => dispatch(appsActions.next()),
+    submit: (fetcher, app, lang) => {
+      if ( !app ) {
+        return;
+      }
+      dispatch(pageActions.load());
+
+      fetcher.apps
+        .load({
+          name: app
+        })
+        .then(res => {
+          if ( res.items.length ) {
+            dispatch(pageActions.finishLoad());
+            dispatch(push(uris.normalize(uris.apps.models, {lang, app})));
+          } else {
+            fetcher.apps
+              .save({
+                name: app
+              })
+              .then(
+                () => {
+                  fetcher.page.restart().then(
+                    () => dispatch(push(uris.normalize(uris.apps.models, {lang, app})))
+                  );
+                },
+                () => {
+                  dispatch(pageActions.finishLoad());
+                }
+              );
+          }
+        });
+    },
     push
   })
+)
 export default class Apps extends Component {
   static propTypes = {
     query: PropTypes.string,
@@ -33,7 +77,15 @@ export default class Apps extends Component {
     candidate: PropTypes.string,
     params: PropTypes.object.isRequired,
     msg: PropTypes.object.isRequired,
-    push: PropTypes.func.isRequired
+    search: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
+    prev: PropTypes.func.isRequired,
+    next: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired,
+  };
+
+  static contextTypes = {
+    fetcher: PropTypes.object.isRequired
   };
 
   render() {
@@ -44,8 +96,13 @@ export default class Apps extends Component {
       msg,
       apps,
       query,
-      candidate
+      candidate,
+      prev,
+      next,
+      search,
+      submit
     } = this.props;
+    const {fetcher} = this.context;
     const styles = {
       base: require('../css/customize.less'),
       app: require('../css/app.less')
@@ -57,9 +114,34 @@ export default class Apps extends Component {
         <Helmet {...config.app.head} title="Find, Create your App" />
         <Main children={
           <div className={styles.app.app}>
-            <AppForm initialValues={
-              values
-            } lang={lang}/>
+            <AppForm
+              initialValues={
+                values
+              }
+              onChange={
+                _query => search(fetcher, _query)
+              }
+              onEnter={
+                app => {
+                  submit(fetcher, app, lang);
+                }
+              }
+              onTab={
+                app => {
+                  if (app) {
+                    search(fetcher, app);
+                  }
+                }
+              }
+              onPrev={
+                () => prev()
+              }
+              onNext={
+                () => next()
+              }
+              lang={lang}
+              candidate={candidate}
+            />
             <Card
               lead={{
                 start: msg.app.start,
@@ -73,7 +155,9 @@ export default class Apps extends Component {
               candidate={candidate}
             />
           </div>
-        } lang={lang}/>
+        }
+        lang={lang}
+      />
       </div>
     );
   }

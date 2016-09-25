@@ -14,10 +14,10 @@ const environment = {
 
 module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
-  port: process.env.PORT || 3000,
+  port: Number( process.env.PORT || 3000 ),
   global: {
     host: process.env.CHAUS_HOST || 'localhost',
-    port: process.env.CHAUS_PORT || 3000
+    port: Number( process.env.CHAUS_PORT || 3000 )
   },
   mongoURL: '', // If you want to set MongoURL on config, please set here otherwise, process.env.CHAUS_MONGO_URL will be used.
   app: {

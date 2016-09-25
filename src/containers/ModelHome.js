@@ -1,6 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import {load as loadModels} from 'redux/modules/models';
-import {load as loadNetworks} from 'redux/modules/networks';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-async-connect';
 import uris from '../uris';
@@ -8,10 +6,16 @@ import Graph from '../helpers/react-graph-vis';
 import { push } from 'react-router-redux';
 
 @asyncConnect([{
-  promise: ({store: {dispatch}, params}) => {
+  promise: ({helpers: {fetcher}, params}) => {
     const promises = [];
-    promises.push(dispatch(loadModels(params.app)));
-    promises.push(dispatch(loadNetworks(params.app)));
+    promises.push(fetcher.models.load({
+      app: params.app,
+      limit: 10000
+    }));
+    promises.push(fetcher.networks.load({
+      app: params.app,
+      limit: 10000
+    }));
     return Promise.all(promises);
   }
 }])

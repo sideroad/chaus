@@ -1,12 +1,11 @@
 import { createStore as _createStore, applyMiddleware } from 'redux';
-import createMiddleware from './middleware/clientMiddleware';
 import { routerMiddleware } from 'react-router-redux';
 
-export default function createStore(history, client, data) {
+export default function createStore(history, data) {
   // Sync dispatched route actions to the history
   const reduxRouterMiddleware = routerMiddleware(history);
 
-  const middleware = [createMiddleware(client), reduxRouterMiddleware];
+  const middleware = [reduxRouterMiddleware];
 
   let finalCreateStore;
   finalCreateStore = applyMiddleware(...middleware)(_createStore);

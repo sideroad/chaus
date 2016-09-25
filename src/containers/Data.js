@@ -1,17 +1,16 @@
 import React, {Component, PropTypes} from 'react';
 import {Main} from 'containers';
 import { connect } from 'react-redux';
-import * as modelsActions from 'redux/modules/models';
-import * as pageActions from 'redux/modules/page';
-import {load} from 'redux/modules/models';
-import {initializeWithKey} from 'redux-form';
+import * as pageActions from 'modules/page';
 import Helmet from 'react-helmet';
 import config from '../config';
 import { asyncConnect } from 'redux-async-connect';
 
 @asyncConnect([{
-  promise: ({store: {dispatch}, params}) => {
-    return dispatch(load(params.app));
+  promise: ({helpers: {fetcher}, params}) => {
+    return fetcher.models.load({
+      app: params.app
+    });
   }
 }])
 @connect(
@@ -20,9 +19,7 @@ import { asyncConnect } from 'redux-async-connect';
     open: state.page.open
   }),
   {
-    ...modelsActions,
-    closeSidebar: pageActions.closeSidebar,
-    initializeWithKey
+    closeSidebar: pageActions.closeSidebar
   }
 )
 export default class App extends Component {

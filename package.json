@@ -22,7 +22,7 @@
     "build": "better-npm-run build",
     "postinstall": "npm run build",
     "lint": "eslint -c .eslintrc src",
-    "dev": "npm i -g pm2; if [ -n \"${PM2_SECRET_KEY}\" ]; then pm2 link ${PM2_SECRET_KEY} ${PM2_PUBLIC_KEY}; fi; pm2 start pm2-dev.json; pm2 logs",
+    "dev": "concurrent --kill-others \"better-npm-run watch\" \"better-npm-run dev\"",
     "test": "karma start"
   },
   "betterScripts": {
@@ -38,9 +38,26 @@
       "env": {
         "NODE_ENV": "production"
       }
+    },
+    "watch": {
+      "command": "node webpack/webpack-dev-server.js",
+      "env": {
+        "UV_THREADPOOL_SIZE": 100,
+        "NODE_PATH": "./src"
+      }
+    },
+    "dev": {
+      "command": "node bin/server.js",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "development",
+        "HOST": "localhost",
+        "PORT": "3000"
+      }
     }
   },
   "dependencies": {
+    "async": "^2.0.1",
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.1",
     "babel-plugin-add-module-exports": "^0.1.2",
@@ -76,6 +93,7 @@
     "piping": "^0.3.0",
     "pluralize": "^1.2.1",
     "pretty-error": "^1.2.0",
+    "promise-apiclient": "^1.1.1",
     "query-string": "^3.0.0",
     "react": "^0.14.8",
     "react-bootstrap": "^0.27.3",
@@ -92,7 +110,8 @@
     "recursive-readdir": "^2.0.0",
     "redux": "^3.0.4",
     "redux-async-connect": "^1.0.0-rc2",
-    "redux-form": "^4.2.1",
+    "redux-fetch-dispatcher": "^1.0.0",
+    "redux-form": "^4.2.2",
     "redux-router": "1.0.0-beta5",
     "scroll-behavior": "^0.3.0",
     "serialize-javascript": "^1.1.2",

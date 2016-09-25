@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {IndexLink} from 'react-router';
 import { connect } from 'react-redux';
-import * as pageActions from 'redux/modules/page';
+import * as pageActions from 'modules/page';
 import uris from '../uris';
 
 @connect(
