@@ -16,12 +16,10 @@ import pluralize from 'pluralize';
     const promises = [];
 
     promises.push(fetcher.models.load({
-      app: params.app,
-      limit: 1000
+      app: params.app
     }));
     promises.push(fetcher.attributes.load({
-      app: params.app,
-      limit: 10000
+      app: params.app
     }));
     return Promise.all(promises);
   }

@@ -1,5 +1,10 @@
 import config from './config';
-const base = ( config.global.port === 443 ? 'https' : 'http' ) + '://' + config.global.host + ':' + config.global.port;
+const base = ( config.global.port === 443 ? 'https' : 'http' ) +
+             '://' +
+             config.global.host +
+             ( config.global.port === 80 || config.global.port === 443
+               ? ''
+               : ':' + config.global.port);
 
 const uris = {
   base,
@@ -17,7 +22,10 @@ const uris = {
     apps: {
       load: {
         url: base + '/admin/api/apps',
-        method: 'GET'
+        method: 'GET',
+        defaults: {
+          limit: 1000
+        }
       },
       save: {
         url: base + '/admin/api/apps',
@@ -37,7 +45,10 @@ const uris = {
     models: {
       load: {
         url: base + '/admin/api/models',
-        method: 'GET'
+        method: 'GET',
+        defaults: {
+          limit: 10000
+        }
       },
       save: {
         url: base + '/admin/api/models',
@@ -61,7 +72,10 @@ const uris = {
     attributes: {
       load: {
         url: base + '/admin/api/attributes',
-        method: 'GET'
+        method: 'GET',
+        defaults: {
+          limit: 100000
+        }
       },
       save: {
         url: base + '/admin/api/attributes',
@@ -75,7 +89,10 @@ const uris = {
     records: {
       load: {
         url: base + '/apis/:app/:model',
-        method: 'GET'
+        method: 'GET',
+        defaults: {
+          limit: 10000
+        }
       },
       delete: {
         url: base + '/apis/:app/:model/:id',
@@ -107,7 +124,10 @@ const uris = {
     origins: {
       load: {
         url: base + '/admin/api/origins',
-        method: 'GET'
+        method: 'GET',
+        defaults: {
+          limit: 1000
+        }
       },
       save: {
         url: base + '/admin/api/origins',

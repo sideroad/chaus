@@ -9,12 +9,10 @@ import { push } from 'react-router-redux';
   promise: ({helpers: {fetcher}, params}) => {
     const promises = [];
     promises.push(fetcher.models.load({
-      app: params.app,
-      limit: 10000
+      app: params.app
     }));
     promises.push(fetcher.networks.load({
-      app: params.app,
-      limit: 10000
+      app: params.app
     }));
     return Promise.all(promises);
   }

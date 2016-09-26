@@ -29,7 +29,7 @@
       "description": "Please specify domain"
     },
     "CHAUS_PORT": {
-      "value": "80"
+      "value": "443"
     }
   },
   "addons": [
