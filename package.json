@@ -19,6 +19,7 @@
   "main": "bin/server.js",
   "scripts": {
     "start": "concurrent --kill-others \"npm run start-prod\"",
+    "start-prod": "better-npm-run prod",
     "build": "better-npm-run build",
     "postinstall": "npm run build",
     "lint": "eslint -c .eslintrc src",
