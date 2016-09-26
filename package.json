@@ -21,7 +21,6 @@
     "start": "concurrent --kill-others \"npm run start-prod\"",
     "start-prod": "better-npm-run prod",
     "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
-    "postinstall": "webpack --display-error-details --config webpack/prod.config.js",
     "lint": "eslint -c .eslintrc src",
     "dev": "concurrent --kill-others \"better-npm-run watch\" \"better-npm-run dev\"",
     "test": "karma start"
