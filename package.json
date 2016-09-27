@@ -18,9 +18,9 @@
   ],
   "main": "bin/server.js",
   "scripts": {
-    "start": "concurrent --kill-others \"npm run start-prod\"",
-    "start-prod": "better-npm-run prod",
-    "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
+    "start": "better-npm-run prod",
+    "build": "better-npm-run build",
+    "postinstall": "npm run build",
     "lint": "eslint -c .eslintrc src",
     "dev": "concurrent --kill-others \"better-npm-run watch\" \"better-npm-run dev\"",
     "test": "karma start"
@@ -38,9 +38,7 @@
     "build": {
       "command": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
       "env": {
-        "NODE_ENV": "production",
-        "CHAUS_HOST": "chaus.herokuapp.com",
-        "CHAUS_PORT": "443"
+        "NODE_ENV": "production"
       }
     },
     "watch": {

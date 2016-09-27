@@ -6,7 +6,7 @@ var webpack = require('webpack');
 var CleanPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var strip = require('strip-loader');
-
+var packageJSON = JSON.parse(require('fs').readFileSync(path.resolve(__dirname, '../package.json'), 'utf-8'));
 var relativeAssetsPath = '../static/dist';
 var assetsPath = path.join(__dirname, relativeAssetsPath);
 
@@ -69,8 +69,9 @@ module.exports = {
     // set global vars
     new webpack.DefinePlugin({
       'process.env': {
-        // Useful to reduce the size of client-side libraries, e.g. react
-        NODE_ENV: JSON.stringify('production')
+        NODE_ENV: '"' + packageJSON.betterScripts.prod.env.NODE_ENV + '"',
+        CHAUS_HOST: '"' + packageJSON.betterScripts.prod.env.CHAUS_HOST + '"',
+        CHAUS_PORT: '"' + packageJSON.betterScripts.prod.env.CHAUS_PORT + '"'
       }
     }),
 
