@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
+import {Card} from 'components';
 import { asyncConnect } from 'redux-async-connect';
 import uris from '../uris';
 import Graph from '../helpers/react-graph-vis';
@@ -50,14 +51,25 @@ export default class ModelHome extends Component {
         <article className="uk-article">
           <h1 className={'uk-article-title ' + styles['cm-title']}>{contents.title}</h1>
           <hr className="uk-article-divider" />
-          <Graph
-            dot={'digraph {' + networks + '}'}
-            onSelectNode={
-              node => {
-                this.props.push(uris.normalize(uris.apps.model, {lang, app, name: node}));
+          {
+            networks ?
+            <Graph
+              dot={'digraph {' + networks + '}'}
+              onSelectNode={
+                node => {
+                  this.props.push(uris.normalize(uris.apps.model, {lang, app, name: node}));
+                }
               }
-            }
-          />
+            />
+            :
+            <Card
+              lead={{
+                start: 'Click + to create Model on sidebar',
+                create: ''
+              }}
+              items={[]}
+            />
+          }
         </article>
       </div>
     );

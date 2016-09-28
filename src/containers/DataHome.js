@@ -39,7 +39,7 @@ export default class DataHome extends Component {
           <hr className="uk-article-divider" />
           <Card
             lead={{
-              start: 'Please create models on sidebar',
+              start: 'Click + to create Model on sidebar',
               create: ''
             }}
             items={

@@ -1,45 +1,30 @@
-<!-- $theme: gaia -->
-
-# <div class="lead" ><img src=https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png width="55px" /> chaus</div>
-
-### Build RESTful API within 5 min
-
----
-
-## Running chaus
-
-### https://chaus.herokuapp.com
-
----
+# <img src="https://raw.githubusercontent.com/sideroad/chaus/master/static/images/logo.png" width="40px"> chaus
+Build RESTful API within 5 min
 
 ## Why chaus?
-- Easy to create RESTful API
+- Easy to create REST API without any development
 - Easy to set linking to other resource
+- Easy to understand each resource relationship
 - Easy to manipulate data
 - API document created automatically
 
----
+## Running chaus
+https://chaus.herokuapp.com
 
-## Deploy your chaus on Heroku
 
-##### if you want to create own dashboard
+# Installation
+Deploy your chaus on Heroku  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/sideroad/chaus)
 
-##### [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/sideroad/chaus)
-
----
-
-## Manual Installation
+### Manual Installation
 You can construct chaus on your local.
 
-### Mongo URL
+##### Mongo URL
 Please set variable onto your environment or set `mongoURL` in `src/config.js`.
 
-### API Host, Port
+##### API Host, Port
 Please set API host, port in `src/config.js`.
 
----
-
-### Starting application
+##### Starting application
 
 ```
 npm i -g pm2
@@ -55,8 +40,6 @@ npm start
 # app-0 info: Done.
 ```
 open http://localhost:3000
-
----
 
 ## Color schema
 
