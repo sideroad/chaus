@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {AttributeForm} from 'components';
 import {reduxForm} from 'redux-form';
 import { push } from 'react-router-redux';
-import { asyncConnect } from 'redux-async-connect';
+import { asyncConnect } from 'redux-connect';
 import * as pageActions from 'modules/page';
 import * as attributesActions from 'modules/attributes';
 import eachSeries from 'async/mapSeries';

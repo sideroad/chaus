@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
 import * as appsActions from 'modules/apps';
 import * as pageActions from 'modules/page';
-import { asyncConnect } from 'redux-async-connect';
+import { asyncConnect } from 'redux-connect';
 import { push } from 'react-router-redux';
 import uris from '../uris';
 

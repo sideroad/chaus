@@ -5,7 +5,7 @@ import {RecordForm} from 'components';
 import {reduxForm} from 'redux-form';
 import * as pageActions from 'modules/page';
 import moment from 'moment';
-import { asyncConnect } from 'redux-async-connect';
+import { asyncConnect } from 'redux-connect';
 import pluralize from 'pluralize';
 import __ from 'lodash';
 

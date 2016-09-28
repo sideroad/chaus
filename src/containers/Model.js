@@ -3,7 +3,7 @@ import {Main} from 'containers';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import config from '../config';
-import { asyncConnect } from 'redux-async-connect';
+import { asyncConnect } from 'redux-connect';
 
 @asyncConnect([{
   promise: ({helpers: {fetcher}, params}) => {

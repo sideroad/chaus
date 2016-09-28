@@ -9,7 +9,7 @@ import useScroll from 'scroll-behavior/lib/useStandardScroll';
 import createStore from './create';
 import ApiClient from 'promise-apiclient';
 import {Provider} from 'react-redux';
-import { ReduxAsyncConnect } from 'redux-async-connect';
+import { ReduxAsyncConnect } from 'redux-connect';
 import getRoutes from './routes';
 import Fetcher from 'redux-fetch-dispatcher';
 import uris from './uris';

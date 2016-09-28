@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as pageActions from 'modules/page';
 import Helmet from 'react-helmet';
 import config from '../config';
-import { asyncConnect } from 'redux-async-connect';
+import { asyncConnect } from 'redux-connect';
 
 @asyncConnect([{
   promise: ({helpers: {fetcher}, params}) => {

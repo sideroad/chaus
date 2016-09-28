@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {Card} from 'components';
 import uris from '../uris';
 import { connect } from 'react-redux';
-import { asyncConnect } from 'redux-async-connect';
+import { asyncConnect } from 'redux-connect';
 
 @asyncConnect([{
   promise: ({helpers: {fetcher}, params}) => {
