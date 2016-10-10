@@ -70,7 +70,9 @@ module.exports = {
       'process.env': {
         NODE_ENV: '"' + process.env.NODE_ENV + '"',
         CHAUS_HOST: '"' + process.env.CHAUS_HOST + '"',
-        CHAUS_PORT: '"' + process.env.CHAUS_PORT + '"'
+        CHAUS_PORT: '"' + process.env.CHAUS_PORT + '"',
+        APP_HOST: '"' + process.env.APP_HOST + '"',
+        APP_PORT: '"' + process.env.APP_PORT + '"'
       }
     }),
 
