@@ -42,7 +42,7 @@ export default class Model extends Component {
 
     const styles = require('../css/customize.less');
     return (
-      <div className={styles['cm-container']} >
+      <div className={styles.container} >
         <Helmet {...config.app.head} title="Build RESTful API within 5 min" />
         <Main models={models} open={open} context="models" modelName={name} app={app} children={children} lang={lang}/>
       </div>

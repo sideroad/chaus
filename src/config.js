@@ -1,4 +1,5 @@
 require('babel-polyfill');
+const normalize = require('koiki').normalize;
 
 const title = 'chaus';
 const description = 'Build RESTful API within 5 min';
@@ -12,6 +13,10 @@ const environment = {
   }
 }[process.env.NODE_ENV || 'development'];
 
+const appHost = process.env.APP_HOST || 'localhost';
+const appPort = Number( process.env.APP_PORT || 3000 );
+const base = normalize( appHost + ':' + appPort );
+
 module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: Number( process.env.PORT || 3000 ),
@@ -21,6 +26,7 @@ module.exports = Object.assign({
   },
   mongoURL: '', // If you want to set MongoURL on config, please set here otherwise, process.env.CHAUS_MONGO_URL will be used.
   app: {
+    base,
     title: title,
     description: description,
     head: {
@@ -38,6 +44,12 @@ module.exports = Object.assign({
         {property: 'og:creator', content: '@side_road'},
         {property: 'og:image:width', content: '300'},
         {property: 'og:image:height', content: '300'}
+      ],
+      link: [
+        {rel: 'shortcut icon', href: '/images/favicon.png'},
+        {rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css?family=PT+Sans', },
+        {rel: 'stylesheet', type: 'text/css', href: 'https://cdnjs.cloudflare.com/ajax/libs/uikit/2.24.3/css/uikit.min.css' },
+        {rel: 'stylesheet', type: 'text/css', href: '/css/base.css' }
       ]
     }
   }

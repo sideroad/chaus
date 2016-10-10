@@ -6,10 +6,11 @@ import {AttributeForm} from 'components';
 import {reduxForm} from 'redux-form';
 import { push } from 'react-router-redux';
 import { asyncConnect } from 'redux-connect';
-import * as pageActions from 'modules/page';
-import * as attributesActions from 'modules/attributes';
+import * as pageActions from 'reducers/page';
+import * as attributesActions from 'reducers/attributes';
 import eachSeries from 'async/mapSeries';
 import pluralize from 'pluralize';
+import { stringify } from 'koiki';
 
 @asyncConnect([{
   promise: ({helpers: {fetcher}, params}) => {
@@ -61,7 +62,7 @@ import pluralize from 'pluralize';
       ).then(
         () => {
           dispatch(pageActions.finishLoad());
-          dispatch(push(uris.normalize( uris.apps.models, {lang, app, model})));
+          dispatch(push(stringify( uris.pages.models, {lang, app, model})));
         }
       );
     },
@@ -141,7 +142,7 @@ export default class ModelAttributes extends Component {
     const contentsClass = loading ? styles.loading :
                           loaded ? styles.loaded : '';
     return (
-      <div className={'uk-width-medium-8-10 ' + styles['cm-contents']} >
+      <div className={'uk-width-medium-8-10 ' + styles.contents} >
         { err ?
           <div className="uk-alert uk-alert-danger">
           {Object.keys(err).map((key) =>

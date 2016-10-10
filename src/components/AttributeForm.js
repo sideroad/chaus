@@ -145,7 +145,7 @@ export default class AttributeForm extends Component {
                              name="name"
                              placeholder="Attribute name"
                              {...attribute.name}
-                             className={styles['cm-input'] + ' ' +
+                             className={styles.input + ' ' +
                                         (err && this.props.index === index ? 'uk-form-danger' : '')}
                       />
                     </div>
@@ -203,14 +203,14 @@ export default class AttributeForm extends Component {
                     <div className={'uk-visible-small ' + styles['cm-attribute-text']}>Pattern</div>
                     <div className={'uk-width-7-10 ' + styles['cm-attribute-value']} >
                       <span className="uk-width-1-10" >/</span>
-                      <input type="text" className={styles['cm-input'] + ' uk-width-6-10'} placeholder="Regular expression" {...attribute.pattern} />
+                      <input type="text" className={styles.input + ' uk-width-6-10'} placeholder="Regular expression" {...attribute.pattern} />
                       <span className="uk-width-1-10" >/</span>
                       <input id={index + 'invalid-message-icon'} type="checkbox" className={styles['cm-text']} />
                       <label htmlFor={index + 'invalid-message-icon'} className={'uk-width-2-10 ' + styles['cm-icon'] + ' ' + styles['cm-icon-pattern']} >
                       <i className="uk-icon-file-text-o uk-icon-small" />
                       </label>
                       <p className={styles['cm-text-area']} >
-                      <textarea className={styles['cm-input'] + ' uk-width-1-1'} placeholder="Invalid message" {...attribute.invalid}/>
+                      <textarea className={styles.input + ' uk-width-1-1'} placeholder="Invalid message" {...attribute.invalid}/>
                       </p>
                     </div>
                   </div>

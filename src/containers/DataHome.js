@@ -3,6 +3,7 @@ import {Card} from 'components';
 import uris from '../uris';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
+import { stringify } from 'koiki';
 
 @asyncConnect([{
   promise: ({helpers: {fetcher}, params}) => {
@@ -33,7 +34,7 @@ export default class DataHome extends Component {
     const {models, params: {lang, app}} = this.props;
 
     return (
-      <div className={'uk-width-medium-8-10 ' + styles['cm-contents']} >
+      <div className={'uk-width-medium-8-10 ' + styles.contents} >
         <article className="uk-article">
           <h1 className={'uk-article-title ' + styles['cm-title']}>{contents.title}</h1>
           <hr className="uk-article-divider" />
@@ -44,7 +45,7 @@ export default class DataHome extends Component {
             }}
             items={
               models.map(_model => {
-                _model.url = uris.normalize(uris.apps.records, {lang, app, name: _model.name});
+                _model.url = stringify(uris.pages.records, {lang, app, name: _model.name});
                 return _model;
               })
             }

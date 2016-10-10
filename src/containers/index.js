@@ -1,4 +1,3 @@
-export App from './App';
 export Apps from './Apps';
 
 export Model from './Model';

@@ -37,7 +37,7 @@ export default class ConfigForm extends Component {
           <hr className="uk-article-divider" />
           <textarea
             {...fields.description}
-            className={styles.config.description + ' ' + styles.base['cm-input']} />
+            className={styles.config.description + ' ' + styles.base.input} />
 
           <h1 className={'uk-article-title ' + styles.base['cm-title']}>CORS URL</h1>
           <hr className="uk-article-divider" />
@@ -49,7 +49,7 @@ export default class ConfigForm extends Component {
                   <td className="uk-text-center" >
                     <div className="uk-grid" >
                       <div className="uk-width-8-10" >
-                        <input className={styles.config.url + ' ' + styles.base['cm-input']} {...origin.url} placeholder="Client domain" />
+                        <input className={styles.config.url + ' ' + styles.base.input} {...origin.url} placeholder="Client domain" />
                       </div>
                       <div className={'uk-width-2-10 ' + styles.config.remove}>
                         <a onClick={event => {

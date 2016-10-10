@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { IndexLink } from 'react-router';
 import uris from '../uris';
+import { stringify } from 'koiki';
 
 export default class Sidebar extends Component {
   static propTypes = {
@@ -62,8 +63,8 @@ export default class Sidebar extends Component {
     const modelLinkages = models && models.length ?
         models.map((model) => {
           const name = model.name;
-          const linkTo = context === 'models' ? uris.normalize(uris.apps.model, {lang, app, name}) :
-                         context === 'data' ? uris.normalize(uris.apps.records, {lang, app, name}) : '';
+          const linkTo = context === 'models' ? stringify(uris.pages.model, {lang, app, name}) :
+                         context === 'data' ? stringify(uris.pages.records, {lang, app, name}) : '';
           const className = model.name === modelName ? 'uk-active ' + styles.sidebar.active : '';
           return (
             <li key={name} className={className} >
@@ -82,7 +83,7 @@ export default class Sidebar extends Component {
               {app}
             </li>
             <li className={'uk-nav-header ' + styles.sidebar.header + ' ' + ( context === 'models' && !modelName ? styles.sidebar.active : '')} >
-              <IndexLink to={uris.normalize(uris.apps.models, {lang, app})} className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} >
+              <IndexLink to={stringify(uris.pages.models, {lang, app})} className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} >
                 <i className={'uk-icon-small uk-icon-cubes ' + styles.base['cm-icon']} />Models
               </IndexLink>
             </li>
@@ -91,7 +92,7 @@ export default class Sidebar extends Component {
             {context === 'models' &&
             (<li className={editing ? styles.base.show : styles.base.hide}>
               <form onSubmit={this.handleSubmit} className="uk-form" >
-                <input className={styles.sidebar.input + ' ' + styles.base['cm-input']} type="text" ref="name" placeholder="Model name" onBlur={this.handleBlur} />
+                <input className={styles.sidebar.input + ' ' + styles.base.input} type="text" ref="name" placeholder="Model name" onBlur={this.handleBlur} />
               </form>
             </li>)}
             {context === 'models' &&
@@ -100,7 +101,7 @@ export default class Sidebar extends Component {
             </li>)}
             {context === 'models' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
             <li className={'uk-nav-header ' + styles.sidebar.header + ' ' + ( context === 'data' && !modelName ? styles.sidebar.active : '')} >
-              <IndexLink to={uris.normalize(uris.apps.data, {lang, app})} className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} >
+              <IndexLink to={stringify(uris.pages.data, {lang, app})} className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} >
                 <i className={'uk-icon-small uk-icon-database ' + styles.base['cm-icon']} />Data
               </IndexLink>
             </li>
@@ -109,14 +110,14 @@ export default class Sidebar extends Component {
             {context === 'data' && modelLinkages ? <li className="uk-nav-divider"></li> : ''}
             <li className={'uk-nav-header ' + styles.sidebar.header + ' ' + ( context === 'configs' ? styles.sidebar.active : '' )} >
               <IndexLink
-                to={uris.normalize(uris.apps.configs, {lang, app})}
+                to={stringify(uris.pages.configs, {lang, app})}
                 className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']}
                 onClick={this.handleClick}>
                   <i className={'uk-icon-small uk-icon-cog ' + styles.base['cm-icon'] } />Settings
               </IndexLink>
             </li>
             <li className={'uk-nav-header ' + styles.sidebar.header} >
-              <a className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} href={uris.normalize(uris.apps.docs, {app})}>
+              <a className={styles.sidebar.link + ' ' + styles.base['cm-nav-header-link']} href={stringify(uris.pages.docs, {app})}>
                 <i className={'uk-icon-small uk-icon-book ' + styles.base['cm-icon'] } />API Doc
               </a>
             </li>

@@ -60,7 +60,7 @@ export default class RecordForm extends Component {
                       :
                         <input
                           id={formKey + index}
-                          className={styles['cm-input'] + ' ' +
+                          className={styles.input + ' ' +
                             styles['cm-record-input'] + ' ' +
                             (isInvalid ? ' uk-form-danger' : '') +
                             (attribute.type === 'boolean' ? ' ' + styles['cm-checkbox'] : '')

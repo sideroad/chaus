@@ -5,6 +5,7 @@ import { asyncConnect } from 'redux-connect';
 import uris from '../uris';
 import Graph from '../helpers/react-graph-vis';
 import { push } from 'react-router-redux';
+import { stringify } from 'koiki';
 
 @asyncConnect([{
   promise: ({helpers: {fetcher}, params}) => {
@@ -47,7 +48,7 @@ export default class ModelHome extends Component {
     } = this.props;
 
     return (
-      <div className={'uk-width-medium-8-10 ' + styles['cm-contents']} >
+      <div className={'uk-width-medium-8-10 ' + styles.contents} >
         <article className="uk-article">
           <h1 className={'uk-article-title ' + styles['cm-title']}>{contents.title}</h1>
           <hr className="uk-article-divider" />
@@ -57,7 +58,7 @@ export default class ModelHome extends Component {
               dot={'digraph {' + networks + '}'}
               onSelectNode={
                 node => {
-                  this.props.push(uris.normalize(uris.apps.model, {lang, app, name: node}));
+                  this.props.push(stringify(uris.pages.model, {lang, app, name: node}));
                 }
               }
             />

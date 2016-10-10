@@ -7,9 +7,9 @@ export default class Footer extends Component {
       footer: require('../css/footer.less')
     };
     return (
-      <footer className={'uk-grid uk-container-center uk-text-center ' + styles.footer.footer} >
-        <div className="uk-container uk-container-center uk-text-center uk-width-1-1" >
-          <div className={'uk-panel ' + styles.footer.copyright}>
+      <footer className={styles.footer.footer} >
+        <div>
+          <div className={styles.footer.copyright}>
             <div className={styles.footer.cloud1}></div>
             <div className={styles.footer.cloudhide1}></div>
             <div className={styles.footer.cloudconnect1}></div>

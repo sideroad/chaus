@@ -84,5 +84,8 @@ module.exports = {
     }),
 
     webpackIsomorphicToolsPlugin
-  ]
+  ],
+  externals: {
+    fs: '{}'
+  }
 };

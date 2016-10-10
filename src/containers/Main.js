@@ -1,10 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import {Header, Sidebar, Footer, ModalLoading} from 'components';
 import { connect } from 'react-redux';
-import * as pageActions from 'modules/page';
-import * as modelsActions from 'modules/models';
+import * as pageActions from 'reducers/page';
+import * as modelsActions from 'reducers/models';
 import { push } from 'react-router-redux';
 import uris from '../uris';
+import { stringify } from 'koiki';
 
 @connect(
   state => ({
@@ -22,7 +23,7 @@ import uris from '../uris';
             app: values.app
           }).then(() => {
             dispatch( pageActions.finishLoad());
-            dispatch( push(uris.normalize(uris.apps.model, {lang, app: values.app, name: values.name})));
+            dispatch( push(stringify(uris.pages.model, {lang, app: values.app, name: values.name})));
           });
         });
       }

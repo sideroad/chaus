@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Main} from 'containers';
 import { connect } from 'react-redux';
-import * as pageActions from 'modules/page';
+import * as pageActions from 'reducers/page';
 import Helmet from 'react-helmet';
 import config from '../config';
 import { asyncConnect } from 'redux-connect';
@@ -50,7 +50,7 @@ export default class App extends Component {
 
     const styles = require('../css/customize.less');
     return (
-      <div className={styles['cm-container']} >
+      <div className={styles.container} >
         <Helmet {...config.app.head} title="Manipulate API data" />
         <Main models={models} open={open} context="data" modelName={name} app={app} children={children} lang={lang} />
       </div>

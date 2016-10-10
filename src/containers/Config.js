@@ -2,13 +2,14 @@ import React, {Component, PropTypes} from 'react';
 import {Main} from 'containers';
 import {ConfigForm} from 'components';
 import { connect } from 'react-redux';
-import * as pageActions from 'modules/page';
+import * as pageActions from 'reducers/page';
 import Helmet from 'react-helmet';
 import config from '../config';
 import { push } from 'react-router-redux';
 import { asyncConnect } from 'redux-connect';
 import eachSeries from 'async/mapSeries';
 import uris from '../uris';
+import { stringify } from 'koiki';
 
 @asyncConnect([{
   promise: ({params, helpers: {fetcher}}) => {
@@ -60,7 +61,7 @@ import uris from '../uris';
         ).then(
           () => {
             dispatch(pageActions.finishLoad());
-            dispatch(push(uris.normalize( uris.apps.apps, {lang})));
+            dispatch(push(stringify( uris.pages.apps, {lang})));
           }
         );
     },
@@ -141,7 +142,7 @@ export default class Config extends Component {
 
     const styles = require('../css/customize.less');
     return (
-      <div className={styles['cm-container']} >
+      <div className={styles.container} >
         <Helmet {...config.app.head} title="Configure API settings" />
         <Main
           models={models}
@@ -149,7 +150,7 @@ export default class Config extends Component {
           context="configs"
           app={app}
           children={
-            <div className={'uk-width-medium-8-10 ' + styles['cm-contents']} >
+            <div className={'uk-width-medium-8-10 ' + styles.contents} >
               <ConfigForm
                 initialValues={{...configs, origins}}
                 lang={lang}

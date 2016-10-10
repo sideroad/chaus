@@ -1,5 +1,10 @@
 @import "variables.less";
 
+.footer:before{
+  content: "";
+  display: block;
+  overflow: hidden;
+}
 
 .footer{
   background-image: url('../images/background.png');
@@ -8,7 +13,9 @@
   bottom: 0px;
   padding: 50px 0px;
   width: 100%;
-  margin-top: 120px!important;
+  margin-top: 140px;
+  clear: both;
+  text-align: center;
 }
 
 .footer .uk-container{
@@ -93,7 +100,7 @@
 }
 
 .copyright{
-  color: @footer-text !important;
+  color: @footer-text;
   width: 175px;
   border-radius: 50%;
   margin: auto;
@@ -115,6 +122,6 @@
 
 @media (max-width: @small-max-width){
   .footer{
-    position: static !important;
+    position: static;
   }
 }

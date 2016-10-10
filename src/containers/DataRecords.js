@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import * as recordActions from 'modules/records';
+import * as recordActions from 'reducers/records';
 import {RecordForm} from 'components';
 import {reduxForm} from 'redux-form';
-import * as pageActions from 'modules/page';
+import * as pageActions from 'reducers/page';
 import moment from 'moment';
 import { asyncConnect } from 'redux-connect';
 import pluralize from 'pluralize';
@@ -192,7 +192,7 @@ export default class DataRecords extends Component {
     });
     const fields = targets.map((attribute) => attribute.name).concat(['model']);
     return (
-      <div className={'uk-width-medium-8-10 ' + styles['cm-contents']} >
+      <div className={'uk-width-medium-8-10 ' + styles.contents} >
         { err ?
           <div className="uk-alert uk-alert-danger">
           {Object.keys(err).map((key) =>

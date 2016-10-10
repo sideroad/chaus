@@ -4,11 +4,12 @@ import {Card, AppForm} from 'components';
 import config from '../config';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
-import * as appsActions from 'modules/apps';
-import * as pageActions from 'modules/page';
 import { asyncConnect } from 'redux-connect';
+import * as appsActions from 'reducers/apps';
+import * as pageActions from 'reducers/page';
 import { push } from 'react-router-redux';
 import uris from '../uris';
+import { stringify } from 'koiki';
 
 @asyncConnect([{
   promise: ({helpers: {fetcher}}) => {
@@ -21,7 +22,6 @@ import uris from '../uris';
 }])
 @connect(
   (state)=>({
-    msg: state.i18n.msg,
     query: state.apps.query,
     apps: state.apps.data,
     candidate: state.apps.candidate
@@ -48,7 +48,7 @@ import uris from '../uris';
         .then(res => {
           if ( res.items.length ) {
             dispatch(pageActions.finishLoad());
-            dispatch(push(uris.normalize(uris.apps.models, {lang, app})));
+            dispatch(push(stringify(uris.pages.models, {lang, app})));
           } else {
             fetcher.apps
               .save({
@@ -57,7 +57,7 @@ import uris from '../uris';
               .then(
                 () => {
                   fetcher.page.restart().then(
-                    () => dispatch(push(uris.normalize(uris.apps.models, {lang, app})))
+                    () => dispatch(push(stringify(uris.pages.models, {lang, app})))
                   );
                 },
                 () => {
@@ -76,7 +76,6 @@ export default class Apps extends Component {
     apps: PropTypes.array.isRequired,
     candidate: PropTypes.string,
     params: PropTypes.object.isRequired,
-    msg: PropTypes.object.isRequired,
     search: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired,
     prev: PropTypes.func.isRequired,
@@ -85,7 +84,8 @@ export default class Apps extends Component {
   };
 
   static contextTypes = {
-    fetcher: PropTypes.object.isRequired
+    fetcher: PropTypes.object.isRequired,
+    i18n: PropTypes.object.isRequired
   };
 
   render() {
@@ -93,7 +93,6 @@ export default class Apps extends Component {
       app: this.props.query
     };
     const {
-      msg,
       apps,
       query,
       candidate,
@@ -102,7 +101,7 @@ export default class Apps extends Component {
       search,
       submit
     } = this.props;
-    const {fetcher} = this.context;
+    const { fetcher, i18n } = this.context;
     const styles = {
       base: require('../css/customize.less'),
       app: require('../css/app.less')
@@ -110,7 +109,7 @@ export default class Apps extends Component {
     const lang = this.props.params.lang;
 
     return (
-      <div className={styles.base['cm-container']} >
+      <div className={styles.base.container} >
         <Helmet {...config.app.head} title="Find, Create your App" />
         <Main children={
           <div className={styles.app.app}>
@@ -144,11 +143,11 @@ export default class Apps extends Component {
             />
             <Card
               lead={{
-                start: msg.app.start,
-                create: msg.app.create
+                start: i18n.start,
+                create: i18n.create
               }}
               items={apps.map(_app => {
-                _app.url = uris.normalize(uris.apps.models, {lang, app: _app.id});
+                _app.url = stringify(uris.pages.models, {lang, app: _app.id});
                 return _app;
               })}
               query={query}

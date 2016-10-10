@@ -47,7 +47,7 @@ export default class AppForm extends Component {
         <div className={styles.app.candidate}>{candidate}</div>
         <input
           {...fields.app}
-          className={styles.app.input + ' ' + styles.base['cm-input']}
+          className={styles.app.input + ' ' + styles.base.input}
           onKeyDown={
             (evt) => {
               switch (evt.key) {
