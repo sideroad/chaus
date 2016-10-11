@@ -1,5 +1,5 @@
 import config from './config';
-const base = config.app.base;
+const base = config.global.base;
 
 export default {
   apps: {

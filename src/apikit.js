@@ -3,7 +3,6 @@ import config from './config';
 import creator from 'express-restful-api';
 import fs from 'fs';
 import cors from 'cors';
-import url from 'url';
 import wildcard from 'wildcard';
 import express from 'express';
 import uris from './uris';
@@ -11,18 +10,17 @@ import __ from 'lodash';
 import { stringify } from 'koiki';
 const version = JSON.parse( fs.readFileSync( __dirname + '/../package.json') ).version;
 const routes = {};
-const port = Number( config.global.port );
 let creators = [];
 
 function fetchApps(application) {
   console.log('Loading apps...', application);
-  return fetch( 'http://' + config.host + ':' + config.port + stringify(uris.admin.app, {
+  return fetch( config.global.base + stringify(uris.admin.app, {
     app: application
   }) + '?limit=1000', {
     method: 'GET'
   }).then(res => res.json())
     .then(app => {
-      return fetch( 'http://' + config.host + ':' + config.port + uris.admin.origins + '?app=' + encodeURIComponent( application ) + '&limit=1000', {
+      return fetch( config.global.base + uris.admin.origins + '?app=' + encodeURIComponent( application ) + '&limit=1000', {
         method: 'GET'
       }).then(res => res.json())
         .then(origins=>{
@@ -35,7 +33,7 @@ function fetchApps(application) {
 
 function fetchModels() {
   console.log('Loading models...');
-  return fetch( 'http://' + config.host + ':' + config.port + uris.admin.models + '?limit=10000', {
+  return fetch( config.global.base + uris.admin.models + '?limit=10000', {
     method: 'GET'
   }).then(res => res.json())
     .catch(err => console.error(err));
@@ -43,7 +41,7 @@ function fetchModels() {
 
 function fetchAttributes() {
   console.log('Loading attributes...');
-  return fetch( 'http://' + config.host + ':' + config.port + uris.admin.attributes + '?limit=10000', {
+  return fetch( config.global.base + uris.admin.attributes + '?limit=10000', {
     method: 'GET'
   }).then(res => res.json())
     .catch(err => console.error(err));
@@ -135,14 +133,8 @@ export default function(app, mongoose) {
                   version,
                   'description': settings.description,
                   'title': application,
-                  'url': url.format({
-                    hostname: config.global.host,
-                    port: port === 443 || port === 80 ? '' : port
-                  }),
-                  'sampleUrl': url.format({
-                    hostname: config.global.host,
-                    port: port === 443 || port === 80 ? '' : port
-                  }),
+                  'url': config.global.base,
+                  'sampleUrl': config.global.base,
                   'template': {
                     'withCompare': false,
                     'withGenerator': true

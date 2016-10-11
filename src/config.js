@@ -15,18 +15,23 @@ const environment = {
 
 const appHost = process.env.APP_HOST || 'localhost';
 const appPort = Number( process.env.APP_PORT || 3000 );
-const base = normalize( appHost + ':' + appPort );
+const appBase = normalize( appHost + ':' + appPort );
+
+const globalHost = process.env.CHAUS_HOST || 'localhost';
+const globalPort = Number( process.env.CHAUS_PORT || 3000 );
+const globalBase = normalize( globalHost + ':' + globalPort );
 
 module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: Number( process.env.PORT || 3000 ),
   global: {
-    host: process.env.CHAUS_HOST || 'localhost',
-    port: Number( process.env.CHAUS_PORT || 3000 )
+    host: globalHost,
+    port: globalPort,
+    base: globalBase
   },
   mongoURL: '', // If you want to set MongoURL on config, please set here otherwise, process.env.CHAUS_MONGO_URL will be used.
   app: {
-    base,
+    base: appBase,
     title: title,
     description: description,
     head: {
@@ -44,7 +49,9 @@ module.exports = Object.assign({
         {property: 'og:creator', content: '@side_road'},
         {property: 'og:image:width', content: '300'},
         {property: 'og:image:height', content: '300'}
-      ],
+      ]
+    },
+    statics: {
       link: [
         {rel: 'shortcut icon', href: '/images/favicon.png'},
         {rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css?family=PT+Sans', },
