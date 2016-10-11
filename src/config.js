@@ -13,10 +13,6 @@ const environment = {
   }
 }[process.env.NODE_ENV || 'development'];
 
-const appHost = process.env.APP_HOST || 'localhost';
-const appPort = Number( process.env.APP_PORT || 3000 );
-const appBase = normalize( appHost + ':' + appPort );
-
 const globalHost = process.env.CHAUS_HOST || 'localhost';
 const globalPort = Number( process.env.CHAUS_PORT || 3000 );
 const globalBase = normalize( globalHost + ':' + globalPort );
@@ -31,7 +27,6 @@ module.exports = Object.assign({
   },
   mongoURL: '', // If you want to set MongoURL on config, please set here otherwise, process.env.CHAUS_MONGO_URL will be used.
   app: {
-    base: appBase,
     title: title,
     description: description,
     head: {
