@@ -36,7 +36,9 @@
     "build": {
       "command": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "GLOBAL_HOST": "chaus.herokuapp.com",
+        "GLOBAL_PORT": 443
       }
     },
     "watch": {
