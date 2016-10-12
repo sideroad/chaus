@@ -6,8 +6,10 @@ import networks from './networks';
 import origins from './origins';
 import page from './page';
 import records from './records';
+import {reducer as form} from 'redux-form';
 
 export default {
+  form,
   apps,
   attributes,
   configs,

@@ -84,7 +84,7 @@
     "http-proxy": "^1.12.0",
     "invariant": "^2.2.0",
     "isomorphic-fetch": "^2.2.0",
-    "koiki": "^2.1.1",
+    "koiki": "^2.1.2",
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
     "lodash": "^3.10.1",
