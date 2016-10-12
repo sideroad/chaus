@@ -25,10 +25,10 @@
     "NPM_CONFIG_PRODUCTION": {
       "value": "false"
     },
-    "CHAUS_HOST": {
+    "GLOBAL_HOST": {
       "description": "Please specify domain"
     },
-    "CHAUS_PORT": {
+    "GLOBAL_PORT": {
       "value": "443"
     }
   },

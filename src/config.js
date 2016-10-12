@@ -13,8 +13,8 @@ const environment = {
   }
 }[process.env.NODE_ENV || 'development'];
 
-const globalHost = process.env.CHAUS_HOST || 'localhost';
-const globalPort = Number( process.env.CHAUS_PORT || 3000 );
+const globalHost = process.env.GLOBAL_HOST || 'localhost';
+const globalPort = Number( process.env.GLOBAL_PORT || 3000 );
 const globalBase = normalize( globalHost + ':' + globalPort );
 
 module.exports = Object.assign({
