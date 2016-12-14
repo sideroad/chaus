@@ -12,16 +12,24 @@ const version = JSON.parse( fs.readFileSync( __dirname + '/../package.json') ).v
 const routes = {};
 let creators = [];
 
-function fetchApps(application) {
+function fetchApps(application, token) {
   console.log('Loading apps...', application);
   return fetch( config.global.base + stringify(uris.admin.app, {
     app: application
   }) + '?limit=1000', {
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'x-chaus-token': token
+    }
   }).then(res => res.json())
     .then(app => {
       return fetch( config.global.base + uris.admin.origins + '?app=' + encodeURIComponent( application ) + '&limit=1000', {
-        method: 'GET'
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'x-chaus-token': token
+        }
       }).then(res => res.json())
         .then(origins=>{
           app.origins = origins.items.map(origin=> origin.url);
@@ -31,18 +39,26 @@ function fetchApps(application) {
     .catch(err => console.error(err));
 }
 
-function fetchModels() {
+function fetchModels(token) {
   console.log('Loading models...');
   return fetch( config.global.base + uris.admin.models + '?limit=10000', {
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'x-chaus-token': token
+    }
   }).then(res => res.json())
     .catch(err => console.error(err));
 }
 
-function fetchAttributes() {
+function fetchAttributes(token) {
   console.log('Loading attributes...');
   return fetch( config.global.base + uris.admin.attributes + '?limit=10000', {
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'x-chaus-token': token
+    }
   }).then(res => res.json())
     .catch(err => console.error(err));
 }
@@ -87,17 +103,17 @@ function convert(models, attributes) {
   return dist;
 }
 
-export default function(app, mongoose) {
+export default function(app, mongoose, token) {
   console.log('Loading APIs...');
   creators.map(_creator => _creator.destroy());
   creators = [];
-  fetchModels()
+  fetchModels(token)
     .then(models => {
-      fetchAttributes()
+      fetchAttributes(token)
         .then(attributes=> {
           const schema = convert(models.items, attributes.items);
           Object.keys(schema).forEach(application => {
-            fetchApps(application)
+            fetchApps(application, token)
               .then(settings=> {
                 const path = stringify(uris.apis.root, { app: application });
 
@@ -125,7 +141,9 @@ export default function(app, mongoose) {
                   mongo: mongoose,
                   schema: schema[application],
                   cors: true,
-                  prefix: path
+                  prefix: path,
+                  client: settings.client,
+                  secret: settings.secret
                 }));
 
                 creator.doc({

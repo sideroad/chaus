@@ -70,7 +70,9 @@ module.exports = {
       'process.env': {
         NODE_ENV: '"' + process.env.NODE_ENV + '"',
         GLOBAL_HOST: '"' + process.env.GLOBAL_HOST + '"',
-        GLOBAL_PORT: '"' + process.env.GLOBAL_PORT + '"'
+        GLOBAL_PORT: '"' + process.env.GLOBAL_PORT + '"',
+        CHAUS_GITHUB_CLIENT_ID: '"' + process.env.CHAUS_GITHUB_CLIENT_ID + '"',
+        CHAUS_GITHUB_CLIENT_SECRET: '""'
       }
     }),
 

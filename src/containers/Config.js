@@ -8,8 +8,11 @@ import config from '../config';
 import { push } from 'react-router-redux';
 import { asyncConnect } from 'redux-connect';
 import eachSeries from 'async/mapSeries';
+import { formValueSelector } from 'redux-form';
 import uris from '../uris';
 import { stringify } from 'koiki';
+
+const selector = formValueSelector('apps');
 
 @asyncConnect([{
   promise: ({params, helpers: {fetcher}}) => {
@@ -31,7 +34,8 @@ import { stringify } from 'koiki';
     models: state.models.data,
     configs: state.configs.data,
     origins: state.origins.data,
-    open: state.page.open
+    open: state.page.open,
+    callFromServer: selector(state, 'caller') === 'server'
   }),
   dispatch => ({
     delete: (fetcher, app, lang) => {
@@ -120,7 +124,8 @@ export default class Config extends Component {
     models: PropTypes.array.isRequired,
     params: PropTypes.object.isRequired,
     save: PropTypes.func.isRequired,
-    delete: PropTypes.func.isRequired
+    delete: PropTypes.func.isRequired,
+    callFromServer: PropTypes.bool.isRequired
   }
   static contextTypes = {
     fetcher: PropTypes.object.isRequired
@@ -131,7 +136,8 @@ export default class Config extends Component {
       configs,
       origins,
       models,
-      open
+      open,
+      callFromServer
     } = this.props;
 
     const {
@@ -152,11 +158,12 @@ export default class Config extends Component {
           children={
             <div className={'uk-width-medium-8-10 ' + styles.contents} >
               <ConfigForm
-                initialValues={{...configs, origins}}
+                initialValues={console.log({...configs, origins}) || {...configs, origins}}
                 lang={lang}
                 app={app}
                 onSave={values => this.props.save(fetcher, app, values)}
                 onDelete={() => this.props.delete(fetcher, app, lang)}
+                callFromServer={callFromServer}
               />
             </div>
           }

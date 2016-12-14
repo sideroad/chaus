@@ -96,11 +96,18 @@ module.exports = {
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
     new webpack.IgnorePlugin(/webpack-stats\.json$/),
+    // set global vars
     new webpack.DefinePlugin({
       __CLIENT__: true,
       __SERVER__: false,
       __DEVELOPMENT__: true,
-      __DEVTOOLS__: true  // <-------- DISABLE redux-devtools HERE
+      'process.env': {
+        NODE_ENV: '"' + process.env.NODE_ENV + '"',
+        GLOBAL_HOST: '"' + process.env.GLOBAL_HOST + '"',
+        GLOBAL_PORT: '"' + process.env.GLOBAL_PORT + '"',
+        CHAUS_GITHUB_CLIENT_ID: '"' + process.env.CHAUS_GITHUB_CLIENT_ID + '"',
+        CHAUS_GITHUB_CLIENT_SECRET: '""'
+      }
     }),
     webpackIsomorphicToolsPlugin.development()
   ],

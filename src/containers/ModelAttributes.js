@@ -3,7 +3,6 @@ import __ from 'lodash';
 import uris from '../uris';
 import {connect} from 'react-redux';
 import {AttributeForm} from 'components';
-import {reduxForm} from 'redux-form';
 import { push } from 'react-router-redux';
 import { asyncConnect } from 'redux-connect';
 import * as pageActions from 'reducers/page';
@@ -103,15 +102,10 @@ import { stringify } from 'koiki';
     }
   })
 )
-@reduxForm({
-  form: 'modelButton',
-  fields: []
-})
 export default class ModelAttributes extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     push: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
     models: PropTypes.array.isRequired,
     attributes: PropTypes.array.isRequired,
     loaded: PropTypes.bool,
@@ -130,7 +124,6 @@ export default class ModelAttributes extends Component {
     const {
       models,
       attributes,
-      handleSubmit,
       loading,
       loaded,
       err,
@@ -162,9 +155,9 @@ export default class ModelAttributes extends Component {
             <div className="uk-width-4-10 uk-text-right" >
               <button className={'uk-button uk-button-danger uk-button-large ' + styles['cm-button'] + ' ' + styles['cm-danger-button']} type="button"
                 onClick={
-                  handleSubmit(() => {
-                    this.props.delete(fetcher, app, __.find(models, {name}).id, name, lang);
-                  })}
+                  () =>
+                    this.props.delete(fetcher, app, __.find(models, {name}).id, name, lang)
+                }
               >
                 <i className={'uk-icon-trash ' + styles['cm-icon'] + ' ' + styles['cm-trash-button']}/>
                 <span className={styles['cm-delete-button-text']}>Delete</span>
@@ -184,7 +177,6 @@ export default class ModelAttributes extends Component {
                 if ( !model ) {
                   return false;
                 }
-                _attribute.model = model;
                 return _attribute;
               }).filter(attribute => attribute ? true : false),
               model: __.find(models, {name}).id

@@ -30,6 +30,12 @@
     },
     "GLOBAL_PORT": {
       "value": "443"
+    },
+    "CHAUS_GITHUB_CLIENT_ID": {
+      "description": "Please specify github client ID"
+    },
+    "CHAUS_GITHUB_CLIENT_SECRET": {
+      "description": "Please specify github client secret ID"
     }
   },
   "addons": [

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import { asyncConnect } from 'redux-connect';
+import { Field } from 'redux-form';
 import __ from 'lodash';
 
 @asyncConnect([{
@@ -21,7 +22,8 @@ export default class RelationSelectBox extends Component {
   static propTypes = {
     models: PropTypes.array.isRequired,
     model: PropTypes.string.isRequired,
-    relation: PropTypes.object.isRequired,
+    relation: PropTypes.string,
+    attribute: PropTypes.string.isRequired,
     attributes: PropTypes.array.isRequired
   };
 
@@ -29,7 +31,7 @@ export default class RelationSelectBox extends Component {
     const {
       models,
       model,
-      relation,
+      attribute,
       attributes
     } = this.props;
     const styles = require('../css/customize.less');
@@ -37,10 +39,14 @@ export default class RelationSelectBox extends Component {
     return (
       <p className={styles['cm-parent-attribution']}>
       {attributes.length &&
-        <select name="relation" className={styles['cm-selectbox']} {...relation} value={relation.value}>
+        <Field
+          className={styles['cm-selectbox']}
+          component="select"
+          name={`${attribute}.relationAttribute`}
+        >
           {attributes
-            .map(attribute => {
-              const _attribute = Object.assign({}, attribute);
+            .map(item => {
+              const _attribute = Object.assign({}, item);
               if ( _attribute.relation ) {
                 _attribute.relation = _attribute.relation.id;
               }
@@ -51,11 +57,11 @@ export default class RelationSelectBox extends Component {
               _attribute.model = _model;
               return _attribute;
             })
-            .filter(attribute => attribute ? true : false)
+            .filter(_attribute => _attribute ? true : false)
             .map(_relation =>
               <option value={_relation.name} key={_relation.name} >{_relation.name}</option>
             )}
-        </select>
+        </Field>
       }
       </p>
     );

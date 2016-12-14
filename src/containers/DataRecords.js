@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as recordActions from 'reducers/records';
 import {RecordForm} from 'components';
-import {reduxForm} from 'redux-form';
 import * as pageActions from 'reducers/page';
 import moment from 'moment';
 import { asyncConnect } from 'redux-connect';
@@ -18,9 +17,18 @@ import __ from 'lodash';
     promises.push(fetcher.attributes.load({
       app: params.app
     }));
-    promises.push(fetcher.records.load({
-      app: params.app,
-      model: pluralize( params.name )
+    promises.push(fetcher.configs.load({
+      app: params.app
+    }).then((res) => {
+      return fetcher.records.load({
+        app: params.app,
+        model: pluralize( params.name )
+      }, {
+        headers: {
+          'x-chaus-secret': res.secret,
+          'x-chaus-client': res.client,
+        }
+      });
     }));
     return Promise.all(promises);
   }
@@ -124,14 +132,9 @@ import __ from 'lodash';
     }
   })
 )
-@reduxForm({
-  form: 'modelButton',
-  fields: []
-})
 export default class DataRecords extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
     models: PropTypes.array.isRequired,
     attributes: PropTypes.array.isRequired,
     records: PropTypes.array.isRequired,
@@ -223,21 +226,22 @@ export default class DataRecords extends Component {
               <tbody>
                 {
                   items && items.map((item, index) =>
-                    (<RecordForm
-                      formKey={name + index}
+                    <RecordForm
+                      form={name + index}
+                      key={name + index}
                       fields={fields}
                       targets={targets}
                       key={name + index}
                       app={app}
                       model={name}
                       id={item.id}
-                      items={items}
-                      initialValues={item}
+                      item={item}
+                      initialValues={console.log('initialValues', item) || item}
                       onCreate={values => this.props.create(fetcher, app, name, values, index)}
                       onUpdate={(id, values) => this.props.update(fetcher, app, name, id, values, targets, index)}
                       onDelete={id => this.props.delete(fetcher, app, name, id)}
                       err={err && index === this.props.index ? err : undefined}
-                    />)
+                    />
                   )
                 }
               </tbody>

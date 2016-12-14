@@ -1,3 +1,4 @@
+import user from './user';
 import apps from './apps';
 import attributes from './attributes';
 import configs from './configs';
@@ -17,5 +18,6 @@ export default {
   networks,
   origins,
   page,
-  records
+  records,
+  user
 };

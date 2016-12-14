@@ -1,36 +1,39 @@
 import React, {Component, PropTypes} from 'react';
-import {reduxForm} from 'redux-form';
 
-@reduxForm({
-  form: 'apps',
-  fields: [
-    'app'
-  ]
-})
 export default class AppForm extends Component {
   static propTypes = {
-    fields: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    values: PropTypes.object.isRequired,
     candidate: PropTypes.string,
     onNext: PropTypes.func.isRequired,
     onPrev: PropTypes.func.isRequired,
     onTab: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    onEnter: PropTypes.func.isRequired
+    onEnter: PropTypes.func.isRequired,
+    query: PropTypes.string
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {value: props.query};
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      value: nextProps.query
+    });
+  }
 
   render() {
     const {
-      values,
-      fields,
       candidate,
       onPrev,
       onNext,
       onTab,
       onChange,
-      onEnter
+      onEnter,
     } = this.props;
+    const {
+      value
+    } = this.state;
     const styles = {
       base: require('../css/customize.less'),
       app: require('../css/app.less')
@@ -38,15 +41,16 @@ export default class AppForm extends Component {
     const submit = (app) => {
       onEnter(app);
     };
-    const search = (query) => {
-      onChange(query);
+    const search = (_query) => {
+      onChange(_query);
     };
 
     return (
       <div className={styles.app.box}>
         <div className={styles.app.candidate}>{candidate}</div>
         <input
-          {...fields.app}
+          value={value}
+          ref={(elem) => { this.inputDOM = elem; }}
           className={styles.app.input + ' ' + styles.base.input}
           onKeyDown={
             (evt) => {
@@ -56,8 +60,6 @@ export default class AppForm extends Component {
                   break;
                 case 'Tab':
                   onTab(candidate);
-                  fields.app.value = candidate;
-                  values.app = candidate;
                   evt.preventDefault();
                   break;
                 case 'ArrowUp':
@@ -74,17 +76,17 @@ export default class AppForm extends Component {
           }
           onChange={
             (evt) => {
+              this.setState({value: event.target.value});
               search(evt.target.value);
             }
           }
+          type="text"
         />
         <img
           src={require('../images/glass.png')}
           className={styles.app.glass}
           onClick={
-            ()=>{
-              submit(fields.app.value);
-            }
+            () => submit(this.inputDOM.value)
           }
         />
       </div>

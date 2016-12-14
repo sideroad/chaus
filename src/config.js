@@ -25,6 +25,10 @@ module.exports = Object.assign({
     port: globalPort,
     base: globalBase
   },
+  github: {
+    appId: process.env.CHAUS_GITHUB_CLIENT_ID,
+    secret: process.env.CHAUS_GITHUB_CLIENT_SECRET,
+  },
   mongoURL: '', // If you want to set MongoURL on config, please set here otherwise, process.env.CHAUS_MONGO_URL will be used.
   app: {
     title: title,

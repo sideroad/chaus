@@ -11,6 +11,26 @@ module.exports = {
     },
     origins: {
       children: 'origin'
+    },
+    allows: {
+      children: 'allow'
+    },
+    caller: {
+      pattern: /^(client|server)$/
+    },
+    client: {
+      pattern: /^[0-9a-f\-]+$/
+    },
+    secret: {
+    }
+  },
+  allow: {
+    user: {
+      uniq: true
+    },
+    app: {
+      uniq: true,
+      parent: 'app.allows'
     }
   },
   origin: {
