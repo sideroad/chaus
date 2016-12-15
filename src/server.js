@@ -57,6 +57,14 @@ app.use('/', creator.router({
         next();
         return;
       }
+      // POST app API should be allow to create app
+      if (key === 'app' &&
+          req.method === 'POST' &&
+          !req.params.id
+      ) {
+        next();
+        return;
+      }
       schemas.allow.findOne({
         app: req[store][key === 'app' ? 'id' : 'app'] ||
              req.params[key === 'app' ? 'id' : ''],
@@ -65,7 +73,6 @@ app.use('/', creator.router({
         if (!err && instance) {
           next();
         } else {
-          console.log(err);
           res.status(401).json({
             errors: [
               { message: 'Forbidden' }
