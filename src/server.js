@@ -65,6 +65,7 @@ app.use('/', creator.router({
         if (!err && instance) {
           next();
         } else {
+          console.log(err);
           res.status(401).json({
             errors: [
               { message: 'Forbidden' }
