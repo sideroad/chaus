@@ -24,7 +24,7 @@ class ConfigForm extends Component {
         handleSubmit(({ caller, client, secret, description, origins }) =>
           this.props.onSave({
             caller,
-            client,
+            client: client || v4(),
             secret: caller === 'server' ? secret || v4() : '',
             description,
             origins
