@@ -31,46 +31,55 @@ class ConfigForm extends Component {
           }))
       }>
         <article className="uk-article">
-          <h1 className={'uk-article-title ' + styles.base['cm-title']}>App settings</h1>
+          <h1 className={'uk-article-title ' + styles.base['cm-title']}>Authentication</h1>
           <hr className="uk-article-divider" />
-          <h2 className={styles.base['cm-title']}>Call from</h2>
-          <label><Field name="caller" component="input" type="radio" value="client"/> Client</label>
-          <label><Field name="caller" component="input" type="radio" value="server"/> Server</label>
+          <label className={styles.config.radio} ><Field name="caller" component="input" type="radio" value="client"/> Unlimited</label>
+          <label className={styles.config.radio} ><Field name="caller" component="input" type="radio" value="server"/> Limited</label>
           {
             callFromServer ?
-              <div>
-                <h3 className={styles.base['cm-title']}>Client ID</h3>
-                <Field
-                  name="client"
-                  component="input"
-                  type="text"
-                  className={styles.base.input + ' uk-width-10'}
-                  readOnly
-                />
-                <h3 className={styles.base['cm-title']}>Secret ID</h3>
-                <Field
-                  name="secret"
-                  component={
-                    (field) =>
-                      <div>
-                        <input
-                          {...field.input}
-                          type="text"
-                          className={styles.base.input + ' uk-width-8-10'}
-                          readOnly
-                        />
-                        <button
-                          className="uk-button uk-button-primary uk-width-2-10"
-                          onClick={event => {
-                            event.preventDefault();
-                            field.input.onChange(v4());
-                          }}>
-                          <i className="uk-icon-refresh uk-icon-small"></i>
-                        </button>
-                      </div>
-                  }
-                />
-            </div> : ''
+            <table className={styles.base['cm-table'] + ' uk-table uk-table-striped uk-table-condensed'}>
+              <tbody>
+                <tr>
+                  <td>Client ID</td>
+                  <td>
+                    <Field
+                      name="client"
+                      component="input"
+                      type="text"
+                      className={styles.base.input + ' uk-width-10'}
+                      readOnly
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Secret ID</td>
+                  <td>
+                    <Field
+                      name="secret"
+                      component={
+                        (field) =>
+                          <div>
+                            <input
+                              {...field.input}
+                              type="text"
+                              className={styles.base.input + ' uk-width-8-10'}
+                              readOnly
+                            />
+                            <button
+                              className="uk-button uk-width-2-10"
+                              onClick={event => {
+                                event.preventDefault();
+                                field.input.onChange(v4());
+                              }}>
+                              <i className="uk-icon-refresh uk-icon-small"></i>
+                            </button>
+                          </div>
+                      }
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table> : ''
           }
           <h1 className={'uk-article-title ' + styles.base['cm-title']}>Description</h1>
           <hr className="uk-article-divider" />

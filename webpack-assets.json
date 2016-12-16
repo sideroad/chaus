@@ -1,6 +1,6 @@
 {
   "javascript": {
-    "main": "http://localhost:3001/dist/main-2c5ff248eb887972e55a.js"
+    "main": "http://localhost:3001/dist/main-f262e90d3d5a82c576b3.js"
   },
   "styles": {},
   "assets": {
@@ -145,10 +145,11 @@
       "_style": "/** color scheme */\n/** ui color */\n.app___3hg65 {\n  min-height: 200px;\n  width: 100%;\n}\n.box___3yQ5L {\n  width: 100%;\n  text-align: center;\n  margin-top: 10%;\n  margin-bottom: 5%;\n  position: relative;\n  height: 50px;\n}\n.lead___3KQuT {\n  color: #5AC2D9 !important;\n  font-size: 3em;\n  text-align: center;\n  margin-top: 15%;\n  line-height: 1.5em;\n}\n.glass___2eUcM {\n  width: 64px;\n  height: 64px;\n  opacity: 0.7;\n  position: absolute;\n  left: 16%;\n  top: 3px;\n}\n.input___354cS {\n  color: #AACF53 !important;\n  width: 70%;\n  height: 70px;\n  font-size: 50px;\n  padding-left: 83px;\n  border-width: 3px !important;\n  border-radius: 10px;\n  background: none !important;\n  position: absolute;\n  left: 15%;\n  top: 0px;\n  box-sizing: border-box;\n}\n.input___354cS:focus {\n  color: #AACF53 !important;\n  border-width: 3px !important;\n  background: none !important;\n}\n.input___354cS::-webkit-input-placeholder {\n  font-color: #FFFFFC !important;\n}\n.input___354cS:-ms-input-placeholder {\n  font-color: #FFFFFC !important;\n}\n.input___354cS::-moz-placeholder {\n  font-color: #FFFFFC !important;\n}\n.candidate___1J3Z5 {\n  position: absolute;\n  color: #DCDDDD;\n  border: 1px solid #DCDDDD !important;\n  padding-top: 22px;\n  width: 70%;\n  left: 15%;\n  border-width: 3px !important;\n  border-radius: 10px;\n  height: 70px;\n  font-size: 50px;\n  padding-left: 83px;\n  top: 0px;\n  text-align: left;\n  box-sizing: border-box;\n  background-color: #FFFFFC;\n}\n.items___1MbOl {\n  width: 80%;\n  margin-bottom: 5%;\n  margin: auto;\n}\n.item___1hgkL {\n  width: 33.333333333333336%;\n  background-clip: content-box;\n  box-sizing: border-box;\n  float: left;\n  margin-bottom: 5%;\n}\n.card___2sb97 {\n  color: #AACF53;\n  background-color: #FFFFFC;\n  border: 3px solid #AACF53;\n  border-radius: 10px;\n  font-size: 2em;\n  height: 110px;\n  margin: 10px;\n  padding: 10px;\n  padding-top: 20px;\n  padding-bottom: 20px;\n  position: relative;\n  display: block;\n  transition-duration: 0.2s;\n}\n.card___2sb97:hover,\n.selected___2tlSt {\n  color: #FFFFFC;\n  background-color: #AACF53;\n  border-color: #FFFFFC;\n}\n.primary___XstFq {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}\n@media (max-width: 767px) {\n  .glass___2eUcM {\n    width: 44px !important;\n    height: 44px !important;\n    margin-top: 0px !important;\n  }\n  .item___1hgkL {\n    width: 100%;\n  }\n  .input___354cS {\n    font-size: 20px;\n    padding-left: 56px;\n    height: 50px;\n  }\n  .candidate___1J3Z5 {\n    font-size: 20px;\n    padding-left: 56px;\n    padding-top: 12px;\n    height: 50px;\n  }\n}\n"
     },
     "./src/css/config.less": {
+      "radio": "radio___bk-1Z",
       "description": "description___y2iMx",
       "url": "url___3iozw",
       "remove": "remove___1Wk_4",
-      "_style": "/** color scheme */\n/** ui color */\n.description___y2iMx {\n  height: 10em !important;\n  width: 100%;\n  font-size: 1.1em !important;\n}\n.url___3iozw {\n  width: 100%;\n}\n.remove___1Wk_4 {\n  margin: auto;\n}\n@media (max-width: 767px) {\n  .url___3iozw {\n    margin-left: 10px !important;\n  }\n}\n"
+      "_style": "/** color scheme */\n/** ui color */\n.radio___bk-1Z {\n  margin: 10px;\n  color: #7D7D7D;\n  font-size: 1.2em;\n}\n.description___y2iMx {\n  height: 10em !important;\n  width: 100%;\n  font-size: 1.1em !important;\n}\n.url___3iozw {\n  width: 100%;\n}\n.remove___1Wk_4 {\n  margin: auto;\n}\n@media (max-width: 767px) {\n  .url___3iozw {\n    margin-left: 10px !important;\n  }\n}\n"
     }
   }
 }
