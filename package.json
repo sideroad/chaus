@@ -84,7 +84,7 @@
     "cookie-parser": "^1.4.3",
     "cors": "^2.7.1",
     "express": "^4.13.3",
-    "express-restful-api": "^11.3.0",
+    "express-restful-api": "^11.4.0",
     "express-session": "^1.14.2",
     "file-loader": "^0.8.5",
     "history": "1.13.1",
