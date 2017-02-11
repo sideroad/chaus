@@ -80,9 +80,9 @@ import { stringify } from 'koiki';
             (attribute, callback) => {
               fetcher.attributes
                 .save({
+                  ...attribute,
                   app,
-                  model,
-                  ...attribute
+                  model
                 })
                 .then(
                   () => callback(null, index++),
