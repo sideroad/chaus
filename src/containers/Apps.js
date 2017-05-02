@@ -1,11 +1,12 @@
 import React, {Component, PropTypes} from 'react';
-import {Main} from 'containers';
-import {Card, AppForm} from 'components';
+import Main from '../containers/Main';
+import Card from '../components/Card';
+import AppForm from '../components/AppForm';
 import Helmet from 'react-helmet';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
-import * as appsActions from 'reducers/apps';
-import * as pageActions from 'reducers/page';
+import * as appsActions from '../reducers/apps';
+import * as pageActions from '../reducers/page';
 import { push } from 'react-router-redux';
 import { v4 } from 'uuid';
 
@@ -13,88 +14,7 @@ import config from '../config';
 import uris from '../uris';
 import { stringify } from 'koiki';
 
-@asyncConnect([{
-  promise: ({helpers: {fetcher}}) => {
-    const promises = [];
-    console.log('ここっす');
-    promises.push(
-      fetcher.apps.load()
-    );
-    return Promise.all(promises);
-  }
-}])
-@connect(
-  (state)=>({
-    query: state.apps.query,
-    apps: state.apps.data,
-    candidate: state.apps.candidate,
-    user: state.user.item
-  }),
-  dispatch => ({
-    search: (fetcher, query) => {
-      dispatch(appsActions.query(query));
-      fetcher.apps.load({
-        name: query ? query + '*' : ''
-      });
-    },
-    prev: () => dispatch(appsActions.prev()),
-    next: () => dispatch(appsActions.next()),
-    submit: (fetcher, app, lang) => {
-      if ( !app ) {
-        return;
-      }
-      dispatch(pageActions.load());
-
-      fetcher.apps
-        .load({
-          name: app
-        })
-        .then(res => {
-          if ( res.items.length ) {
-            dispatch(pageActions.finishLoad());
-            dispatch(push(stringify(uris.pages.models, {lang, app})));
-          } else {
-            fetcher.apps
-              .save({
-                name: app,
-                caller: 'client',
-                client: v4()
-              })
-              .then(
-                () => {
-                  fetcher.page.restart().then(
-                    () => dispatch(push(stringify(uris.pages.models, {lang, app})))
-                  );
-                },
-                () => {
-                  dispatch(pageActions.finishLoad());
-                }
-              );
-          }
-        });
-    },
-    push
-  })
-)
-export default class Apps extends Component {
-  static propTypes = {
-    query: PropTypes.string,
-    apps: PropTypes.array.isRequired,
-    candidate: PropTypes.string,
-    params: PropTypes.object.isRequired,
-    search: PropTypes.func.isRequired,
-    push: PropTypes.func.isRequired,
-    prev: PropTypes.func.isRequired,
-    next: PropTypes.func.isRequired,
-    submit: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    fetcher: PropTypes.object.isRequired,
-    i18n: PropTypes.object.isRequired
-  };
-
+class Apps extends Component {
   render() {
     const {
       apps,
@@ -181,3 +101,87 @@ export default class Apps extends Component {
     );
   }
 }
+
+const connected = connect(
+  (state)=>({
+    query: state.apps.query,
+    apps: state.apps.data,
+    candidate: state.apps.candidate,
+    user: state.user.item
+  }),
+  dispatch => ({
+    search: (fetcher, query) => {
+      dispatch(appsActions.query(query));
+      fetcher.apps.load({
+        name: query ? query + '*' : ''
+      });
+    },
+    prev: () => dispatch(appsActions.prev()),
+    next: () => dispatch(appsActions.next()),
+    submit: (fetcher, app, lang) => {
+      if ( !app ) {
+        return;
+      }
+      dispatch(pageActions.load());
+
+      fetcher.apps
+        .load({
+          name: app
+        })
+        .then(res => {
+          if ( res.body.items.length ) {
+            dispatch(pageActions.finishLoad());
+            dispatch(push(stringify(uris.pages.models, {lang, app})));
+          } else {
+            fetcher.apps
+              .save({
+                name: app,
+                caller: 'client',
+                client: v4()
+              })
+              .then(
+                () => {
+                  fetcher.page.restart().then(
+                    () => dispatch(push(stringify(uris.pages.models, {lang, app})))
+                  );
+                },
+                () => {
+                  dispatch(pageActions.finishLoad());
+                }
+              );
+          }
+        });
+    },
+    push
+  })
+)(Apps);
+
+Apps.propTypes = {
+  query: PropTypes.string,
+  apps: PropTypes.array.isRequired,
+  candidate: PropTypes.string,
+  params: PropTypes.object.isRequired,
+  search: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
+  prev: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired,
+  submit: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
+};
+
+Apps.contextTypes = {
+  fetcher: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired
+};
+
+const asynced = asyncConnect([{
+  promise: ({helpers: {fetcher}}) => {
+    const promises = [];
+    promises.push(
+      fetcher.apps.load()
+    );
+    return Promise.all(promises);
+  }
+}])(connected);
+
+export default asynced;

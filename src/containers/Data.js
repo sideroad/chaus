@@ -1,37 +1,19 @@
 import React, {Component, PropTypes} from 'react';
-import {Main} from 'containers';
-import { connect } from 'react-redux';
-import * as pageActions from 'reducers/page';
+import autoBind from 'react-autobind';
 import Helmet from 'react-helmet';
-import config from '../config';
 import { asyncConnect } from 'redux-connect';
+import { connect } from 'react-redux';
+import Main from '../containers/Main';
+import * as pageActions from '../reducers/page';
+import config from '../config';
 
-@asyncConnect([{
-  promise: ({helpers: {fetcher}, params}) => {
-    return fetcher.models.load({
-      app: params.app
-    });
-  }
-}])
-@connect(
-  (state) => ({
-    models: state.models.data,
-    open: state.page.open
-  }),
-  {
-    closeSidebar: pageActions.closeSidebar
-  }
-)
-export default class App extends Component {
-  static propTypes = {
-    children: PropTypes.object.isRequired,
-    models: PropTypes.array,
-    open: PropTypes.bool,
-    params: PropTypes.object.isRequired,
-    closeSidebar: PropTypes.func.isRequired
+class Data extends Component {
+  constructor(props) {
+    super(props);
+    autoBind(this);
   }
 
-  handleClick = () => {
+  handleClick() {
     this.props.closeSidebar();
   }
 
@@ -57,3 +39,31 @@ export default class App extends Component {
     );
   }
 }
+
+Data.propTypes = {
+  children: PropTypes.object.isRequired,
+  models: PropTypes.array,
+  open: PropTypes.bool,
+  params: PropTypes.object.isRequired,
+  closeSidebar: PropTypes.func.isRequired
+};
+
+const connected = connect(
+  (state) => ({
+    models: state.models.data,
+    open: state.page.open
+  }),
+  {
+    closeSidebar: pageActions.closeSidebar
+  }
+)(Data);
+
+const asynced = asyncConnect([{
+  promise: ({helpers: {fetcher}, params}) => {
+    return fetcher.models.load({
+      app: params.app
+    });
+  }
+}])(connected);
+
+export default asynced;

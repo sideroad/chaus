@@ -1,26 +1,14 @@
-import React, {Component, PropTypes} from 'react';
-import {IndexLink} from 'react-router';
+import React, { Component, PropTypes } from 'react';
+import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
 import * as pageActions from '../reducers/page';
 import uris from '../uris';
 import { stringify } from 'koiki';
 
-@connect(
-  state => ({
-    open: state.page.open
-  }),
-  {...pageActions}
-)
-export default class Header extends Component {
-  static propTypes = {
-    open: PropTypes.bool.isRequired,
-    shouldDisplayToggle: PropTypes.bool.isRequired,
-    toggleSidebar: PropTypes.func.isRequired,
-    lang: PropTypes.string.isRequired
-  };
+class Header extends Component {
 
   render() {
-    const {toggleSidebar, shouldDisplayToggle, lang, open} = this.props;
+    const { toggleSidebar, shouldDisplayToggle, lang, open } = this.props;
     const styles = {
       base: require('../css/customize.less'),
       header: require('../css/header.less')
@@ -58,3 +46,19 @@ export default class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  open: PropTypes.bool.isRequired,
+  shouldDisplayToggle: PropTypes.bool.isRequired,
+  toggleSidebar: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired
+};
+
+const connected = connect(
+  state => ({
+    open: state.page.open
+  }),
+  {...pageActions}
+)(Header);
+
+export default connected;

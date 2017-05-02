@@ -1,22 +1,18 @@
 /* eslint no-new: 0 */
-import {default as React, Component, PropTypes} from 'react';
-const vis = require('vis');
-const uuid = require('uuid');
+import { default as React, Component, PropTypes } from 'react';
+import vis from 'vis';
+import uuid from 'uuid';
+import autoBind from 'react-autobind';
 
 class Graph extends Component {
-  static propTypes = {
-    identifier: PropTypes.string,
-    dot: PropTypes.string.isRequired,
-    style: PropTypes.object,
-    onSelectNode: PropTypes.func,
-  }
+
   constructor(props) {
     super(props);
-    const {identifier} = this.props;
-    this.updateGraph = this.updateGraph.bind(this);
+    const { identifier } = this.props;
     this.state = {
       identifier: identifier ? identifier : uuid.v4()
     };
+    autoBind(this);
   }
 
   componentDidMount() {
@@ -106,6 +102,13 @@ class Graph extends Component {
     return <div style={style} id={identifier} />;
   }
 }
+
+Graph.propTypes = {
+  identifier: PropTypes.string,
+  dot: PropTypes.string.isRequired,
+  style: PropTypes.object,
+  onSelectNode: PropTypes.func,
+};
 
 Graph.defaultProps = {
   dot: '',

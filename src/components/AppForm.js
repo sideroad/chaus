@@ -1,15 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 
-export default class AppForm extends Component {
-  static propTypes = {
-    candidate: PropTypes.string,
-    onNext: PropTypes.func.isRequired,
-    onPrev: PropTypes.func.isRequired,
-    onTab: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onEnter: PropTypes.func.isRequired,
-    query: PropTypes.string
-  };
+class AppForm extends Component {
 
   constructor(props) {
     super(props);
@@ -93,3 +84,16 @@ export default class AppForm extends Component {
     );
   }
 }
+
+AppForm.propTypes = {
+  candidate: PropTypes.string,
+  onNext: PropTypes.func.isRequired,
+  onPrev: PropTypes.func.isRequired,
+  onTab: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onEnter: PropTypes.func.isRequired,
+  query: PropTypes.string
+};
+
+
+export default AppForm;

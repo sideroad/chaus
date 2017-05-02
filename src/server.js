@@ -152,7 +152,7 @@ app.use('/', creator.router({
   }
 }));
 
-mongoose.connect(config.mongoURL || process.env.CHAUS_MONGO_URL || process.env.MONGOLAB_URI );
+mongoose.connect(config.mongoURL);
 
 const retatch = (req, res)=>{
   mongoose.models = {};

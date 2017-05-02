@@ -5,17 +5,15 @@ import config from './config';
 import { set } from './reducers/user';
 import { get } from './helpers/auth';
 
-import {
-    Apps,
-    Model,
-    ModelHome,
-    ModelAttributes,
-    Data,
-    DataHome,
-    DataRecords,
-    Config,
-    NotFound
-  } from 'containers';
+import Apps from './containers/Apps';
+import Model from './containers/Model';
+import ModelHome from './containers/ModelHome';
+import ModelAttributes from './containers/ModelAttributes';
+import Data from './containers/Data';
+import DataHome from './containers/DataHome';
+import DataRecords from './containers/DataRecords';
+import Config from './containers/Config';
+import NotFound from './containers/NotFound';
 
 export default (store, cookie) => {
   /**

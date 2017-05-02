@@ -31,11 +31,14 @@
     "GLOBAL_PORT": {
       "value": "443"
     },
-    "CHAUS_GITHUB_CLIENT_ID": {
+    "KOIKI_CHAUS_GITHUB_CLIENT_ID": {
       "description": "Please specify github client ID"
     },
-    "CHAUS_GITHUB_CLIENT_SECRET": {
+    "KOIKI_CHAUS_GITHUB_CLIENT_SECRET": {
       "description": "Please specify github client secret ID"
+    },
+    "KOIKI_CHAUS_MONGO_URL": {
+      "description": "Please specify MongoDB URL"
     }
   },
   "addons": [

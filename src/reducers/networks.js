@@ -18,7 +18,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        data: action.res.network
+        data: action.res.body.network
       };
     case LOAD_FAIL:
       return {

@@ -34,7 +34,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        data: action.res.items,
+        data: action.res.body.items,
         err: undefined,
         success: false
       };

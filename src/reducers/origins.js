@@ -19,7 +19,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loading: false,
-        data: action.res.items
+        data: action.res.body.items
       };
     case LOAD_FAIL:
       return {

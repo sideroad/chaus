@@ -1,32 +1,11 @@
 import React, {Component, PropTypes} from 'react';
-import {Main} from 'containers';
+import Main from '../containers/Main';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import config from '../config';
 import { asyncConnect } from 'redux-connect';
 
-@asyncConnect([{
-  promise: ({helpers: {fetcher}, params}) => {
-    return fetcher.models.load({
-      app: params.app
-    });
-  }
-}])
-@connect(
-  (state) => ({
-    models: state.models.data,
-    open: state.page.open
-  }),
-  {}
-)
-export default class Model extends Component {
-  static propTypes = {
-    children: PropTypes.object.isRequired,
-    models: PropTypes.array,
-    open: PropTypes.bool,
-    params: PropTypes.object.isRequired,
-  }
-
+class Model extends Component {
   render() {
     const {
       children,
@@ -49,3 +28,28 @@ export default class Model extends Component {
     );
   }
 }
+
+Model.propTypes = {
+  children: PropTypes.object.isRequired,
+  models: PropTypes.array,
+  open: PropTypes.bool,
+  params: PropTypes.object.isRequired,
+};
+
+const connected = connect(
+  (state) => ({
+    models: state.models.data,
+    open: state.page.open
+  }),
+  {}
+)(Model);
+
+const asynced = asyncConnect([{
+  promise: ({helpers: {fetcher}, params}) => {
+    return fetcher.models.load({
+      app: params.app
+    });
+  }
+}])(connected);
+
+export default asynced;

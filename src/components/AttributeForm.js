@@ -1,27 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm, Field, FieldArray } from 'redux-form';
-import { RelationSelectBox } from 'components';
+import RelationSelectBox from '../components/RelationSelectBox';
 import __ from 'lodash';
 
-@reduxForm({
-  form: 'attribute',
-  enableReinitialize: true
-})
-export default class AttributeForm extends Component {
-  static propTypes = {
-    app: PropTypes.string.isRequired,
-    model: PropTypes.string.isRequired,
-    params: PropTypes.object,
-    handleSubmit: PropTypes.func.isRequired,
-    relations: PropTypes.array.isRequired,
-    onSave: PropTypes.func.isRequired,
-    err: PropTypes.object,
-    index: PropTypes.number
-  };
-
-  state = {
-    dragFrom: null,
-    dragTo: null
+class AttributeForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dragFrom: null,
+      dragTo: null
+    };
   }
 
   render() {
@@ -299,3 +287,19 @@ export default class AttributeForm extends Component {
     );
   }
 }
+
+AttributeForm.propTypes = {
+  app: PropTypes.string.isRequired,
+  model: PropTypes.string.isRequired,
+  params: PropTypes.object,
+  handleSubmit: PropTypes.func.isRequired,
+  relations: PropTypes.array.isRequired,
+  onSave: PropTypes.func.isRequired,
+  err: PropTypes.object,
+  index: PropTypes.number
+};
+
+export default reduxForm({
+  form: 'attribute',
+  enableReinitialize: true
+})(AttributeForm);

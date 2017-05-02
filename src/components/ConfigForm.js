@@ -3,12 +3,6 @@ import { reduxForm, Field, FieldArray } from 'redux-form';
 import { v4 } from 'uuid';
 
 class ConfigForm extends Component {
-  static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    callFromServer: PropTypes.bool.isRequired
-  };
 
   render() {
     const {
@@ -170,6 +164,13 @@ class ConfigForm extends Component {
     );
   }
 }
+
+ConfigForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  callFromServer: PropTypes.bool.isRequired
+};
 
 export default reduxForm({
   form: 'apps'

@@ -1,29 +1,11 @@
 import React, {Component, PropTypes} from 'react';
-import {Card} from 'components';
+import Card from '../components/Card';
 import uris from '../uris';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
 import { stringify } from 'koiki';
 
-@asyncConnect([{
-  promise: ({helpers: {fetcher}, params}) => {
-    return fetcher.models.load({
-      app: params.app
-    });
-  }
-}])
-@connect(
-  (state) => ({
-    models: state.models.data,
-    open: state.page.open
-  }),
-  {}
-)
-export default class DataHome extends Component {
-  static propTypes = {
-    models: PropTypes.array,
-    params: PropTypes.object.isRequired
-  }
+class DataHome extends Component {
 
   render() {
     const styles = require('../css/customize.less');
@@ -31,7 +13,7 @@ export default class DataHome extends Component {
       title: 'Data',
       lead: 'Manipulate API data'
     };
-    const {models, params: {lang, app}} = this.props;
+    const { models, params: { lang, app } } = this.props;
 
     return (
       <div className={'uk-width-medium-8-10 ' + styles.contents} >
@@ -55,3 +37,26 @@ export default class DataHome extends Component {
     );
   }
 }
+
+DataHome.propTypes = {
+  models: PropTypes.array,
+  params: PropTypes.object.isRequired
+};
+
+const connected = connect(
+  (state) => ({
+    models: state.models.data,
+    open: state.page.open
+  }),
+  {}
+)(DataHome);
+
+const asynced = asyncConnect([{
+  promise: ({helpers: {fetcher}, params}) => {
+    return fetcher.models.load({
+      app: params.app
+    });
+  }
+}])(connected);
+
+export default asynced;

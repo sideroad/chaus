@@ -1,31 +1,10 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
 import { Field } from 'redux-form';
 import __ from 'lodash';
 
-@asyncConnect([{
-  promise: ({helpers: {fetcher}, params}) => {
-    return fetcher.attributes.load({
-      app: params.app
-    });
-  }
-}])
-@connect(
-  (state) => ({
-    attributes: state.attributes.data,
-    models: state.models.data
-  }),
-  {}
-)
-export default class RelationSelectBox extends Component {
-  static propTypes = {
-    models: PropTypes.array.isRequired,
-    model: PropTypes.string.isRequired,
-    relation: PropTypes.string,
-    attribute: PropTypes.string.isRequired,
-    attributes: PropTypes.array.isRequired
-  };
+class RelationSelectBox extends Component {
 
   render() {
     const {
@@ -67,3 +46,29 @@ export default class RelationSelectBox extends Component {
     );
   }
 }
+
+RelationSelectBox.propTypes = {
+  models: PropTypes.array.isRequired,
+  model: PropTypes.string.isRequired,
+  relation: PropTypes.string,
+  attribute: PropTypes.string.isRequired,
+  attributes: PropTypes.array.isRequired
+};
+
+const connected = connect(
+  (state) => ({
+    attributes: state.attributes.data,
+    models: state.models.data
+  }),
+  {}
+)(RelationSelectBox);
+
+const asynced = asyncConnect([{
+  promise: ({helpers: {fetcher}, params}) => {
+    return fetcher.attributes.load({
+      app: params.app
+    });
+  }
+}])(connected);
+
+export default asynced;

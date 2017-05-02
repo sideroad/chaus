@@ -1,40 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import {Card} from 'components';
+import Card from '../components/Card';
 import { asyncConnect } from 'redux-connect';
 import uris from '../uris';
-import Graph from '../helpers/react-graph-vis';
+import Graph from '../components/Graph';
 import { push } from 'react-router-redux';
 import { stringify } from 'koiki';
 
-@asyncConnect([{
-  promise: ({helpers: {fetcher}, params}) => {
-    const promises = [];
-    promises.push(fetcher.models.load({
-      app: params.app
-    }));
-    promises.push(fetcher.networks.load({
-      app: params.app
-    }));
-    return Promise.all(promises);
-  }
-}])
-@connect(
-  (state) => ({
-    models: state.models.data,
-    networks: state.networks.data,
-    open: state.page.open
-  }),
-  {
-    push
-  }
-)
-export default class ModelHome extends Component {
-  static propTypes = {
-    networks: PropTypes.string,
-    params: PropTypes.object.isRequired,
-    push: PropTypes.func.isRequired
-  }
+class ModelHome extends Component {
 
   render() {
     const styles = require('../css/customize.less');
@@ -76,3 +49,35 @@ export default class ModelHome extends Component {
     );
   }
 }
+
+ModelHome.propTypes = {
+  networks: PropTypes.string,
+  params: PropTypes.object.isRequired,
+  push: PropTypes.func.isRequired
+};
+
+const connected = connect(
+  (state) => ({
+    models: state.models.data,
+    networks: state.networks.data,
+    open: state.page.open
+  }),
+  {
+    push
+  }
+)(ModelHome);
+
+const asynced = asyncConnect([{
+  promise: ({helpers: {fetcher}, params}) => {
+    const promises = [];
+    promises.push(fetcher.models.load({
+      app: params.app
+    }));
+    promises.push(fetcher.networks.load({
+      app: params.app
+    }));
+    return Promise.all(promises);
+  }
+}])(connected);
+
+export default asynced;

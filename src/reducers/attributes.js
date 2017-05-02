@@ -25,7 +25,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        data: action.res.items,
+        data: action.res.body.items,
         err: undefined
       };
     case LOAD_FAIL:
@@ -33,7 +33,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: false,
-        err: action.err
+        err: action.error
       };
     case SAVE_START:
       return state; // 'saving' flag handled by redux-form
@@ -48,7 +48,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         success: false,
-        err: action.err
+        err: action.error
       };
     case FAIL_INDEX:
       return {

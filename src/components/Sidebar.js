@@ -1,33 +1,26 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import { IndexLink } from 'react-router';
-import uris from '../uris';
+import autoBind from 'react-autobind';
 import { stringify } from 'koiki';
+import uris from '../uris';
 
 export default class Sidebar extends Component {
-  static propTypes = {
-    app: PropTypes.string.isRequired,
-    context: PropTypes.string.isRequired,
-    modelName: PropTypes.string,
-    models: PropTypes.array.isRequired,
-    onAdd: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
-    onBlur: PropTypes.func.isRequired,
-    editing: PropTypes.bool,
-    open: PropTypes.bool.isRequired,
-    lang: PropTypes.string.isRequired
-  };
-  componentDidUpdate = () => {
+  constructor(props) {
+    super(props);
+    autoBind(this);
+  }
+  componentDidUpdate() {
     if ( this.props.editing ) {
       this.refs.name.focus();
     }
   }
 
-  handleAdd = (event)=>{
+  handleAdd(event) {
     event.preventDefault();
     this.props.onAdd();
   }
 
-  handleSubmit = (event)=>{
+  handleSubmit(event) {
     event.preventDefault();
     const name = this.refs.name.value;
     const app = this.props.app;
@@ -37,11 +30,11 @@ export default class Sidebar extends Component {
     });
   }
 
-  handleBlur = () => {
+  handleBlur() {
     this.props.onBlur();
   }
 
-  handleClick = (event) => {
+  handleClick(event) {
     this.props.onBlur();
     event.target.blur();
   }
@@ -127,3 +120,16 @@ export default class Sidebar extends Component {
     );
   }
 }
+
+Sidebar.propTypes = {
+  app: PropTypes.string.isRequired,
+  context: PropTypes.string.isRequired,
+  modelName: PropTypes.string,
+  models: PropTypes.array.isRequired,
+  onAdd: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  editing: PropTypes.bool,
+  open: PropTypes.bool.isRequired,
+  lang: PropTypes.string.isRequired
+};

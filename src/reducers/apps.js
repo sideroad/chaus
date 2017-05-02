@@ -28,7 +28,7 @@ export default function reducer(state = initialState, action = {}) {
         loading: true
       };
     case LOAD_SUCCESS:
-      const items = action.res.items;
+      const items = action.res.body.items;
       return {
         ...state,
         loading: false,
@@ -69,26 +69,26 @@ export default function reducer(state = initialState, action = {}) {
     case ADD_SUCCESS:
       return {
         ...state,
-        data: action.result,
+        data: action.res.body,
         editing: false
       };
     case ADD_FAIL:
       return {
         ...state,
-        name: action.result.name
+        name: action.error.name
       };
     case REMOVE_START:
       return state; // 'saving' flag handled by redux-form
     case REMOVE_SUCCESS:
       return {
         ...state,
-        data: action.result,
+        data: action.res.body,
         editing: false
       };
     case REMOVE_FAIL:
       return {
         ...state,
-        name: action.result.name
+        name: action.error.name
       };
     default:
       return state;

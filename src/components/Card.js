@@ -1,14 +1,8 @@
-import React, {Component, PropTypes} from 'react';
-import {IndexLink} from 'react-router';
+import React, { Component, PropTypes } from 'react';
+import { IndexLink } from 'react-router';
 
 
 export default class Card extends Component {
-  static propTypes = {
-    items: PropTypes.array,
-    query: PropTypes.string,
-    candidate: PropTypes.string,
-    lead: PropTypes.object
-  };
 
   render() {
     const {
@@ -55,3 +49,10 @@ export default class Card extends Component {
     );
   }
 }
+
+Card.propTypes = {
+  items: PropTypes.array,
+  query: PropTypes.string,
+  candidate: PropTypes.string,
+  lead: PropTypes.object
+};

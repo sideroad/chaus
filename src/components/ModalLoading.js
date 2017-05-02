@@ -1,20 +1,11 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import * as pageActions from 'reducers/page';
+import * as pageActions from '../reducers/page';
 
-@connect(
-  (state) => ({
-    loading: state.page.loading
-  }),
-  {...pageActions}
-)
-export default class ModalLoading extends Component {
-  static propTypes = {
-    loading: PropTypes.bool
-  };
+class ModalLoading extends Component {
 
   render() {
-    const {loading} = this.props;
+    const { loading } = this.props;
     const styles = require('../css/customize.less');
     const img = require('../images/simple.png');
     return (
@@ -32,3 +23,16 @@ export default class ModalLoading extends Component {
     );
   }
 }
+
+ModalLoading.propTypes = {
+  loading: PropTypes.bool
+};
+
+const connected = connect(
+  (state) => ({
+    loading: state.page.loading
+  }),
+  {...pageActions}
+)(ModalLoading);
+
+export default connected;
