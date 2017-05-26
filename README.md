@@ -43,4 +43,8 @@ open http://localhost:3000
 
 ## Color schema
 
-###### https://coolors.co/app/82ae46-fffffc-aacf53-f6bfbc-def3de
+Light background
+https://coolors.co/fffffc-aacf53-d7565f-724194-dcda58
+
+Dark background
+https://coolors.co/787661-e1f6b0-f98890-b997cf-dcda58

@@ -1,4 +1,4 @@
-import {server} from 'koiki';
+import { server } from 'koiki';
 import Express from 'express';
 import favicon from 'serve-favicon';
 import compression from 'compression';
@@ -101,8 +101,8 @@ app.use('/', creator.router({
 
     // POST app API should put allow user which created the app
     // POST app API should put client which create the app
-    if ( key === 'app' &&
-         req.method === 'POST' ) {
+    if (key === 'app' &&
+        req.method === 'POST') {
       new schemas.allow({
         app: req.body.name,
         user: req.user.id
@@ -123,7 +123,7 @@ app.use('/', creator.router({
         if (json.items) {
           send({
             ...json,
-            items: json.items.filter( item => __.find( collection, {
+            items: json.items.filter(item => __.find(collection, {
               app: key === 'app' ? item.id :
                      item.app.id ? item.app.id : item.app
             }))
@@ -131,7 +131,7 @@ app.use('/', creator.router({
 
         // GET instance
         } else {
-          const isPermitted = __.find( collection, {
+          const isPermitted = __.find(collection, {
             app: key === 'app' ? json.id :
                    json.app.id ? json.app.id : json.app
           });
@@ -154,12 +154,12 @@ app.use('/', creator.router({
 
 mongoose.connect(config.mongoURL);
 
-const retatch = (req, res)=>{
+const retatch = (req, res) => {
   mongoose.models = {};
   mongoose.modelSchemas = {};
   apikit(app, mongoose, token);
   if (res) {
-    res.json({ok: true});
+    res.json({ ok: true });
   }
 };
 app.get(uris.admin.restart, retatch);
@@ -175,12 +175,10 @@ server({
   app,
   path: uris.pages.root,
   origin: config.global.base,
-  i18ndir: __dirname + '/../i18n',
+  i18ndir: `${__dirname}/../i18n`,
   statics: config.app.statics,
   handlers: {
-    error: error => {
-      console.error('ROUTER ERROR:', pretty.render(error));
-    }
+    error: error => console.error('ROUTER ERROR:', pretty.render(error))
   }
 });
 

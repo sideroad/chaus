@@ -1,14 +1,14 @@
 
-const LOAD_START = 'attributes/LOAD';
+const LOAD_START = 'attributes/LOAD_START';
 const LOAD_SUCCESS = 'attributes/LOAD_SUCCESS';
 const LOAD_FAIL = 'attributes/LOAD_FAIL';
-const SAVE_START = 'attributes/SAVE';
+const SAVE_START = 'attributes/SAVE_START';
 const SAVE_SUCCESS = 'attributes/SAVE_SUCCESS';
 const SAVE_FAIL = 'attributes/SAVE_FAIL';
 const FAIL_INDEX = 'attributes/FAIL_INDEX';
 
 const initialState = {
-  data: {},
+  data: [],
   loaded: false,
   loading: false
 };
@@ -18,7 +18,8 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loading: true,
-        loaded: false
+        loaded: false,
+        success: false,
       };
     case LOAD_SUCCESS:
       return {
@@ -33,22 +34,26 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: false,
-        err: action.error
+        err: action.body
       };
     case SAVE_START:
-      return state; // 'saving' flag handled by redux-form
+      return {
+        ...state,
+        success: false,
+        err: undefined,
+      };
     case SAVE_SUCCESS:
       return {
         ...state,
         editing: false,
+        success: true,
         err: undefined,
-        success: true
       };
     case SAVE_FAIL:
       return {
         ...state,
         success: false,
-        err: action.error
+        err: action.body
       };
     case FAIL_INDEX:
       return {

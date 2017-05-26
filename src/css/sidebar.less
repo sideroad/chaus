@@ -1,69 +1,70 @@
 @import "variables.less";
 
 .lead{
-  text-transform: none;
-  padding-left: 25px !important;
-  font-weight: 400;
   font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.header,
+.child{
+  color: @light-primary;
+  transition-duration: 0.2s;
+  display: block;
+}
+
+.header:hover,
+.child:hover{
+  color: @dark-primary;
+  background-color: @secondary;
+}
+
+.active{
+  color: @dark-primary;
+  background-color: @primary;
 }
 
 .header{
-  color: @nav-header-text;
-  padding: 5px 0px;
+  padding: 0.75em 0.5em;
+}
+.child{
+  padding: 0.75em 2.5em;
 }
 
-.active>a{
-  color: @nav-back !important;
-  background-color: @nav-active-back!important;
-}
-
-.link{
-  color: @link-text!important;
-  padding-left: 25px !important;
-  transition-duration: 0.2s;
-}
-.link:hover{
-  color: @nav-back !important;
-  background-color: @link-hover-back !important;
+.header i{
+  margin-right: 0.5em;
 }
 
 .open {
   z-index: 100;
 }
 
-.sidebar,
-.box{
-  height: 100%;
-}
-
-.sidebar{
-  padding-top: 25px;
-  padding-right: 25px;
-  position: absolute;
-  top: 100px;
-  max-height: 60%;
-  overflow: auto;
-}
-
 .input{
   width: 100%;
+  font-size: 1em;
+  height: 2em;
+  outline: none;
+  border: 1px solid @secondary;
+  box-sizing: border-box;
+  padding-left: 1em;
+}
+
+.plus {
+  width: 100%;
+  background-color: @light-third;
+  color: @third;
+  padding: 0.5em;
+  border: none;
+  outline: none;
+  font-size: 1em;
 }
 
 @media (max-width: @small-max-width){
 
   .sidebar{
-    transform: translateX(-100%);
-    transition: transform 0.2s ease;
-    position: fixed !important;
-    width: 75% !important;
-    top: 0px !important;
-    overflow-y: scroll;
-    max-height: 100% !important;
-    background-color: @html-back;
+    font-size: 1.25em;
   }
-
-  .open {
-    transform: none;
-    transition: transform 0.2s ease;
+  .lead {
+    text-align: center;
+    margin-top: 0.5em;
   }
 }

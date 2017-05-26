@@ -11,7 +11,7 @@ export default {
     network: '/admin/networks/:app'
   },
   pages: {
-    root: '/:lang/apps',
+    root: '/:lang',
     apps: '/:lang/apps',
     models: '/:lang/apps/:app/models',
     model: '/:lang/apps/:app/models/:name',

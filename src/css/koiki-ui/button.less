@@ -1,0 +1,68 @@
+@import "variables.less";
+@import "animations.less";
+@import "progress.less";
+
+.container{
+	position: relative;
+	width: 100%;
+	height: auto;
+}
+
+.button{
+	position: absolute;
+	border: none;
+	border-radius: 3px;
+	background-color: @light-primary;
+	color: @third;
+	font-size: 1.5em;
+	height: 2.25em;
+  padding: 0px 20px;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1;
+	line-height: 1em;
+	transition-property: background-color;
+  transition-duration: 1s;
+	outline: none;
+	box-shadow: @shadow;
+	cursor: pointer;
+}
+
+.primary {
+	background-color: @light-primary;
+	color: @third;
+}
+
+.secondary {
+	background-color: @light-secondary;
+	color: @third;
+}
+
+.third {
+	background-color: @light-third;
+	color: @third;
+}
+
+.button i{
+	margin-right: 10px;
+  margin-left: -10px;
+}
+
+.clicked{
+	animation: push 0.2s ease-out;
+	animation-fill-mode: forwards;
+}
+
+.escaped{
+	animation: push-revert 0.2s ease-out;
+	animation-fill-mode: forwards;
+}
+
+.container .disabled {
+	pointer-events: none;
+	background-color: @hai;
+	color: @third;
+	transition-property: color, background-color;
+	transition-duration: 1s;
+}

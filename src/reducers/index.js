@@ -1,3 +1,4 @@
+import { reducer as form } from 'redux-form';
 import user from './user';
 import apps from './apps';
 import attributes from './attributes';
@@ -7,7 +8,6 @@ import networks from './networks';
 import origins from './origins';
 import page from './page';
 import records from './records';
-import {reducer as form} from 'redux-form';
 
 export default {
   form,

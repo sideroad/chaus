@@ -1,0 +1,66 @@
+@import "variables.less";
+
+.columns {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+}
+
+.left {
+  width: 20%;
+  margin-right: 2.5%;
+}
+
+.right {
+  width: 70%;
+  margin-left: 2.5%;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  outline: none;
+  border: none;
+}
+
+@media (max-width: @small-max-width){
+  .fixed {
+    position: fixed;
+  }
+  .columns {
+    display: block;
+  }
+  .left {
+    width: 75vw;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(-75vw);
+    height: 100vh;
+    transition: transform 0.2s ease;
+    background-color: @third;
+    overflow: scroll;
+  }
+  .open.left {
+    transform: translateX(0vw);
+  }
+  .right {
+    width: 90vw;
+    margin: 5vw;
+    transform: translateX(0vw);
+    transition: transform 0.2s ease;
+  }
+  .open.right {
+    transform: translateX(75vw);
+  }
+  .open.modal {
+    display: block;
+    opacity: 0;
+    transform: translateX(75vw);
+  }
+}

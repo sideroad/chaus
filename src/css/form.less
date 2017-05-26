@@ -1,0 +1,177 @@
+@import "variables.less";
+
+
+.text {
+  display: none;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+  font-size: 0.9em;
+}
+
+.table tr{
+  background-color: @third;
+}
+
+.table th{
+  text-align: center;
+  color: @third;
+  background-color: @primary;
+  padding: 0.5em;
+  font-size: 1.25em;
+  box-sizing: border-box;
+}
+
+.table tr:first-child td{
+  border-top: none;
+}
+
+.table td{
+  padding: 0.5em 0.25em;
+  font-size: 1.25em;
+  text-align: center;
+  border-top: 1px solid @secondary;
+  border-bottom: 1px solid @secondary;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+.table tfoot td{
+  border-bottom: none;
+}
+
+.handle {
+  cursor: -webkit-grab;
+}
+
+.dragging {
+  cursor: -webkit-grabbing;
+}
+
+.drag {
+  opacity: 0.5;
+}
+
+.input {
+  outline: none;
+  border: 1px solid @secondary;
+  box-sizing: border-box;
+  padding-left: 0.5em;
+  font-size: 0.8em;
+  height: 2em;
+  max-width: 10em;
+}
+
+.input:focus {
+  border-color: @light-third;
+}
+
+.input::placeholder {
+  font-color: @dark-primary;
+}
+
+.checkbox + label{
+  font-size: 24px;
+  display: block;
+}
+
+.checkbox {
+  display:none;
+}
+
+.checkbox + label:before {
+  font-family: FontAwesome;
+  display: block;
+  color: @secondary;
+  content: "\f096";
+}
+
+.checkbox:checked + label:before {
+  content: "\f046";
+  color: @light-third;
+  letter-spacing: -4px;
+}
+
+.selectbox {
+  background-color: @third;
+  font: inherit;
+  font-size: 0.8em;
+  color: @primary;
+  outline: none;
+  border: 1px solid @secondary;
+  text-transform: none;
+  height: 2em;
+  margin: 0.2em;
+}
+
+.textarea {
+  display: none;
+}
+
+.plus {
+  width: 100%;
+  background-color: @light-third;
+  color: @third;
+  padding: 0.5em;
+  border: none;
+  outline: none;
+  font-size: 1em;
+}
+
+.table td.control {
+  justify-content: space-around;
+}
+
+@media (max-width: @small-max-width){
+
+  .input {
+    width: 90%;
+    max-width: inherit;
+  }
+
+  .text {
+    display: block;
+    width: 30%;
+    text-align: left;
+  }
+
+  .value {
+    width: 70%;
+    text-align: center;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tr {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3em;
+    border-top: 1px solid @secondary;
+  }
+
+  .table tfoot tr {
+    background: none;
+    border-top: none;
+  }
+
+  .table td.handle {
+    display: none;
+  }
+
+  .table td {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    border-top: none;
+  }
+
+  .table td:last-child {
+    justify-content: space-around;
+  }
+
+}

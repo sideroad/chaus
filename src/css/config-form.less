@@ -1,0 +1,100 @@
+@import "variables.less";
+@import "reorder.less";
+@import "form.less";
+
+.spacer {
+  width: 100%;
+  height: 3em;
+}
+
+.error {
+  background-color: @dark-secondary;
+  border-color: @light-secondary;
+}
+
+.lead {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.table td {
+  text-align: left;
+}
+
+.radios {
+  margin-bottom: 1em;
+}
+
+.radio{
+  margin: 10px;
+  color: @input;
+  font-size: 1.2em;
+}
+
+.secrets {
+  display: flex;
+  width: 100%;
+}
+
+.client,
+.secret {
+  max-width: 20em;
+  width: 100%;
+  text-align: left;
+}
+
+.description{
+  height: 10em;
+  width: 100%;
+  font-size: 1.1em;
+  border: 1px solid @secondary;
+}
+
+.origin {
+  display: flex;
+}
+
+.url{
+  width: 100%;
+  max-width: inherit;
+}
+
+.refresh,
+.remove {
+  color: @primary;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.control {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7em;
+}
+
+.save {
+  width: 120px;
+  font-size: 0.7em;
+}
+.delete {
+  width: 140px;
+  font-size: 0.7em;
+}
+
+@media (max-width: @small-max-width){
+
+  .text {
+    display: block;
+  }
+
+  .origins tr{
+    margin-bottom: 0;
+  }
+
+  .origin {
+    width: 100%;
+  }
+}

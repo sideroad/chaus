@@ -1,0 +1,30 @@
+@import "variables.less";
+@import "reorder.less";
+@import "form.less";
+
+.error {
+  background-color: @dark-secondary;
+  border-color: @light-secondary;
+}
+
+.trash {
+  color: @primary;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.save {
+  width: 120px;
+  font-size: 0.7em;
+}
+
+@media (max-width: @small-max-width){
+
+  .save {
+    margin-bottom: 10em;
+  }
+
+}

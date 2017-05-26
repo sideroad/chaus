@@ -1,127 +1,15 @@
 @import "variables.less";
 
-.footer:before{
-  content: "";
-  display: block;
-  overflow: hidden;
-}
-
-.footer{
-  background-image: url('../images/background.png');
-  background-color: @footer-back-to;
-  color: @nav-text;
-  bottom: 0px;
-  padding: 50px 0px;
-  width: 100%;
-  margin-top: 140px;
-  clear: both;
-  text-align: center;
-}
-
-.footer .uk-container{
-  padding: 0px;
-}
-
-.cloud1,
-.cloud2,
-.cloud3,
-.cloud4{
-  position: absolute;
-  width: 100px;
-  height: 10px;
-  border-radius: 5px;
-}
-.cloudconnect1,
-.cloudconnect2{
-  position: absolute;
-  width: 25px;
-  height: 10px;
-}
-.cloudhide1,
-.cloudhide2,
-.cloudhide3,
-.cloudhide4{
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 10px;
-  z-index: 1;
-}
-.cloudhide1{
-  background: @bottom-hide-back;
-  top: 30px;
-  left: 15px;
-}
-.cloudhide2{
-  background: @bottom-hide-back;
-  top: 30px;
-  left: 40px;
-}
-.cloudhide3{
-  background: @top-hide-back;
-  top: 140px;
-  left: 120px;
-}
-.cloudhide4{
-  background: @top-hide-back;
-  top: 140px;
-  left: 145px;
-}
-
-.cloud1{
-  background: @top-cloud-back;
-  top: 20px;
-  left: -20px;
-}
-.cloudconnect1{
-  background: @top-cloud-back;
-  top: 30px;
-  left: 20px;
-}
-.cloud2{
-  background: @top-cloud-back;
-  top: 40px;
-  left: -40px;
-}
-.cloud3{
-  background: @bottom-cloud-back;
-  top: 130px;
-  left: 90px;
-}
-.cloudconnect2{
-  background: @bottom-cloud-back;
-  top: 140px;
-  left: 125px;
-}
-.cloud4{
-  background: @bottom-cloud-back;
-  top: 150px;
-  left: 110px;
-}
-
-.copyright{
-  color: @footer-text;
-  width: 175px;
-  border-radius: 50%;
-  margin: auto;
-  height: 175px;
-  justify-content: center;
-  align-items: center;
+.footer {
+  background-color: @primary;
+  height: 100px;
   display: flex;
-  position: relative;
-  overflow: hidden;
-  border: none;
-  background: linear-gradient(180deg, @footer-back-from, @footer-back-via 70%, @footer-back-to);
-
+  align-items: center;
+  padding-left: 3em;
+  font-size: 1.5em;
 }
 
-.copyright p{
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-@media (max-width: @small-max-width){
-  .footer{
-    position: static;
-  }
+.year {
+  color: @third;
+  font-size: 0.8em;
 }
