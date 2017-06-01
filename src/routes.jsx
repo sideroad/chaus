@@ -56,6 +56,7 @@ export default (store, cookie) => {
         });
         if (__SERVER__) {
           replace('/auth/github');
+          cb();
         } else {
           location.href = `${config.global.base}/auth/github`;
         }
