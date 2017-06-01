@@ -1,6 +1,6 @@
 {
   "javascript": {
-    "main": "http://localhost:3001/dist/main-932114a083f8bf873b18.js"
+    "main": "http://localhost:3001/dist/main-4d52be3c51df18306c95.js"
   },
   "styles": {},
   "assets": {
@@ -119,7 +119,7 @@
       "header": "header___2U2-f",
       "bars": "bars___2APfN",
       "open": "open___13SZd",
-      "_style": "/** color scheme */\n/** ui color */\n.header___2U2-f {\n  background-color: #595455;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  padding-left: 1em;\n  font-size: 1.5em;\n  transition: transform 0.2s ease;\n}\n.bars___2APfN {\n  display: none;\n}\n@media (max-width: 767px) {\n  .header___2U2-f {\n    justify-content: center;\n    padding-left: 0;\n  }\n  .bars___2APfN {\n    display: block;\n    color: #FFFFFC;\n    font-size: 1em;\n    position: absolute;\n    left: 1em;\n    outline: none;\n    background: none;\n    border: none;\n  }\n  .open___13SZd {\n    transform: translateX(75vw);\n  }\n}\n"
+      "_style": "/** color scheme */\n/** ui color */\n.header___2U2-f {\n  background-color: #595455;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  padding-left: 1em;\n  font-size: 1.5em;\n  transition: transform 0.2s ease;\n}\n.bars___2APfN {\n  display: none;\n}\n@media (max-width: 767px) {\n  .header___2U2-f {\n    justify-content: center;\n    padding-left: 0;\n  }\n  .bars___2APfN {\n    display: block;\n    color: #FFFFFC;\n    font-size: 1em;\n    position: absolute;\n    top: inherit;\n    left: 1em;\n    outline: none;\n    background: none;\n    border: none;\n  }\n  .open___13SZd {\n    transform: translateX(75vw);\n  }\n}\n"
     },
     "./src/css/hero.less": {
       "hero": "hero___3ktxc",

@@ -59,7 +59,6 @@ export default (store, cookie) => {
         } else {
           location.href = `${config.global.base}/auth/github`;
         }
-        cb();
       }
     });
   };
