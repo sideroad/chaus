@@ -27,9 +27,9 @@ module.exports = Object.assign({
   },
   github: {
     appId: process.env.KOIKI_CHAUS_GITHUB_CLIENT_ID,
-    secret: process.env.KOIKI_CHAUS_GITHUB_CLIENT_SECRET,
+    secret: process.env.CHAUS_GITHUB_CLIENT_SECRET,
   },
-  mongoURL: process.env.KOIKI_CHAUS_MONGO_URL,
+  mongoURL: process.env.CHAUS_MONGO_URL,
   app: {
     title,
     description,
