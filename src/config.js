@@ -49,10 +49,14 @@ module.exports = Object.assign({
         { property: 'og:creator', content: '@side_road' },
         { property: 'og:image:width', content: '300' },
         { property: 'og:image:height', content: '300' }
+      ],
+      script: [
+        { src: 'manup.js' }
       ]
     },
     statics: {
       link: [
+        { rel: 'manifest', href: 'manifest.json' },
         { rel: 'shortcut icon', href: '/images/favicon.png' },
         { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css?family=Roboto:300', },
         { rel: 'stylesheet', type: 'text/css', href: '/css/base.css' }
