@@ -51,6 +51,7 @@ module.exports = Object.assign({
         { property: 'og:image:height', content: '300' }
       ],
       script: [
+        { src: '/pwabuilder-sw-register.js' },
         { src: '/manup.js' }
       ]
     },
