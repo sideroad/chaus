@@ -1,8 +1,11 @@
+import config from '../config';
 
 const SET = 'user/SET';
 
 const initialState = {
-  item: {}
+  item: {
+    id: config.github.enabled ? '' : 'anonymous'
+  }
 };
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {

@@ -18,11 +18,13 @@ Deploy your chaus on Heroku  [![Deploy](https://www.herokucdn.com/deploy/button.
 ### Manual Installation
 You can construct chaus on your local.
 
-##### Mongo URL
-Please set variable onto your environment or set `mongoURL` in `src/config.js`.
-
-##### API Host, Port
-Please set API host, port in `src/config.js`.
+| Environment Variables        | Example                          | Default Value | Required | Remark                                                                                      |
+|------------------------------|----------------------------------|---------------|----------|---------------------------------------------------------------------------------------------|
+| GLOBAL_HOST                  | chaus.herokuapp.com              | localhost     |          | Please specify public domain                                                                |
+| GLOBAL_PORT                  | 443                              | 443           |          | Please specify port                                                                         |
+| KOIKI_CHAUS_GITHUB_CLIENT_ID | 6ca6fc443f4946d6afe1             |               |          | Please specify github client ID. Github OAuth will be disabled if does not specified        |
+| CHAUS_GITHUB_CLIENT_SECRET   | f2cb996249334fef92ab010f9f1779f6 |               |          | Please specify github client secret ID. This values required when KOIKI_CHAUS_GITHUB_CLIENT_ID has specified |
+| CHAUS_MONGO_URL              | mongodb://localhost:27017        |               | Required | Please specify MongoDB URL                                                                  |
 
 ##### Starting application
 

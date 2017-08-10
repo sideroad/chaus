@@ -2,9 +2,16 @@ import passport from 'passport';
 import { Strategy } from 'passport-github2';
 import config from '../config';
 
+const requiredLogin = config.github.enabled;
+
 export default {
 
   use: (app) => {
+
+    if (!requiredLogin) {
+      return;
+    }
+
     // passport setup Strategy
     passport.serializeUser((user, cb) => {
       cb(null, user);
@@ -28,15 +35,19 @@ export default {
     // Endpoint to confirm authentication is still in valid
     app.get('/auth',
       (req, res, next) => {
-        if (req.isAuthenticated()) {
+        if (req.isAuthenticated() || !requiredLogin) {
           return next();
         }
         return res.status(401).json({});
       }, (req, res) => {
-        res.status(200).json({
-          id: req.user.id,
-          token: req.user.token
-        });
+        res.status(200).json(
+          requiredLogin ? {
+            id: req.user.id,
+            token: req.user.token
+          } : {
+            id: 'anonymous',
+            token: ''
+          });
       });
 
     app.get('/auth/github',

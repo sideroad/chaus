@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'koiki-ui';
 import Logo from '../components/Logo';
+import config from '../config';
 
+const requiredLogin = config.github.enabled;
 const styles = require('../css/hero.less');
 
 const Hero = props =>
@@ -25,7 +27,7 @@ const Hero = props =>
             fa: require('../css/koiki-ui/fa/less/font-awesome.less'),
             button: require('../css/koiki-ui/button.less')
           }}
-          icon="fa-github"
+          icon={requiredLogin ? 'fa-github' : ''}
           text="Get Started"
           onClick={props.onLogin}
         />

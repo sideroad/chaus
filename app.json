@@ -29,15 +29,16 @@
       "description": "Please specify domain"
     },
     "GLOBAL_PORT": {
-      "value": "443"
+      "value": "443",
+      "description": "Please specify port"
     },
     "KOIKI_CHAUS_GITHUB_CLIENT_ID": {
-      "description": "Please specify github client ID"
+      "description": "Please specify github client ID. Github OAuth will be disabled if does not specified"
     },
-    "KOIKI_CHAUS_GITHUB_CLIENT_SECRET": {
-      "description": "Please specify github client secret ID"
+    "CHAUS_GITHUB_CLIENT_SECRET": {
+      "description": "Please specify github client secret ID. This values required when KOIKI_CHAUS_GITHUB_CLIENT_ID has specified"
     },
-    "KOIKI_CHAUS_MONGO_URL": {
+    "CHAUS_MONGO_URL": {
       "description": "Please specify MongoDB URL"
     }
   },

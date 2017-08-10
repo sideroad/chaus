@@ -50,8 +50,9 @@ app.use('/', creator.router({
       next();
       return;
     }
+    const user = config.github.enabled ? req.user : { id: 'anonymous' };
 
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() || !config.github.enabled) {
       // GET method should be authenticated in after method.
       if (req.method === 'GET') {
         next();
@@ -68,7 +69,7 @@ app.use('/', creator.router({
       schemas.allow.findOne({
         app: req[store][key === 'app' ? 'id' : 'app'] ||
              req.params[key === 'app' ? 'id' : ''],
-        user: req.user.id
+        user: user.id
       }, (err, instance) => {
         if (!err && instance) {
           next();
@@ -85,6 +86,8 @@ app.use('/', creator.router({
     }
   },
   after: (req, res, json, key, schemas) => {
+    const user = config.github.enabled ? req.user : { id: 'anonymous' };
+
     const send = (_json) => {
       if (_json) {
         res.json(_json);
@@ -105,7 +108,7 @@ app.use('/', creator.router({
         req.method === 'POST') {
       new schemas.allow({
         app: req.body.name,
-        user: req.user.id
+        user: user.id
       }).save((err) => {
         if (err) {
           res.status(400).json({
@@ -118,7 +121,7 @@ app.use('/', creator.router({
         }
       });
     } else if (req.method === 'GET') {
-      schemas.allow.find({ user: req.user.id }, (err, collection) => {
+      schemas.allow.find({ user: user.id }, (err, collection) => {
         // GET collections
         if (json.items) {
           send({
