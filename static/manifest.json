@@ -2,7 +2,6 @@
     "dir": "ltr",
     "lang": "en-us",
     "name": "chaus",
-    "scope": "/en",
     "display": "fullscreen",
     "start_url": "https://chaus.herokuapp.com/en",
     "short_name": "chaus",
