@@ -49,9 +49,6 @@ module.exports = Object.assign({
         { property: 'og:creator', content: '@side_road' },
         { property: 'og:image:width', content: '300' },
         { property: 'og:image:height', content: '300' }
-      ],
-      script: [
-        { src: '/koiki-sw-register.js' },
       ]
     },
     statics: {
@@ -60,6 +57,9 @@ module.exports = Object.assign({
         { rel: 'shortcut icon', href: '/images/favicon.png' },
         { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css?family=Roboto:300', },
         { rel: 'stylesheet', type: 'text/css', href: '/css/base.css' }
+      ],
+      script: [
+        { src: '/koiki-sw-register.js' },
       ]
     }
   }
