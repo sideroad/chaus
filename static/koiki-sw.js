@@ -46,10 +46,11 @@ function fromServer(request, shouldCache) {
 self.addEventListener('install', (evt) => {
   console.log('[ServiceWorker] installed.');
   evt.waitUntil(
-    () => {
-      console.log('[ServiceWorker] Skip waiting on install');
-      return self.skipWaiting();
-    }
+    caches.open(CACHE).then(cache =>
+      cache.addAll([
+        '/'
+      ])
+    )
   );
 });
 
