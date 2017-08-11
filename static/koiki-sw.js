@@ -51,8 +51,8 @@ self.addEventListener('install', (evt) => {
 });
 
 //allow sw to control of current page
-self.addEventListener('activate', (evt) => {
-  console.log('[ServiceWorker] Claiming clients for current page', evt);
+self.addEventListener('activate', () => {
+  console.log('[ServiceWorker] Claiming clients for current page');
   return self.clients.claim();
 });
 

@@ -52,7 +52,6 @@ module.exports = Object.assign({
       ],
       script: [
         { src: '/koiki-sw-register.js' },
-        { src: '/manup.js' }
       ]
     },
     statics: {
