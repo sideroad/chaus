@@ -13,9 +13,12 @@ const extensions = [
 function fromCache(request) {
   //we pull files from the cache first thing so we can show them fast
   return caches.open(CACHE).then(cache =>
-    cache.match(request).then(matching =>
-      matching || Promise.reject('no-match')
-    )
+    cache.match(request).then((matching) => {
+      if (matching) {
+        console.log(`[ServiceWorker] serving from cache ${request.url}`);
+      }
+      return matching || Promise.reject('no-match');
+    })
   );
 }
 
@@ -32,7 +35,7 @@ function fromServer(request, shouldCache) {
   //this is the fallback if it is not in the cahche to go to the server and get it
   return fetch(request).then((response) => {
     if (shouldCache) {
-      console.log(`[ServiceWorker] Cache ${request.url}`);
+      console.log(`[ServiceWorker] Cache requst ${request.url}`);
       updateCache(request, response);
     }
     return response;
