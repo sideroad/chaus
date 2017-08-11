@@ -43,7 +43,7 @@ function fromServer(request, shouldCache) {
 }
 
 //Install stage sets up the cache-array to configure pre-cache content
-self.addEventListener('install', (evt) => {
+this.addEventListener('install', (evt) => {
   console.log('[ServiceWorker] installed.');
   evt.waitUntil(
     caches.open(CACHE).then(cache =>
@@ -55,12 +55,12 @@ self.addEventListener('install', (evt) => {
 });
 
 //allow sw to control of current page
-self.addEventListener('activate', () => {
+this.addEventListener('activate', () => {
   console.log('[ServiceWorker] Claiming clients for current page');
-  return self.clients.claim();
+  return this.clients.claim();
 });
 
-self.addEventListener('fetch', (evt) => {
+this.addEventListener('fetch', (evt) => {
   console.log(`[ServiceWorker] Serving the asset. ${evt.request.url}`);
   const shouldCache = extensions.filter(extension =>
     evt.request.url.match(`\.${extension}$`)
