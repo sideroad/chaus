@@ -61,5 +61,9 @@ self.addEventListener('fetch', (evt) => {
   const shouldCache = extensions.filter(extension =>
     evt.request.url.match(`\.${extension}$`)
   ).length !== 0;
-  evt.respondWith(fromCache(evt.request).catch(fromServer(evt.request, shouldCache)));
+  if (shouldCache) {
+    evt.respondWith(fromCache(evt.request).catch(fromServer(evt.request, shouldCache)));
+  } else {
+    evt.respondWith(fromServer(evt.request, shouldCache));
+  }
 });
