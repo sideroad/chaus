@@ -182,7 +182,9 @@ server({
   statics: config.app.statics,
   handlers: {
     error: error => console.error('ROUTER ERROR:', pretty.render(error))
-  }
+  },
+  name: config.app.title,
+  description: config.app.description,
 });
 
 if (config.port) {
