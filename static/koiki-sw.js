@@ -11,7 +11,6 @@ const extensions = [
 ];
 
 function fromCache(request) {
-  //we pull files from the cache first thing so we can show them fast
   return caches.open(CACHE).then(cache =>
     cache.match(request).then((matching) => {
       if (matching) {
@@ -24,43 +23,37 @@ function fromCache(request) {
 
 
 function updateCache(request, response) {
-  //this is where we call the server to get the newest version of the
-  //file to use the next time we show view
   return caches.open(CACHE).then(cache =>
       cache.put(request, response)
   );
 }
 
 function fromServer(request, shouldCache) {
-  //this is the fallback if it is not in the cahche to go to the server and get it
   return fetch(request).then((response) => {
     if (shouldCache) {
       console.log(`[ServiceWorker] Cache requst ${request.url}`);
-      updateCache(request, response);
+      return updateCache(request, response).then(() => response);
     }
     return response;
   });
 }
 
-//Install stage sets up the cache-array to configure pre-cache content
-this.addEventListener('install', (evt) => {
+self.addEventListener('install', (evt) => {
   console.log('[ServiceWorker] installed.');
   evt.waitUntil(
     caches.open(CACHE).then(cache =>
       cache.addAll([
-        '/'
+        './'
       ])
     )
   );
 });
 
-//allow sw to control of current page
-this.addEventListener('activate', () => {
-  console.log('[ServiceWorker] Claiming clients for current page');
-  return this.clients.claim();
+self.addEventListener('activate', (evt) => {
+  evt.waitUntil(self.clients.claim());
 });
 
-this.addEventListener('fetch', (evt) => {
+self.addEventListener('fetch', (evt) => {
   console.log(`[ServiceWorker] Serving the asset. ${evt.request.url}`);
   const shouldCache = extensions.filter(extension =>
     evt.request.url.match(`\.${extension}$`)
