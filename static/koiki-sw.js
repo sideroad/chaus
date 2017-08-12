@@ -29,10 +29,10 @@ function updateCache(request, response) {
 }
 
 function fromServer(request, shouldCache) {
-  return fetch(request).then((response) => {
+  return fetch(request.clone()).then((response) => {
     if (shouldCache) {
       console.log(`[ServiceWorker] Cache requst ${request.url}`);
-      return updateCache(request, response).then(() => response);
+      return updateCache(request, response.clone()).then(() => response);
     }
     return response;
   });
