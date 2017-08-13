@@ -17,12 +17,7 @@ const FALLBACK_CONTENT_TYPES = [
 
 function fromCache(request, target) {
   return caches.open(target).then(cache =>
-    cache.match(request.clone()).then((matching) => {
-      if (matching) {
-        console.log(`[ServiceWorker] Response from cache ${request.url}`);
-      }
-      return matching;
-    })
+    cache.match(request.clone())
   );
 }
 
@@ -41,14 +36,12 @@ function fromServer(request) {
         target.test(request.url)
       ).length !== 0;
       if (shouldCache) {
-        console.log(`[ServiceWorker] Cache requst ${request.url}`);
         promise = promise.then(() => updateCache(request, response, CACHE));
       }
       const shouldCacheFallback = FALLBACK_CONTENT_TYPES.filter(target =>
         target === response.headers.get('Content-Type')
       );
       if (shouldCacheFallback) {
-        console.log(`[ServiceWorker] Cache requst ${request.url}`);
         promise = promise.then(() => updateCache(request, response, FALLBACK));
       }
       return promise.then(() => response);
@@ -71,7 +64,6 @@ self.addEventListener('activate', (evt) => {
 });
 
 self.addEventListener('fetch', (evt) => {
-  console.log(`[ServiceWorker] Serving the asset. ${evt.request.url}`);
   evt.respondWith(
     fromCache(evt.request, CACHE)
       .then(response =>
