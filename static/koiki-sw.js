@@ -1,22 +1,23 @@
 const CACHE = 'koiki';
 
-const extensions = [
-  'js',
-  'css',
-  'woff',
-  'woff2',
-  'tff',
-  'png',
-  'jpg'
+const TARGETS = [
+  new RegExp(`/${navigator.language}$`),
+  /\.js$/,
+  /\.css$/,
+  /\.woff$/,
+  /\.woff2$/,
+  /\.tff$/,
+  /\.png$/,
+  /\.jpg$/,
 ];
 
 function fromCache(request) {
   return caches.open(CACHE).then(cache =>
-    cache.match(request).then((matching) => {
+    cache.match(request.clone()).then((matching) => {
       if (matching) {
         console.log(`[ServiceWorker] Response from cache ${request.url}`);
       }
-      return matching || Promise.reject('no-match');
+      return matching;
     })
   );
 }
@@ -28,8 +29,11 @@ function updateCache(request, response) {
   );
 }
 
-function fromServer(request, shouldCache) {
+function fromServer(request) {
   return fetch(request.clone()).then((response) => {
+    const shouldCache = TARGETS.filter(target =>
+      target.test(request.url)
+    ).length !== 0;
     if (shouldCache) {
       console.log(`[ServiceWorker] Cache requst ${request.url}`);
       return updateCache(request, response.clone()).then(() => response);
@@ -55,8 +59,6 @@ self.addEventListener('activate', (evt) => {
 
 self.addEventListener('fetch', (evt) => {
   console.log(`[ServiceWorker] Serving the asset. ${evt.request.url}`);
-  const shouldCache = extensions.filter(extension =>
-    evt.request.url.match(`\.${extension}$`)
-  ).length !== 0;
-  evt.respondWith(fromCache(evt.request).catch(fromServer(evt.request, shouldCache)));
+  evt.respondWith(
+    fromCache(evt.request).then(response => response || fromServer(evt.request)));
 });
