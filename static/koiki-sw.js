@@ -14,7 +14,7 @@ function fromCache(request) {
   return caches.open(CACHE).then(cache =>
     cache.match(request).then((matching) => {
       if (matching) {
-        console.log(`[ServiceWorker] serving from cache ${request.url}`);
+        console.log(`[ServiceWorker] Response from cache ${request.url}`);
       }
       return matching || Promise.reject('no-match');
     })
@@ -58,9 +58,5 @@ self.addEventListener('fetch', (evt) => {
   const shouldCache = extensions.filter(extension =>
     evt.request.url.match(`\.${extension}$`)
   ).length !== 0;
-  if (shouldCache) {
-    evt.respondWith(fromCache(evt.request).catch(fromServer(evt.request, shouldCache)));
-  } else {
-    evt.respondWith(fromServer(evt.request, shouldCache));
-  }
+  evt.respondWith(fromCache(evt.request).catch(fromServer(evt.request, shouldCache)));
 });
