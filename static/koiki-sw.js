@@ -53,7 +53,7 @@ self.addEventListener('install', (evt) => {
   evt.waitUntil(
     caches.open(CACHE).then(cache =>
       cache.addAll([
-        '/'
+        '/images/favicon.png',
       ])
     )
   );
