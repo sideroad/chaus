@@ -48,13 +48,15 @@ module.exports = Object.assign({
         { property: 'og:site', content: '@side_road' },
         { property: 'og:creator', content: '@side_road' },
         { property: 'og:image:width', content: '300' },
-        { property: 'og:image:height', content: '300' }
+        { property: 'og:image:height', content: '300' },
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
       ]
     },
     statics: {
       link: [
         { rel: 'manifest', href: '/manifest.json' },
         { rel: 'shortcut icon', href: '/images/favicon.png' },
+        { rel: 'apple-touch-icon', href: '/images/favicon.png' },
         { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css?family=Roboto:300', },
         { rel: 'stylesheet', type: 'text/css', href: '/css/base.css' }
       ],
