@@ -1,6 +1,6 @@
 {
   "javascript": {
-    "main": "http://localhost:3001/dist/main-3afb116c811c2b6d7dc6.js"
+    "main": "http://localhost:3001/dist/main-8aa9f29845a3973ddc04.js"
   },
   "styles": {},
   "assets": {
@@ -1085,7 +1085,7 @@
       "box": "box___1mSJQ",
       "candidate": "candidate___2bV4D",
       "input": "input___3ndlx",
-      "_style": "/** color scheme */\n/** ui color */\n.box___1mSJQ {\n  width: 60%;\n  min-width: 300px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: relative;\n  height: 3.5em;\n  margin: auto;\n  margin-top: 3em;\n  background-color: #FFFFFC;\n}\n.candidate___2bV4D {\n  position: absolute;\n  top: 0.9em;\n  left: 0.1em;\n  width: 100%;\n  color: #B3ADA0;\n  padding-left: 2em;\n  font-size: 1.25em;\n}\n.input___3ndlx {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n}\n"
+      "_style": "/** color scheme */\n/** ui color */\n.box___1mSJQ {\n  width: 60%;\n  min-width: 300px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: relative;\n  height: 3.5em;\n  margin: auto;\n  margin-top: 3em;\n  background-color: #FFFFFC;\n}\n.candidate___2bV4D {\n  position: absolute;\n  top: 0.9em;\n  left: 0.1em;\n  color: #B3ADA0;\n  padding-left: 2em;\n  font-size: 1.25em;\n}\n.input___3ndlx {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n}\n"
     },
     "./src/css/sidebar.less": {
       "lead": "lead___1ib1V",
