@@ -54,14 +54,8 @@ module.exports = Object.assign({
     },
     statics: {
       link: [
-        { rel: 'manifest', href: '/manifest.json' },
-        { rel: 'shortcut icon', href: '/images/favicon.png' },
-        { rel: 'apple-touch-icon', href: '/images/favicon.png' },
         { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css?family=Roboto:300', },
         { rel: 'stylesheet', type: 'text/css', href: '/css/base.css' }
-      ],
-      script: [
-        { src: '/koiki-sw-register.js' },
       ]
     }
   }
