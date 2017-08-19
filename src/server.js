@@ -186,6 +186,7 @@ server({
   manifest: {
     name: config.app.title,
     description: config.app.description,
+    background_color: '#595455'
   }
 });
 
