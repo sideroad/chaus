@@ -19,7 +19,7 @@ module.exports = {
       pattern: /^(client|server)$/
     },
     client: {
-      pattern: /^[0-9a-f\-]+$/
+      pattern: /^[0-9a-f-]+$/
     },
     secret: {
     }

@@ -1,47 +1,49 @@
 import {} from 'isomorphic-fetch';
-import config from './config';
 import creator from 'express-restful-api';
 import fs from 'fs';
 import cors from 'cors';
 import wildcard from 'wildcard';
 import express from 'express';
-import uris from './uris';
 import __ from 'lodash';
 import { stringify } from 'koiki';
-const version = JSON.parse( fs.readFileSync( __dirname + '/../package.json') ).version;
+import config from './config';
+import uris from './uris';
+
+const version = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`)).version;
 const routes = {};
 let creators = [];
 
 function fetchApps(application, token) {
   console.log('Loading apps...', application);
-  return fetch( config.global.base + stringify(uris.admin.app, {
+  return fetch(`${config.global.base}${stringify(uris.admin.app, {
     app: application
-  }) + '?limit=1000', {
+  })}?limit=1000`, {
     method: 'GET',
     credentials: 'include',
     headers: {
       'x-chaus-token': token
     }
   }).then(res => res.json())
-    .then(app => {
-      return fetch( config.global.base + uris.admin.origins + '?app=' + encodeURIComponent( application ) + '&limit=1000', {
+    .then(app =>
+      fetch(`${config.global.base}${uris.admin.origins}?app=${encodeURIComponent(application)}&limit=1000`, {
         method: 'GET',
         credentials: 'include',
         headers: {
           'x-chaus-token': token
         }
       }).then(res => res.json())
-        .then(origins=>{
-          app.origins = origins.items.map(origin=> origin.url);
-          return app;
-        });
-    })
+        .then(origins => ({
+          ...app,
+          origins: origins.items.map(origin => origin.url)
+        })
+      )
+    )
     .catch(err => console.error(err));
 }
 
 function fetchModels(token) {
   console.log('Loading models...');
-  return fetch( config.global.base + uris.admin.models + '?limit=10000', {
+  return fetch(`${config.global.base}${uris.admin.models}?limit=10000`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -53,7 +55,7 @@ function fetchModels(token) {
 
 function fetchAttributes(token) {
   console.log('Loading attributes...');
-  return fetch( config.global.base + uris.admin.attributes + '?limit=10000', {
+  return fetch(`${config.global.base}${uris.admin.attributes}?limit=10000`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -65,22 +67,22 @@ function fetchAttributes(token) {
 
 function convert(models, attributes) {
   const dist = {};
-  attributes.map(attribute => {
+  attributes.forEach((attribute) => {
     const app = attribute.app;
-    if ( !dist[app] ) {
+    if (!dist[app]) {
       dist[app] = {};
     }
 
-    const model = __.find(models, {app: {id: app}, id: attribute.model.id});
+    const model = __.find(models, { app: { id: app }, id: attribute.model.id });
     if (!model) {
       return;
     }
-    if ( !dist[app][model.name] ) {
+    if (!dist[app][model.name]) {
       dist[app][model.name] = {};
     }
 
     const name = attribute.name;
-    const relation = __.find(models, {app: {id: app}, id: attribute.relation.id});
+    const relation = __.find(models, { app: { id: app }, id: attribute.relation.id });
     switch (attribute.type) {
       case 'children':
         attribute.relation = relation ? relation.name : null;
@@ -103,7 +105,7 @@ function convert(models, attributes) {
   return dist;
 }
 
-export default function(app, mongoose, token) {
+export default function (app, mongoose, token) {
   console.log('Loading APIs...');
   creators.map(_creator => _creator.destroy());
   creators = [];
@@ -137,6 +139,7 @@ export default function(app, mongoose, token) {
                   );
                 };
 
+                console.log(`${application} construct schema`, schema[application]);
                 app.use('/', creator.router({
                   mongo: mongoose,
                   schema: schema[application],
@@ -147,17 +150,17 @@ export default function(app, mongoose, token) {
                 }));
 
                 creator.doc({
-                  'name': application,
+                  name: application,
                   version,
-                  'description': settings.description,
-                  'title': application,
-                  'url': config.global.base,
-                  'sampleUrl': config.global.base,
-                  'template': {
-                    'withCompare': false,
-                    'withGenerator': true
+                  description: settings.description,
+                  title: application,
+                  url: config.global.base,
+                  sampleUrl: config.global.base,
+                  template: {
+                    withCompare: false,
+                    withGenerator: true
                   },
-                  'dest': __dirname + '/../static/docs/' + application
+                  dest: __dirname + '/../static/docs/' + application
                 });
 
                 fs.writeFileSync( __dirname + '/../static/docs/' + application + '/schema.json', JSON.stringify(schema[application]), 'utf8');
