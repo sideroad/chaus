@@ -1,4 +1,4 @@
-import { server } from 'koiki';
+import { server, passporter } from 'koiki';
 import Express from 'express';
 import favicon from 'serve-favicon';
 import compression from 'compression';
@@ -6,9 +6,6 @@ import __ from 'lodash';
 import path from 'path';
 import http from 'http';
 import mongoose from 'mongoose';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import expressSession from 'express-session';
 import PrettyError from 'pretty-error';
 import creator from 'express-restful-api';
 import { v4 } from 'uuid';
@@ -21,7 +18,6 @@ import routes from './routes';
 import admin from './admin';
 import apikit from './apikit';
 import reducers from './reducers';
-import passporter from './helpers/passporter';
 
 const app = new Express();
 const pretty = new PrettyError();
@@ -29,13 +25,11 @@ const token = v4();
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'images', 'favicon.png')));
-
 app.use(Express.static(path.join(__dirname, '..', 'static')));
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(expressSession({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
-passporter.use(app);
+
+if (config.github.enabled) {
+  passporter.use({ github: config.github }, app, config.global.base);
+}
 
 app.use('/', creator.router({
   mongo: mongoose,
@@ -187,7 +181,7 @@ server({
     name: config.app.title,
     description: config.app.description,
     background_color: '#595455'
-  }
+  },
 });
 
 if (config.port) {
