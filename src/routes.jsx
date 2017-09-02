@@ -24,7 +24,7 @@ export default (store, cookie) =>
     />
     <Route
       path={uris.pages.apps}
-      onEnter={auth.login(store, cookie, config.global.base, setUser)}
+      onEnter={auth.login(store, cookie, config.global.base, 'github', setUser)}
     >
       <IndexRoute component={Apps} />
       <Route path={uris.pages.models} component={Model} >
