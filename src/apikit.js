@@ -83,24 +83,21 @@ function convert(models, attributes) {
 
     const name = attribute.name;
     const relation = __.find(models, { app: { id: app }, id: attribute.relation.id });
-    switch (attribute.type) {
-      case 'children':
-        attribute.relation = relation ? relation.name : null;
-        break;
-      case 'instance':
-        attribute.relation = relation ? relation.name : null;
-        break;
-      case 'parent':
-        attribute.relation = relation ? relation.name + '.' + attribute.relationAttribute : null;
-        break;
-      default:
-        attribute.relation = null;
-    }
-    delete attribute.id;
-    delete attribute.name;
-    delete attribute.model;
-    delete attribute.relationAttribute;
-    dist[app][model.name][name] = attribute;
+    dist[app][model.name][name] = {
+      app: attribute.app,
+      type: attribute.type,
+      uniq: attribute.uniq,
+      required: attribute.required,
+      pattern: attribute.pattern,
+      invalid: attribute.invalid,
+      desc: attribute.desc,
+      createdAt: attribute.createdAt,
+      updatedAt: attribute.updatedAt,
+      relation: attribute.type === 'children' && relation ? relation.name :
+                attribute.type === 'instance' && relation ? relation.name :
+                attribute.type === 'parent' && relation ? `${relation.name}.${attribute.relationAttribute}`
+                : null,
+    };
   });
   return dist;
 }
@@ -110,19 +107,19 @@ export default function (app, mongoose, token) {
   creators.map(_creator => _creator.destroy());
   creators = [];
   fetchModels(token)
-    .then(models => {
+    .then((models) => {
       fetchAttributes(token)
-        .then(attributes=> {
+        .then((attributes) => {
           const schema = convert(models.items, attributes.items);
-          Object.keys(schema).forEach(application => {
+          Object.keys(schema).forEach((application) => {
             fetchApps(application, token)
-              .then(settings=> {
+              .then((settings) => {
                 const path = stringify(uris.apis.root, { app: application });
 
                 console.log('Apply CORS settings...', path, settings.origins);
-                if ( !routes[application] ) {
+                if (!routes[application]) {
                   const router = express.Router();
-                  routes[application] = ()=>{};
+                  routes[application] = () => {};
                   router.use(path, cors({
                     origin: (origin, callback) => {
                       routes[application](origin, callback);
@@ -131,11 +128,11 @@ export default function (app, mongoose, token) {
                   }));
                   app.use(router);
                 }
-                routes[application] = (origin, callback)=>{
+                routes[application] = (origin, callback) => {
                   callback(null, settings.origins.reduce(
-                    (memo, _url)=> {
-                      return ( wildcard(_url, origin) ? true : false ) || memo;
-                    }, false)
+                    (memo, _url) =>
+                      wildcard(_url, origin) || memo
+                    , false)
                   );
                 };
 
@@ -160,14 +157,16 @@ export default function (app, mongoose, token) {
                     withCompare: false,
                     withGenerator: true
                   },
-                  dest: __dirname + '/../static/docs/' + application
+                  dest: `${__dirname}/../static/docs/${application}`
                 });
 
-                fs.writeFileSync( __dirname + '/../static/docs/' + application + '/schema.json', JSON.stringify(schema[application]), 'utf8');
+                fs.writeFileSync(`${__dirname}/../static/docs/${application}/schema.json`, JSON.stringify(schema[application]), 'utf8');
                 creators.push(creator);
-              });
+              })
+              .catch(err => console.error(err));
           });
-        });
+        })
+        .catch(err => console.error(err));
     })
     .catch(err => console.error(err));
 }
