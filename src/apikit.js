@@ -131,8 +131,7 @@ export default function (app, mongoose, token) {
                 routes[application] = (origin, callback) => {
                   callback(null, settings.origins.reduce(
                     (memo, _url) =>
-                      console.log(_url, origin, wildcard(_url, origin)) ||
-                      wildcard(_url, origin) || memo
+                      (wildcard(_url, origin) instanceof Array) || memo
                     , false)
                   );
                 };
