@@ -2,7 +2,7 @@ module.exports = {
   app: {
     name: {
       uniq: true,
-      pattern: /^[0-9a-z]+$/
+      pattern: /^[0-9a-z-]+$/
     },
     models: {
       children: 'model'
@@ -50,7 +50,7 @@ module.exports = {
     },
     name: {
       uniq: true,
-      pattern: /^[0-9a-z]+$/
+      pattern: /^[0-9a-z-]+$/
     },
     attributes: {
       type: 'children',
@@ -68,7 +68,7 @@ module.exports = {
     },
     name: {
       uniq: true,
-      pattern: /^[0-9a-z]+$/
+      pattern: /^[0-9a-z-]+$/
     },
     uniq: {
       type: 'boolean'

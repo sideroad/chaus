@@ -1,5 +1,6 @@
 /* eslint no-new: 0 */
-import { default as React, Component, PropTypes } from 'react';
+import { default as React, Component } from 'react';
+import PropTypes from 'prop-types';
 import vis from 'vis';
 import uuid from 'uuid';
 import autoBind from 'react-autobind';

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { IndexLink } from 'react-router';
 import autoBind from 'react-autobind';
 import { stringify } from 'koiki';

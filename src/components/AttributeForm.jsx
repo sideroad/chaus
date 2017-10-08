@@ -229,6 +229,9 @@ class AttributeForm extends Component {
                           className={styles.control}
                         >
                           <button
+                            className={styles.preventDefault}
+                          />
+                          <button
                             className={styles.trash}
                             onClick={(evt) => {
                               evt.preventDefault();
