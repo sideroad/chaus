@@ -139,7 +139,7 @@ export default function (app, mongoose, token) {
                 console.log(`${application} construct schema`, schema[application]);
                 app.use('/', creator.router({
                   mongo: mongoose,
-                  schema: schema[application],
+                  schemas: schema[application],
                   cors: true,
                   prefix: path,
                   client: settings.client,

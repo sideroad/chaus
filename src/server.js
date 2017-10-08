@@ -33,7 +33,7 @@ if (config.github.enabled) {
 
 app.use('/', creator.router({
   mongo: mongoose,
-  schema: admin,
+  schemas: admin,
   cors: false,
   prefix: uris.admin.root,
   before: (req, res, next, key, schemas) => {
