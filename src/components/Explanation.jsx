@@ -34,12 +34,22 @@ Explanation.defaultProps = {
     {
       icon: 'fa-cube',
       lead: 'RESTful API Generation',
-      sublead: 'Make your application models, properties and make relation with other models.'
+      sublead: 'Make your application resources, attributions. Each resource can make relation with other resources.'
+    },
+    {
+      icon: 'fa-sort-amount-desc',
+      lead: 'Collection Fetch Control',
+      sublead: 'Be able to filter collection by request parameter. exact match, wildcard, range can be used.',
+    },
+    {
+      icon: 'fa-random',
+      lead: 'Field Fetch Control',
+      sublead: 'Be able to narrow response field, expand field which has parent or parent relation resource.',
     },
     {
       icon: 'fa-book',
-      lead: 'Document Generation',
-      sublead: 'Every endpoint specifications and sample request can be make on the page.'
+      lead: 'API Document Automation',
+      sublead: 'API I/F page will generated automatically.'
     },
     {
       icon: 'fa-cogs',
@@ -49,7 +59,7 @@ Explanation.defaultProps = {
     {
       icon: 'fa-check-circle-o',
       lead: 'Validation Support',
-      sublead: 'Provide JSON schema, validation for FrontEnd validation.'
+      sublead: 'Provide JSON schema, Validation End Point.'
     },
   ]
 };

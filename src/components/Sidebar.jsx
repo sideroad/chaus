@@ -84,7 +84,7 @@ export default class Sidebar extends Component {
                 to={stringify(uris.pages.models, { lang, app })}
                 className={`${styles.header} ${context === 'models' && !modelName ? styles.active : ''}`}
               >
-                <i className={`${fa.fa} ${fa['fa-cubes']}`} />Models
+                <i className={`${fa.fa} ${fa['fa-cubes']}`} />Resources
               </IndexLink>
             </li>
             {context === 'models' && modelLinkages}
@@ -95,7 +95,7 @@ export default class Sidebar extends Component {
                     ref={(elem) => { this.nameDOM = elem; }}
                     className={styles.input}
                     type="text"
-                    placeholder="Model name"
+                    placeholder="Resource name"
                     onBlur={this.handleBlur}
                   />
                 </form>

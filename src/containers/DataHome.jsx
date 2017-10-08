@@ -14,7 +14,7 @@ const DataHome = props =>
     <h1 className={styles.lead}>Data</h1>
     <Card
       lead={{
-        start: 'Click + to create Model on sidebar',
+        start: 'Click + to create Resource on sidebar',
         create: ''
       }}
       items={

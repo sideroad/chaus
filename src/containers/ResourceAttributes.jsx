@@ -13,10 +13,10 @@ import uris from '../uris';
 import AttributeForm from '../components/AttributeForm';
 import * as pageActions from '../reducers/page';
 import * as attributesActions from '../reducers/attributes';
-import styles from '../css/model-attributes.less';
+import styles from '../css/resource-attributes.less';
 import fa from '../css/koiki-ui/fa/less/font-awesome.less';
 
-const ModelAttributes = (props, context) =>
+const ResourceAttributes = (props, context) =>
   <div>
     {
       props.err ?
@@ -34,7 +34,7 @@ const ModelAttributes = (props, context) =>
     {
       props.success ?
         <div className={`${styles.popup} ${styles.success}`}>
-          Model has been updated successfully.
+          Resource has been updated successfully.
         </div>
       : ''
     }
@@ -82,7 +82,7 @@ const ModelAttributes = (props, context) =>
     />
   </div>;
 
-ModelAttributes.propTypes = {
+ResourceAttributes.propTypes = {
   models: PropTypes.array.isRequired,
   attributes: PropTypes.array.isRequired,
   save: PropTypes.func.isRequired,
@@ -97,7 +97,7 @@ ModelAttributes.propTypes = {
   lang: PropTypes.string.isRequired,
 };
 
-ModelAttributes.contextTypes = {
+ResourceAttributes.contextTypes = {
   fetcher: PropTypes.object.isRequired
 };
 
@@ -181,7 +181,7 @@ const connected = connect(
         });
     }
   })
-)(ModelAttributes);
+)(ResourceAttributes);
 
 const asynced = asyncConnect([{
   promise: ({ helpers: { fetcher }, params }) => {

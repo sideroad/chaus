@@ -16,7 +16,7 @@ const Hero = props =>
         <Logo />
       </div>
       <div className={styles.sublead}>
-        Dead Simple REST API
+        Dead Simple RESTful API
       </div>
       <div className={styles.describe}>
         Create your resources in 1 minute

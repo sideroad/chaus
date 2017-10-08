@@ -41,7 +41,7 @@ function fetchApps(application, token) {
     .catch(err => console.error(err));
 }
 
-function fetchModels(token) {
+function fetchResources(token) {
   console.log('Loading models...');
   return fetch(`${config.global.base}${uris.admin.models}?limit=10000`, {
     method: 'GET',
@@ -106,7 +106,7 @@ export default function (app, mongoose, token) {
   console.log('Loading APIs...');
   creators.map(_creator => _creator.destroy());
   creators = [];
-  fetchModels(token)
+  fetchResources(token)
     .then((models) => {
       fetchAttributes(token)
         .then((attributes) => {

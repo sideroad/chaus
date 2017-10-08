@@ -12,5 +12,6 @@ import reducers from './reducers';
 client({
   urls,
   reducers,
-  routes
+  routes,
+  isDevelopment: true,
 });

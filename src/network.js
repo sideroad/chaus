@@ -15,7 +15,7 @@ function fetchAttributes(req, app) {
     .catch(err => console.error(err));
 }
 
-function fetchModels(req, app) {
+function fetchResources(req, app) {
   console.log('Loading models...');
   return fetch(`http://${config.host}:${config.port}${uris.admin.models}?app=${encodeURIComponent(app)}&limit=10000`, {
     method: 'GET',
@@ -29,7 +29,7 @@ function fetchModels(req, app) {
 
 export default (app) => {
   app.get(uris.admin.network, (req, res) => {
-    fetchModels(req, req.params.app)
+    fetchResources(req, req.params.app)
       .then((models) => {
         fetchAttributes(req, req.params.app)
           .then((attributes) => {

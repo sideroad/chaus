@@ -7,9 +7,9 @@ import { set as setUser } from './reducers/user';
 
 import Home from './containers/Home';
 import Apps from './containers/Apps';
-import Model from './containers/Model';
-import ModelHome from './containers/ModelHome';
-import ModelAttributes from './containers/ModelAttributes';
+import Resource from './containers/Resource';
+import ResourceHome from './containers/ResourceHome';
+import ResourceAttributes from './containers/ResourceAttributes';
 import Data from './containers/Data';
 import DataHome from './containers/DataHome';
 import DataRecords from './containers/DataRecords';
@@ -27,9 +27,9 @@ export default (store, cookie) =>
       onEnter={auth.login(store, cookie, config.global.base, 'github', setUser)}
     >
       <IndexRoute component={Apps} />
-      <Route path={uris.pages.models} component={Model} >
-        <IndexRoute component={ModelHome} />
-        <Route path={uris.pages.model} component={ModelAttributes} />
+      <Route path={uris.pages.models} component={Resource} >
+        <IndexRoute component={ResourceHome} />
+        <Route path={uris.pages.model} component={ResourceAttributes} />
       </Route>
       <Route path={uris.pages.data} component={Data} >
         <IndexRoute component={DataHome} />

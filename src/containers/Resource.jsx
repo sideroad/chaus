@@ -6,7 +6,7 @@ import { asyncConnect } from 'redux-connect';
 import Main from '../containers/Main';
 import config from '../config';
 
-const Model = props =>
+const Resource = props =>
   <div>
     <Helmet {...config.app.head} title="Build RESTful API within 5 min" />
     <Main
@@ -22,7 +22,7 @@ const Model = props =>
   </div>;
 
 
-Model.propTypes = {
+Resource.propTypes = {
   children: PropTypes.object.isRequired,
   models: PropTypes.array,
   open: PropTypes.bool,
@@ -31,7 +31,7 @@ Model.propTypes = {
   lang: PropTypes.string.isRequired,
 };
 
-Model.defaultProps = {
+Resource.defaultProps = {
   name: '',
   open: false,
   models: [],
@@ -46,7 +46,7 @@ const connected = connect(
     lang: ownProps.params.lang,
   }),
   {}
-)(Model);
+)(Resource);
 
 const asynced = asyncConnect([{
   promise: ({ helpers: { fetcher }, params }) =>

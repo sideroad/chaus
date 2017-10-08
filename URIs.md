@@ -10,7 +10,7 @@
 |URI       |Page      |Description|
 |:---------|:---------|:----------|
 |/:lang/apps/     |Dashboard | Create APIs, Search APIs|
-|/:lang/apps/:application/models|Models|Create, Update, Delete Models|
+|/:lang/apps/:application/resources|Resources|Create, Update, Delete Resources|
 |/:lang/apps/:application/data|Data|Create, Update, Delete Data|
 |/:lang/apps/:application/configs|Config|Description, CORS settings, Delete App|
 |/docs/:application|Docs|API documents|

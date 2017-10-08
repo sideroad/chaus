@@ -7,12 +7,12 @@ import { stringify } from 'koiki';
 import Card from '../components/Card';
 import uris from '../uris';
 import Graph from '../components/Graph';
-import styles from '../css/model-home.less';
+import styles from '../css/resource-home.less';
 
 
-const ModelHome = props =>
+const ResourceHome = props =>
   <div>
-    <h1 className={styles.lead}>Models</h1>
+    <h1 className={styles.lead}>Resources</h1>
     {
       props.networks ?
         <div className={styles.graph}>
@@ -31,7 +31,7 @@ const ModelHome = props =>
       :
         <Card
           lead={{
-            start: 'Click + to create Model on sidebar',
+            start: 'Click + to create Resource on sidebar',
             create: ''
           }}
           items={[]}
@@ -39,7 +39,7 @@ const ModelHome = props =>
     }
   </div>;
 
-ModelHome.propTypes = {
+ResourceHome.propTypes = {
   networks: PropTypes.string,
   push: PropTypes.func.isRequired,
   app: PropTypes.string.isRequired,
@@ -57,7 +57,7 @@ const connected = connect(
   {
     push
   }
-)(ModelHome);
+)(ResourceHome);
 
 const asynced = asyncConnect([{
   promise: ({ helpers: { fetcher }, params }) => {

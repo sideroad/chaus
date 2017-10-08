@@ -13,8 +13,8 @@ export default {
   pages: {
     root: '/:lang',
     apps: '/:lang/apps',
-    models: '/:lang/apps/:app/models',
-    model: '/:lang/apps/:app/models/:name',
+    models: '/:lang/apps/:app/resources',
+    model: '/:lang/apps/:app/resources/:name',
     data: '/:lang/apps/:app/data',
     records: '/:lang/apps/:app/data/:name',
     configs: '/:lang/apps/:app/configs',

@@ -13,7 +13,7 @@ import config from '../config';
 
 const Home = props =>
   <div>
-    <Helmet {...config.app.head} title="Dead Simple REST API in 1 minute" />
+    <Helmet {...config.app.head} title="Dead Simple RESTful API in 1 minute" />
     <Hero
       onLogin={() => props.login(props.lang)}
     />
