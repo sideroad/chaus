@@ -39,7 +39,7 @@ Explanation.defaultProps = {
     {
       icon: 'fa-sort-amount-desc',
       lead: 'Collection Fetch Control',
-      sublead: 'Be able to filter collection by request parameter. exact match, wildcard, range can be used.',
+      sublead: 'Be able to change sort order to fetch collectin. Be able to filter collection by request parameter. exact match, wildcard, range can be used.',
     },
     {
       icon: 'fa-random',
