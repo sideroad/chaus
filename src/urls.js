@@ -108,7 +108,7 @@ export default {
     },
     update: {
       url: `${base}/apis/:app/:model/:id`,
-      method: 'POST',
+      method: 'PATCH',
       credentials: 'include'
     }
   },
@@ -120,7 +120,7 @@ export default {
     },
     save: {
       url: `${base}/admin/api/apps/:app`,
-      method: 'POST',
+      method: 'PATCH',
       credentials: 'include'
     }
   },
