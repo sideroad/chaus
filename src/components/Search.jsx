@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'koiki-ui';
 
+const styles = require('../css/search.less');
+
 class Search extends Component {
 
   constructor(props) {
@@ -27,7 +29,6 @@ class Search extends Component {
     const {
       value
     } = this.state;
-    const styles = require('../css/search.less');
 
     const submit = (app) => {
       onEnter(app);
@@ -74,6 +75,7 @@ class Search extends Component {
               fa: require('../css/koiki-ui/fa/less/font-awesome.less'),
               input: require('../css/koiki-ui/input.less')
             }}
+            className={this.props.err ? styles.err : ''}
           />
         </div>
       </div>
@@ -88,7 +90,8 @@ Search.propTypes = {
   onTab: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onEnter: PropTypes.func.isRequired,
-  query: PropTypes.string
+  query: PropTypes.string,
+  err: PropTypes.object,
 };
 
 

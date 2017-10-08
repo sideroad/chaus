@@ -4,14 +4,15 @@ const LOAD_FAIL = 'models/LOAD_FAIL';
 const SAVE_START = 'models/SAVE';
 const SAVE_SUCCESS = 'models/SAVE_SUCCESS';
 const SAVE_FAIL = 'models/SAVE_FAIL';
-const REMOVE_START = 'models/REMOVE';
-const REMOVE_SUCCESS = 'models/REMOVE_SUCCESS';
-const REMOVE_FAIL = 'models/REMOVE_FAIL';
+const DELETE_START = 'models/DELETE';
+const DELETE_SUCCESS = 'models/DELETE_SUCCESS';
+const DELETE_FAIL = 'models/DELETE_FAIL';
 
 const EDITING = 'models/EDITING';
 const CANCEL = 'models/CANCEL';
 
 const initialState = {
+  err: undefined
 };
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
@@ -24,7 +25,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loading: false,
-        data: action.res.body.items
+        data: action.res.body.items,
       };
     case LOAD_FAIL:
       return {
@@ -47,24 +48,26 @@ export default function reducer(state = initialState, action = {}) {
     case SAVE_SUCCESS:
       return {
         ...state,
-        editing: false
+        editing: false,
+        err: undefined,
       };
     case SAVE_FAIL:
       return {
         ...state,
-        name: action.res.body.name
+        err: action.body,
       };
-    case REMOVE_START:
+    case DELETE_START:
       return state; // 'saving' flag handled by redux-form
-    case REMOVE_SUCCESS:
+    case DELETE_SUCCESS:
       return {
         ...state,
-        editing: false
+        editing: false,
+        err: undefined,
       };
-    case REMOVE_FAIL:
+    case DELETE_FAIL:
       return {
         ...state,
-        name: action.res.body.name
+        err: action.body
       };
     default:
       return state;

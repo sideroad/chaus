@@ -11,42 +11,37 @@
   left: 50%;
   transform: translateX(-50%);
   width: 70%;
-  opacity: 0.9;
-  animation: popup 3s ease;
-  animation-fill-mode: forwards;
-  animation-iteration-count: 1;
+  opacity: 1;
 }
 
 .success {
   border: 1px solid @light-primary;
   background-color: @dark-primary;
   color: @primary;
+  animation: popup 3s ease;
+  animation-fill-mode: forwards;
 }
 
 .error {
   border: 1px solid @light-secondary;
   background-color: @dark-secondary;
   color: @primary;
+  animation: popup 3s ease;
+  animation-fill-mode: forwards;
 }
 
+.none {
+  display: none;
+}
 
 @keyframes popup{
   0% {
-    width: 70%;
-    opacity: 0;
+    opacity: 1;
 	}
-  10% {
+  75% {
     opacity: 1;
-  }
-  85% {
-    opacity: 1;
-  }
-  95% {
-    opacity: 0;
-    width: 70%;
   }
   100% {
     opacity: 0;
-    width: 0;
   }
 }

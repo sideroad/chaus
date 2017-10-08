@@ -30,6 +30,7 @@ const Main = (props, context) => {
             modelName={props.modelName}
             app={props.app}
             lang={props.lang}
+            err={props.err}
             editing={props.editing}
             onBlur={props.cancel}
             closeSidebar={props.closeSidebar}
@@ -64,6 +65,7 @@ Main.propTypes = {
   lang: PropTypes.string.isRequired,
   toggleSidebar: PropTypes.func.isRequired,
   closeSidebar: PropTypes.func.isRequired,
+  err: PropTypes.object,
 };
 
 Main.contextTypes = {
@@ -72,7 +74,8 @@ Main.contextTypes = {
 
 const connected = connect(
   state => ({
-    editing: state.models.editing
+    editing: state.models.editing,
+    err: state.models.err,
   }),
   dispatch => ({
     cancel: () => dispatch(modelsActions.cancel()),
@@ -81,18 +84,24 @@ const connected = connect(
       if (values.name) {
         dispatch(pageActions.closeSidebar());
         dispatch(pageActions.load());
-        fetcher.models.save(values).then(() => {
-          fetcher.models.load({
-            app: values.app
-          }).then(() => {
+        fetcher.models.save(values).then(
+          () => {
+            fetcher.models.load({
+              app: values.app
+            })
+            .then(() => {
+              dispatch(pageActions.finishLoad());
+              dispatch(push(stringify(uris.pages.model, {
+                lang,
+                app: values.app,
+                name: values.name
+              })));
+            });
+          },
+          () => {
             dispatch(pageActions.finishLoad());
-            dispatch(push(stringify(uris.pages.model, {
-              lang,
-              app: values.app,
-              name: values.name
-            })));
-          });
-        });
+          }
+        );
       }
     },
     toggleSidebar: () => dispatch(pageActions.toggleSidebar()),

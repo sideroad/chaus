@@ -2,12 +2,12 @@
 const LOAD_START = 'apps/LOAD_START';
 const LOAD_SUCCESS = 'apps/LOAD_SUCCESS';
 const LOAD_FAIL = 'apps/LOAD_FAIL';
-const ADD_START = 'apps/ADD_START';
-const ADD_SUCCESS = 'apps/ADD_SUCCESS';
-const ADD_FAIL = 'apps/ADD_FAIL';
-const REMOVE_START = 'apps/REMOVE_START';
-const REMOVE_SUCCESS = 'apps/REMOVE_SUCCESS';
-const REMOVE_FAIL = 'apps/REMOVE_FAIL';
+const SAVE_START = 'apps/SAVE_START';
+const SAVE_SUCCESS = 'apps/SAVE_SUCCESS';
+const SAVE_FAIL = 'apps/SAVE_FAIL';
+const DELETE_START = 'apps/DELETE_START';
+const DELETE_SUCCESS = 'apps/DELETE_SUCCESS';
+const DELETE_FAIL = 'apps/DELETE_FAIL';
 
 const QUERY = 'apps/QUERY';
 const EDITING = 'apps/EDITING';
@@ -17,7 +17,8 @@ const NEXT = 'apps/NEXT';
 
 const initialState = {
   data: [],
-  loaded: false
+  loaded: false,
+  err: undefined,
 };
 export default function reducer(state = initialState, action = {}) {
   let index;
@@ -35,14 +36,15 @@ export default function reducer(state = initialState, action = {}) {
         loaded: true,
         data: items,
         candidate: items.length ? items[0].id : '',
-        index: 0
+        index: 0,
+        err: undefined,
       };
     case LOAD_FAIL:
       return {
         ...state,
         loading: false,
         loaded: false,
-        error: action.error,
+        err: action.body,
         selected: undefined
       };
     case QUERY:
@@ -64,31 +66,33 @@ export default function reducer(state = initialState, action = {}) {
         index,
         candidate: state.data.length ? state.data[index].id : ''
       };
-    case ADD_START:
+    case SAVE_START:
       return state; // 'saving' flag handled by redux-form
-    case ADD_SUCCESS:
+    case SAVE_SUCCESS:
       return {
         ...state,
-        data: action.res.body,
-        editing: false
+        editing: false,
+        err: undefined,
+        query: '',
       };
-    case ADD_FAIL:
+    case SAVE_FAIL:
       return {
         ...state,
-        name: action.error.name
+        err: action.body,
       };
-    case REMOVE_START:
+    case DELETE_START:
       return state; // 'saving' flag handled by redux-form
-    case REMOVE_SUCCESS:
+    case DELETE_SUCCESS:
       return {
         ...state,
-        data: action.res.body,
-        editing: false
+        editing: false,
+        err: undefined,
+        query: '',
       };
-    case REMOVE_FAIL:
+    case DELETE_FAIL:
       return {
         ...state,
-        name: action.error.name
+        err: action.body,
       };
     default:
       return state;

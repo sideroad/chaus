@@ -1,4 +1,5 @@
 import { reducer as form } from 'redux-form';
+import popup from './popup';
 import user from './user';
 import apps from './apps';
 import attributes from './attributes';
@@ -19,5 +20,6 @@ export default {
   origins,
   page,
   records,
-  user
+  user,
+  popup
 };

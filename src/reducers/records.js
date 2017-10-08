@@ -28,7 +28,6 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: true,
         loaded: false,
-        success: false
       };
     case LOAD_SUCCESS:
       return {
@@ -37,7 +36,6 @@ export default function reducer(state = initialState, action = {}) {
         loaded: true,
         data: action.res.body.items,
         err: undefined,
-        success: false
       };
     case LOAD_FAIL:
       return {

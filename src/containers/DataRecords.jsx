@@ -41,26 +41,6 @@ const DataRecords = (props, context) => {
   const fields = targets.map(attribute => attribute.name).concat(['model']);
   return (
     <div>
-      {
-        props.err ?
-          <div className={`${styles.popup} ${styles.error}`}>
-            {
-              Object.keys(props.err).map(key => console.log(props.err) ||
-                <div key={key}>
-                  {key}: {props.err[key]}
-                </div>
-              )
-            }
-          </div>
-        : ''
-      }
-      {
-        props.success ?
-          <div className={`${styles.popup} ${styles.success}`}>
-            Record has been updated successfully.
-          </div>
-        : ''
-      }
       <div className={styles.header}>
         <h1 className={styles.lead} >{props.name}</h1>
       </div>
@@ -158,7 +138,6 @@ DataRecords.propTypes = {
   err: PropTypes.object,
   // eslint-disable-next-line react/no-unused-prop-types
   index: PropTypes.number,
-  success: PropTypes.bool,
   // eslint-disable-next-line react/no-unused-prop-types
   create: PropTypes.func.isRequired,
   // eslint-disable-next-line react/no-unused-prop-types

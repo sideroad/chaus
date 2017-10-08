@@ -5,6 +5,7 @@ import uris from './uris';
 import config from './config';
 import { set as setUser } from './reducers/user';
 
+import Root from './containers/Root';
 import Home from './containers/Home';
 import Apps from './containers/Apps';
 import Resource from './containers/Resource';
@@ -17,7 +18,10 @@ import Config from './containers/Config';
 import NotFound from './containers/NotFound';
 
 export default (store, cookie) =>
-  <Route path={uris.pages.root} >
+  <Route
+    path={uris.pages.root}
+    component={Root}
+  >
     <IndexRoute
       component={Home}
       onEnter={auth.check(store, cookie, config.global.base, setUser)}

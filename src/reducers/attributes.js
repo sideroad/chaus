@@ -10,7 +10,8 @@ const FAIL_INDEX = 'attributes/FAIL_INDEX';
 const initialState = {
   data: [],
   loaded: false,
-  loading: false
+  loading: false,
+  err: undefined,
 };
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {

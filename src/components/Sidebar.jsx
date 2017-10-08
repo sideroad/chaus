@@ -49,7 +49,8 @@ export default class Sidebar extends Component {
       editing,
       modelName,
       context,
-      app
+      app,
+      err,
     } = this.props;
     const lang = this.props.lang;
 
@@ -93,7 +94,7 @@ export default class Sidebar extends Component {
                 <form onSubmit={this.handleSubmit} >
                   <input
                     ref={(elem) => { this.nameDOM = elem; }}
-                    className={styles.input}
+                    className={`${styles.input} ${err ? styles.err : ''}`}
                     type="text"
                     placeholder="Resource name"
                     onBlur={this.handleBlur}
@@ -153,5 +154,6 @@ Sidebar.propTypes = {
   onBlur: PropTypes.func.isRequired,
   closeSidebar: PropTypes.func.isRequired,
   editing: PropTypes.bool,
+  err: PropTypes.object,
   lang: PropTypes.string.isRequired,
 };

@@ -2,7 +2,8 @@ module.exports = {
   app: {
     name: {
       uniq: true,
-      pattern: /^[0-9a-z-]+$/
+      pattern: /^[0-9a-z-]+$/,
+      invalid: 'Only Numeric, Alphabet lowercase and hyphen character can be used'
     },
     models: {
       children: 'model'
@@ -50,7 +51,8 @@ module.exports = {
     },
     name: {
       uniq: true,
-      pattern: /^[0-9a-z-]+$/
+      pattern: /^[0-9a-z-]+$/,
+      invalid: 'Only Numeric, Alphabet lowercase and hyphen character can be used'
     },
     attributes: {
       type: 'children',
@@ -68,7 +70,8 @@ module.exports = {
     },
     name: {
       uniq: true,
-      pattern: /^[0-9a-z-]+$/
+      pattern: /^[0-9a-z-]+$/,
+      invalid: 'Only Numeric, Alphabet lowercase and hyphen character can be used'
     },
     uniq: {
       type: 'boolean'

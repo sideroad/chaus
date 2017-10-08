@@ -18,26 +18,6 @@ import fa from '../css/koiki-ui/fa/less/font-awesome.less';
 
 const ResourceAttributes = (props, context) =>
   <div>
-    {
-      props.err ?
-        <div className={`${styles.popup} ${styles.error}`}>
-          {
-            Object.keys(props.err).map(key =>
-              <div key={key}>
-                {key}: {props.err[key]}
-              </div>
-            )
-          }
-        </div>
-      : ''
-    }
-    {
-      props.success ?
-        <div className={`${styles.popup} ${styles.success}`}>
-          Resource has been updated successfully.
-        </div>
-      : ''
-    }
     <div className={styles.header}>
       <h1 className={styles.lead} >{props.name}</h1>
       <div className={styles.delete}>
@@ -90,7 +70,6 @@ ResourceAttributes.propTypes = {
   delete: PropTypes.func.isRequired,
   err: PropTypes.object,
   index: PropTypes.number,
-  success: PropTypes.bool,
   app: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   // eslint-disable-next-line react/no-unused-prop-types
@@ -109,7 +88,6 @@ const connected = connect(
     loading: state.attributes.loading,
     err: state.attributes.err,
     index: state.attributes.index,
-    success: state.attributes.success,
     name: ownProps.params.name,
     app: ownProps.params.app,
     lang: ownProps.params.lang,

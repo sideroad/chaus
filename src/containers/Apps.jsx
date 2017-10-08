@@ -43,6 +43,7 @@ const Apps = (props, context) => {
             }
           }
         }
+        err={props.err}
         onPrev={props.prev}
         onNext={props.next}
         lang={props.lang}
@@ -74,6 +75,7 @@ const connected = connect(
     query: state.apps.query,
     apps: state.apps.data,
     candidate: state.apps.candidate,
+    err: state.apps.err,
     user: state.user.item,
     lang: ownProps.params.lang,
   }),
@@ -127,6 +129,7 @@ const connected = connect(
 Apps.propTypes = {
   query: PropTypes.string,
   apps: PropTypes.array.isRequired,
+  err: PropTypes.object,
   candidate: PropTypes.string,
   search: PropTypes.func.isRequired,
   prev: PropTypes.func.isRequired,
