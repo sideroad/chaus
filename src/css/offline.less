@@ -1,0 +1,40 @@
+@import "variables.less";
+
+.root {
+  background-color: @primary;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.container {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  font-size: 3em;
+}
+
+.message {
+  color: @third;
+  line-height: 3em;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.button {
+  height: 3.5em;
+  width: 200px;
+}
+
+.button button {
+  background-color: @third;
+  color: @light-primary;
+}

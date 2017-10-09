@@ -18,7 +18,8 @@ export default {
     data: '/:lang/apps/:app/data',
     records: '/:lang/apps/:app/data/:name',
     configs: '/:lang/apps/:app/configs',
-    docs: '/docs/:app'
+    offline: '/:lang/offline',
+    docs: '/docs/:app',
   },
   apis: {
     root: '/apis/:app',

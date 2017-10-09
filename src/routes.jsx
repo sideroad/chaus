@@ -15,6 +15,7 @@ import Data from './containers/Data';
 import DataHome from './containers/DataHome';
 import DataRecords from './containers/DataRecords';
 import Config from './containers/Config';
+import Offline from './containers/Offline';
 import NotFound from './containers/NotFound';
 
 export default (store, cookie) =>
@@ -42,5 +43,6 @@ export default (store, cookie) =>
       <Route path={uris.pages.configs} component={Config} />
     </Route>
     { /* Catch all route */ }
+    <Route path={uris.pages.offline} component={Offline} />
     <Route path="*" component={NotFound} status={404} />
   </Route>;
