@@ -98,7 +98,7 @@ const ConfigForm = props =>
                       <div className={styles.origin}>
                         <Field
                           name={`${origin}.url`}
-                          className={`${styles.input} ${styles.url}`}
+                          className={`${styles.input} ${styles.url} ${props.err && props.index === index ? styles.err : ''}`}
                           placeholder="Client domain"
                           component="input"
                           type="text"
@@ -175,7 +175,10 @@ const ConfigForm = props =>
 ConfigForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  callFromServer: PropTypes.bool.isRequired
+  callFromServer: PropTypes.bool.isRequired,
+  index: PropTypes.number.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
+  err: PropTypes.object,
 };
 
 export default reduxForm({

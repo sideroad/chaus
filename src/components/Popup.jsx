@@ -18,7 +18,7 @@ class Popup extends Component {
       >
         {
           this.props.messages.map(message => console.log(message) ||
-            <div key={message}>
+            <div className={styles.message} key={message}>
               {message}
             </div>
           )

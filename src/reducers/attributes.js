@@ -5,7 +5,7 @@ const LOAD_FAIL = 'attributes/LOAD_FAIL';
 const SAVE_START = 'attributes/SAVE_START';
 const SAVE_SUCCESS = 'attributes/SAVE_SUCCESS';
 const SAVE_FAIL = 'attributes/SAVE_FAIL';
-const FAIL_INDEX = 'attributes/FAIL_INDEX';
+const VALIDATES_FAIL = 'attributes/VALIDATES_FAIL';
 
 const initialState = {
   data: [],
@@ -56,21 +56,15 @@ export default function reducer(state = initialState, action = {}) {
         success: false,
         err: action.body
       };
-    case FAIL_INDEX:
+    case VALIDATES_FAIL:
       return {
         ...state,
-        index: action.index
+        err: action.body,
+        index: action.body.index,
       };
     default:
       return state;
   }
-}
-
-export function failIndex(index) {
-  return {
-    type: FAIL_INDEX,
-    index
-  };
 }
 
 export function isLoaded(globalState) {

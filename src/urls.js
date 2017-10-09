@@ -80,6 +80,14 @@ export default {
       url: `${base}/admin/api/attributes`,
       method: 'DELETE',
       credentials: 'include'
+    },
+    validates: {
+      url: `${base}/admin/api/attributes`,
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'X-Validation': true,
+      },
     }
   },
   records: {
@@ -142,6 +150,14 @@ export default {
       url: `${base}/admin/api/origins`,
       method: 'DELETE',
       credentials: 'include'
-    }
+    },
+    validates: {
+      url: `${base}/admin/api/origins`,
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'X-Validation': true,
+      },
+    },
   }
 };

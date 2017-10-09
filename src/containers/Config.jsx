@@ -5,7 +5,6 @@ import Helmet from 'react-helmet';
 import { v4 } from 'uuid';
 import { push } from 'react-router-redux';
 import { asyncConnect } from 'redux-connect';
-import eachSeries from 'async/mapSeries';
 import { formValueSelector } from 'redux-form';
 import { stringify } from 'koiki';
 
@@ -40,6 +39,8 @@ const Config = (props, context) =>
             origins
           })
         }
+        err={props.err}
+        index={props.index}
         onDelete={() => props.delete(context.fetcher, props.app, props.lang)}
         callFromServer={props.callFromServer}
       />
@@ -57,6 +58,8 @@ Config.propTypes = {
   callFromServer: PropTypes.bool.isRequired,
   app: PropTypes.string.isRequired,
   lang: PropTypes.string.isRequired,
+  err: PropTypes.object,
+  index: PropTypes.number.isRequired,
 };
 
 Config.contextTypes = {
@@ -68,6 +71,8 @@ const connected = connect(
     models: state.models.data,
     configs: state.configs.data,
     origins: state.origins.data,
+    err: state.origins.err,
+    index: state.origins.index,
     open: state.page.open,
     app: ownProps.params.app,
     lang: ownProps.params.lang,
@@ -118,42 +123,46 @@ const connected = connect(
           ...values
         })
         .then(() =>
+          fetcher.origins.validates({
+            app,
+            items: values.origins.map(origin => ({
+              app,
+              ...origin,
+            }))
+          })
+        )
+        .then(() =>
           fetcher.origins.deletes({
             app
           })
-        .then(() => {
-          eachSeries(
-            values.origins,
-            (origin, callback) => {
-              fetcher.origins
-                .save({
+          .then(() =>
+            fetcher.origins
+              .save({
+                app,
+                items: values.origins.map(origin => ({
                   app,
-                  ...origin
-                })
-                .then(
-                  () => callback(),
-                  err => callback(err)
-                );
-            },
-            () => {
-              fetcher.configs
-                .load({
+                  ...origin,
+                }))
+              })
+          ),
+          () => {}
+        )
+        .then(() =>
+          fetcher.configs
+            .load({
+              app
+            })
+            .then(
+              () =>
+                fetcher.origins.load({
                   app
                 })
-                .then(
-                  () =>
-                    fetcher.origins.load({
-                      app
-                    })
-                )
-                .then(
-                  () =>
-                    fetcher.page.restart()
-                );
-            }
+            )
+            .then(
+              () =>
+                fetcher.page.restart()
+            )
         );
-        })
-      );
     }
   })
 )(Config);

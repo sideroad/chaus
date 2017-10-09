@@ -5,8 +5,11 @@ const LOAD_FAIL = 'origins/LOAD_FAIL';
 const SAVE_START = 'origins/SAVE';
 const SAVE_SUCCESS = 'origins/SAVE_SUCCESS';
 const SAVE_FAIL = 'origins/SAVE_FAIL';
+const VALIDATES_FAIL = 'origins/VALIDATES_FAIL';
 
 const initialState = {
+  err: undefined,
+  index: 0,
 };
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
@@ -32,12 +35,19 @@ export default function reducer(state = initialState, action = {}) {
     case SAVE_SUCCESS:
       return {
         ...state,
-        editing: false
+        editing: false,
+        err: undefined,
       };
     case SAVE_FAIL:
       return {
         ...state,
-        err: action.err
+        err: action.body,
+      };
+    case VALIDATES_FAIL:
+      return {
+        ...state,
+        err: action.body,
+        index: action.body.index,
       };
     default:
       return state;

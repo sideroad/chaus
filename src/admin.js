@@ -40,7 +40,8 @@ module.exports = {
       parent: 'app.origins'
     },
     url: {
-      uniq: true
+      uniq: true,
+      invalid: 'Empty URL is not allowed, Specify Allowed origin or *'
     }
   },
   model: {

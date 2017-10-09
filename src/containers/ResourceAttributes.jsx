@@ -4,7 +4,6 @@ import __ from 'lodash';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { asyncConnect } from 'redux-connect';
-import eachSeries from 'async/mapSeries';
 import pluralize from 'pluralize';
 import { stringify } from 'koiki';
 import { Button } from 'koiki-ui';
@@ -12,7 +11,6 @@ import { Button } from 'koiki-ui';
 import uris from '../uris';
 import AttributeForm from '../components/AttributeForm';
 import * as pageActions from '../reducers/page';
-import * as attributesActions from '../reducers/attributes';
 import styles from '../css/resource-attributes.less';
 import fa from '../css/koiki-ui/fa/less/font-awesome.less';
 
@@ -126,37 +124,41 @@ const connected = connect(
       const model = values.model;
       dispatch(pageActions.load());
       fetcher.attributes
-        .deletes({
+        .validates({
           app,
-          model
+          model,
+          items: values.attributes.map(attribute => ({
+            ...attribute,
+            app,
+            model,
+          }))
         })
-        .then(() => {
-          let index = 0;
-          eachSeries(
-            values.attributes,
-            (attribute, callback) => {
-              fetcher.attributes
-                .save({
-                  ...attribute,
-                  app,
-                  model
-                })
-                .then(
-                  // eslint-disable-next-line no-return-assign
-                  () => callback(null, index += 1),
-                  () => callback({
-                    index
+        .then(
+          () =>
+            fetcher.attributes
+              .deletes({
+                app,
+                model
+              })
+              .then(() =>
+                fetcher.attributes
+                  .save({
+                    app,
+                    model,
+                    items: values.attributes.map(attribute => ({
+                      ...attribute,
+                      app,
+                      model,
+                    })),
                   })
-                );
-            },
-            (err) => {
-              if (err) {
-                dispatch(attributesActions.failIndex(err.index));
-              }
-              fetcher.page.restart();
-            }
-          );
-        });
+              ),
+          () => {}
+        )
+        .then(
+          () => {
+            fetcher.page.restart();
+          }
+        );
     }
   })
 )(ResourceAttributes);

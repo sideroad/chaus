@@ -2,11 +2,11 @@
 
 .popup {
   border-radius: 3px;
-  height: 2em;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
   top: 5%;
   left: 50%;
   transform: translateX(-50%);
@@ -14,11 +14,15 @@
   opacity: 1;
 }
 
+.message {
+  margin: 0.5em;
+}
+
 .success {
   border: 1px solid @light-primary;
   background-color: @dark-primary;
   color: @primary;
-  animation: popup 3s ease;
+  animation: popup 1.5s ease;
   animation-fill-mode: forwards;
 }
 
@@ -26,7 +30,7 @@
   border: 1px solid @light-secondary;
   background-color: @dark-secondary;
   color: @primary;
-  animation: popup 3s ease;
+  animation: popup 5s ease;
   animation-fill-mode: forwards;
 }
 
