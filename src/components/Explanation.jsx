@@ -19,6 +19,18 @@ const Explanation = props =>
             <div className={styles.sublead} >
               {item.sublead}
             </div>
+            {
+              item.link ?
+                <a
+                  className={styles.link}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  See here for more detail.
+                </a>
+              : ''
+            }
           </li>
         )
       }
@@ -39,12 +51,14 @@ Explanation.defaultProps = {
     {
       icon: 'fa-sort-amount-desc',
       lead: 'Collection Fetch Control',
-      sublead: 'Be able to change sort order to fetch collectin. Be able to filter collection by request parameter. exact match, wildcard, range can be used.',
+      sublead: 'Be able to change sort order to fetch collection. Be able to filter collection by request parameter. exact match, wildcard, range can be used.',
+      link: 'https://github.com/sideroad/express-restful-api#fetching-collection',
     },
     {
       icon: 'fa-random',
-      lead: 'Field Fetch Control',
+      lead: 'Field Control',
       sublead: 'Be able to narrow response field, expand field which has parent or parent relation resource.',
+      link: 'https://github.com/sideroad/express-restful-api#field-control',
     },
     {
       icon: 'fa-book',
