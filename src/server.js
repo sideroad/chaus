@@ -180,8 +180,12 @@ server({
   manifest: {
     name: config.app.title,
     description: config.app.description,
-    background_color: '#595455'
   },
+  colors: {
+    background: '#595455',
+    primary: '#FFFFFC',
+    secondary: '#8DB530'
+  }
 });
 
 if (config.port) {
