@@ -18,7 +18,6 @@ import routes from './routes';
 import admin from './admin';
 import apikit from './apikit';
 import reducers from './reducers';
-import Offline from './containers/Offline';
 
 const app = new Express();
 const pretty = new PrettyError();
@@ -183,7 +182,6 @@ server({
     description: config.app.description,
     background_color: '#595455'
   },
-  Offline,
 });
 
 if (config.port) {
