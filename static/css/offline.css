@@ -50,3 +50,21 @@
   justify-content: center;
   align-items: center;
 }
+
+.pull-to-refresh {
+  color: #E1F6B0;
+  display: none;
+  text-align: center;
+  font-size: 1.25em;
+}
+
+
+@media (max-width: 767px){
+
+  .reload{
+    display: none;
+  }
+  .pull-to-refresh {
+    display: block;
+  }
+}
