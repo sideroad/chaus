@@ -35,7 +35,7 @@
     "express-session": "^1.14.2",
     "history": "1.13.1",
     "isomorphic-fetch": "^2.2.0",
-    "koiki": "^6.1.2",
+    "koiki": "^6.1.3",
     "koiki-ui": "0.0.62",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
