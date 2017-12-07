@@ -1,47 +1,18 @@
+@import "../../../node_modules/koiki-ui/less/input.less";
 @import "variables.less";
 @import "animations.less";
-@import "progress.less";
 
-.container{
-	position: relative;
-	width: 100%;
-	padding-top: 1.75em;
-	padding-bottom: 1.75em;
-	height: auto;
+.input{
+	background-color: inherit;
 }
 
 .input{
-	position: absolute;
 	color: @primary;
-  height: 2.75em;
-	border-style: solid;
 	border-color: @primary;
-	border-radius: 3px;
-	border-width: 2px;
-	background-color: initial;
-	top: 0;
-	left: 0;
-	width: 100%;
-	z-index: 0;
-	box-sizing: border-box;
-	padding-left: 2em;
-	transition-property: border;
-  transition-duration: 0.4s;
-	outline: none;
-	font-size: 1.25em;
 }
 
 .prefix{
-	position: absolute;
-	top: 50%;
-	left: 0;
-	z-index: 0;
 	color: @secondary;
-	margin-left: 0.75em;
-	transition-property: transform;
-	transition-duration: 0.4s;
-	font-size: 1.25em;
-	transform: translateY(-50%) rotateX(0deg);
 }
 
 
@@ -53,16 +24,8 @@
 
 .input:focus{
 	border-color: @light-third;
-	transition-property: border, transform;
-	transition-duration: 0.4s;
-}
-
-.input:focus,
-.prefix{
-	z-index: 1;
 }
 
 .input:focus + .prefix{
 	color: @primary;
-	transform: translateY(-50%) rotateX(360deg);
 }
