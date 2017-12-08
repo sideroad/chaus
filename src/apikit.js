@@ -102,31 +102,30 @@ function convert(models, attributes) {
   return dist;
 }
 
-export default function (app, mongoose, token) {
+export default function (mongoose, token) {
   console.log('Loading APIs...');
   creators.map(_creator => _creator.destroy());
   creators = [];
-  fetchResources(token)
-    .then((models) => {
+  return fetchResources(token)
+    .then(models =>
       fetchAttributes(token)
         .then((attributes) => {
           const schema = convert(models.items, attributes.items);
-          Object.keys(schema).forEach((application) => {
+          const loaders = Object.keys(schema).map(application =>
             fetchApps(application, token)
               .then((settings) => {
                 const path = stringify(uris.apis.root, { app: application });
 
                 console.log('Apply CORS settings...', path, settings.origins);
+                const corsRouter = express.Router();
                 if (!routes[application]) {
-                  const router = express.Router();
                   routes[application] = () => {};
-                  router.use(path, cors({
+                  corsRouter.use(path, cors({
                     origin: (origin, callback) => {
                       routes[application](origin, callback);
                     },
                     credentials: true
                   }));
-                  app.use(router);
                 }
                 routes[application] = (origin, callback) => {
                   callback(null, settings.origins.reduce(
@@ -137,15 +136,14 @@ export default function (app, mongoose, token) {
                 };
 
                 console.log(`${application} construct schema`, schema[application]);
-                app.use('/', creator.router({
+                const router = creator.router({
                   mongo: mongoose,
                   schemas: schema[application],
                   cors: true,
                   prefix: path,
                   client: settings.client,
                   secret: settings.secret
-                }));
-
+                });
                 creator.doc({
                   name: application,
                   version,
@@ -162,11 +160,16 @@ export default function (app, mongoose, token) {
 
                 fs.writeFileSync(`${__dirname}/../static/docs/${application}/schema.json`, JSON.stringify(schema[application]), 'utf8');
                 creators.push(creator);
+                return {
+                  router,
+                  corsRouter,
+                };
               })
-              .catch(err => console.error(err));
-          });
+              .catch(err => console.error(err))
+          );
+          return Promise.all(loaders);
         })
-        .catch(err => console.error(err));
-    })
+        .catch(err => console.error(err))
+    )
     .catch(err => console.error(err));
 }

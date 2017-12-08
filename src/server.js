@@ -151,10 +151,25 @@ app.use('/', creator.router({
 
 mongoose.connect(config.mongoURL);
 
+let router = (req, res, next) => {
+  next();
+};
+app.use((req, res, next) => {
+  router(req, res, next);
+});
+
 const retatch = (req, res) => {
   mongoose.models = {};
   mongoose.modelSchemas = {};
-  apikit(app, mongoose, token);
+  apikit(mongoose, token)
+    .then((_routers) => {
+      const newRouter = Express.Router();
+      _routers.forEach((_router) => {
+        newRouter.use(_router.corsRouter);
+        newRouter.use(_router.router);
+      });
+      router = newRouter;
+    });
   if (res) {
     res.json({ ok: true });
   }
