@@ -114,6 +114,9 @@ const connected = connect(
             model
           })
       ).then(
+        () =>
+          fetcher.page.restart()
+      ).then(
         () => {
           dispatch(pageActions.finishLoad());
           dispatch(push(stringify(uris.pages.models, { lang, app, model })));
