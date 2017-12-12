@@ -8,7 +8,8 @@ export default {
     models: '/admin/api/models',
     attributes: '/admin/api/attributes',
     restart: '/admin/restart',
-    network: '/admin/networks/:app'
+    network: '/admin/networks/:app',
+    jsonLoader: '/admin/json-loader/:app'
   },
   pages: {
     root: '/:lang',

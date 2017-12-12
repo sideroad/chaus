@@ -1,7 +1,7 @@
 import {} from 'isomorphic-fetch';
-import __ from 'lodash';
-import uris from './uris';
-import config from './config';
+import _ from 'lodash';
+import uris from '../uris';
+import config from '../config';
 
 function fetchAttributes(req, app) {
   console.log('Loading attributes...');
@@ -40,8 +40,8 @@ export default (app) => {
               if (!item.model || !item.relation) {
                 return;
               }
-              const model = __.find(models.items, { id: item.model.id });
-              const relation = __.find(models.items, { id: item.relation.id });
+              const model = _.find(models.items, { id: item.model.id });
+              const relation = _.find(models.items, { id: item.relation.id });
 
               if (!model || !relation) {
                 return;
@@ -64,7 +64,7 @@ export default (app) => {
                   return;
               }
             });
-            const networks = __.uniq(nodes).concat(Object.keys(edges).map(edge => `${edge}[label="${__.uniq(edges[edge]).join(' / ')}"]`));
+            const networks = _.uniq(nodes).concat(Object.keys(edges).map(edge => `${edge}[label="${_.uniq(edges[edge]).join(' / ')}"]`));
             res.json({
               network: networks.join(';')
             });

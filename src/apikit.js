@@ -10,7 +10,6 @@ import config from './config';
 import uris from './uris';
 
 const version = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`)).version;
-const routes = {};
 let creators = [];
 
 function fetchApps(application, token) {
@@ -118,22 +117,16 @@ export default function (mongoose, token) {
 
                 console.log('Apply CORS settings...', path, settings.origins);
                 const corsRouter = express.Router();
-                if (!routes[application]) {
-                  routes[application] = () => {};
-                  corsRouter.use(path, cors({
-                    origin: (origin, callback) => {
-                      routes[application](origin, callback);
-                    },
-                    credentials: true
-                  }));
-                }
-                routes[application] = (origin, callback) => {
-                  callback(null, settings.origins.reduce(
-                    (memo, _url) =>
-                      (wildcard(_url, origin) instanceof Array) || memo
-                    , false)
-                  );
-                };
+                corsRouter.use(path, cors({
+                  origin: (origin, callback) => {
+                    callback(null, settings.origins.reduce(
+                      (memo, _url) =>
+                        (wildcard(_url, origin) instanceof Array) || memo
+                      , false)
+                    );
+                  },
+                  credentials: true
+                }));
 
                 console.log(`${application} construct schema`, schema[application]);
                 const router = creator.router({

@@ -71,8 +71,8 @@ module.exports = {
     },
     name: {
       uniq: true,
-      pattern: /^[0-9a-z-]+$/,
-      invalid: 'Only Numeric, Alphabet lowercase and hyphen character can be used'
+      pattern: /^[0-9a-zA-Z-]+$/,
+      invalid: 'Only Numeric, Alphabet and hyphen character can be used'
     },
     uniq: {
       type: 'boolean'

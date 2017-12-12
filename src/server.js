@@ -13,7 +13,8 @@ import { v4 } from 'uuid';
 import config from './config';
 import urls from './urls';
 import uris from './uris';
-import network from './network';
+import network from './helpers/network';
+import jsonLoader from './helpers/json-loader';
 import routes from './routes';
 import admin from './admin';
 import apikit from './apikit';
@@ -178,6 +179,7 @@ app.get(uris.admin.restart, retatch);
 retatch();
 
 network(app);
+jsonLoader(app, retatch);
 
 server({
   urls,
