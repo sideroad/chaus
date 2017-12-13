@@ -9,6 +9,8 @@ import mongoose from 'mongoose';
 import PrettyError from 'pretty-error';
 import creator from 'express-restful-api';
 import { v4 } from 'uuid';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 import config from './config';
 import urls from './urls';
@@ -30,6 +32,10 @@ app.use(Express.static(path.join(__dirname, '..', 'static')));
 
 if (config.github.enabled) {
   passporter.use({ github: config.github }, app, config.global.base);
+} else {
+  app.use(cookieParser());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
 }
 
 app.use('/', creator.router({
