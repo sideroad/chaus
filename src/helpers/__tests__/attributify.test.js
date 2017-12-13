@@ -8,6 +8,7 @@ test('convert json to attributes', () => {
       properties: {
         name: {
           type: 'string',
+          description: 'the name of foo-bar',
         },
         age: {
           type: 'integer',
@@ -29,6 +30,7 @@ test('convert json to attributes', () => {
       pattern: undefined,
       uniq: true,
       required: true,
+      desc: 'the name of foo-bar',
     },
     {
       app: 'foo',
@@ -37,6 +39,7 @@ test('convert json to attributes', () => {
       name: 'age',
       pattern: '^\\-?\\d+$',
       required: true,
+      desc: undefined,
     },
     {
       app: 'foo',
@@ -46,6 +49,7 @@ test('convert json to attributes', () => {
       pattern: undefined,
       relation: 'aaa',
       relationAttribute: 'bbb',
+      desc: undefined,
     }
   ]);
 });

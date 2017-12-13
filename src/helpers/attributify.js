@@ -24,6 +24,7 @@ export default function attributify({ app, model, json }) {
       pattern: val.pattern || val.type === 'integer' ? '^\\-?\\d+$' : undefined,
       relation: val.rel ? val.rel.split('.')[0] : undefined,
       relationAttribute: val.rel ? val.rel.split('.')[1] : undefined,
+      desc: val.description,
     };
   }).filter(val => val);
 
