@@ -30,6 +30,13 @@ export default {
       credentials: 'include'
     }
   },
+  json: {
+    import: {
+      url: `${base}/admin/json-loader/:app`,
+      method: 'POST',
+      credentials: 'include'
+    }
+  },
   models: {
     load: {
       url: `${base}/admin/api/models`,

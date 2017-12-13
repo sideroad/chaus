@@ -36,6 +36,9 @@ const Main = (props, context) => {
             closeSidebar={props.closeSidebar}
             onAdd={props.add}
             onSave={values => save(context.fetcher, values, props.lang)}
+            onDropFiles={files =>
+              props.importJson(context.fetcher, props.lang, props.app, files)
+            }
           />
         </div>
         <div className={`${styles.right} ${props.open ? styles.open : ''}`} >
@@ -65,6 +68,7 @@ Main.propTypes = {
   lang: PropTypes.string.isRequired,
   toggleSidebar: PropTypes.func.isRequired,
   closeSidebar: PropTypes.func.isRequired,
+  importJson: PropTypes.func.isRequired,
   err: PropTypes.object,
 };
 
@@ -103,6 +107,23 @@ const connected = connect(
           }
         );
       }
+    },
+    importJson: (fetcher, lang, app, schemes) => {
+      dispatch(pageActions.load());
+      fetcher.json.import({
+        app,
+        schemes
+      }).then(
+        () => fetcher.page.restart()
+      ).then(
+        () => {
+          dispatch(pageActions.finishLoad());
+          dispatch(push(stringify(uris.pages.models, {
+            lang,
+            app,
+          })));
+        }
+      );
     },
     toggleSidebar: () => dispatch(pageActions.toggleSidebar()),
     closeSidebar: () => dispatch(pageActions.closeSidebar())

@@ -10,8 +10,12 @@ test('convert json to attributes', () => {
           type: 'string',
         },
         age: {
-          type: 'number',
+          type: 'integer',
         },
+        hoge: {
+          type: 'parent',
+          rel: 'aaa.bbb'
+        }
       },
       required: ['name', 'age'],
       uniqueKeys: ['name'],
@@ -31,8 +35,17 @@ test('convert json to attributes', () => {
       model: 'foo-bar',
       type: 'number',
       name: 'age',
-      pattern: undefined,
+      pattern: '^\\-?\\d+$',
       required: true,
+    },
+    {
+      app: 'foo',
+      model: 'foo-bar',
+      type: 'parent',
+      name: 'hoge',
+      pattern: undefined,
+      relation: 'aaa',
+      relationAttribute: 'bbb',
     }
   ]);
 });

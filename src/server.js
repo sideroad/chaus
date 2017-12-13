@@ -185,7 +185,7 @@ app.get(uris.admin.restart, retatch);
 retatch();
 
 network(app);
-jsonLoader(app, retatch);
+jsonLoader(app);
 
 server({
   urls,

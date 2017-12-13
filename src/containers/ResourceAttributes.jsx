@@ -106,17 +106,16 @@ const connected = connect(
           fetcher.attributes.deletes({
             app,
             model
-          })
-      ).then(
+          }))
+      .then(
         () =>
           fetcher.models.delete({
             app,
             model
-          })
-      ).then(
-        () =>
-          fetcher.page.restart()
-      ).then(
+          }))
+      .then(
+        () => fetcher.page.restart())
+      .then(
         () => {
           dispatch(pageActions.finishLoad());
           dispatch(push(stringify(uris.pages.models, { lang, app, model })));

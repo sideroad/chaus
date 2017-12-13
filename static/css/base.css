@@ -55,6 +55,9 @@ html {
 input {
 	font-family: 'Roboto';
 }
+button {
+	font-family: 'Roboto';
+}
 a {
 	text-decoration: none;
 }

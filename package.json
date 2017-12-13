@@ -50,6 +50,7 @@
     "react": "^15.3.2",
     "react-autobind": "^1.0.6",
     "react-dom": "^15.3.2",
+    "react-dropzone": "^4.2.3",
     "react-fastclick": "^2.1.0",
     "react-helmet": "^3.1.0",
     "react-redux": "^4.0.0",

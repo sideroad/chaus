@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { IndexLink } from 'react-router';
 import autoBind from 'react-autobind';
 import { stringify } from 'koiki';
+import ImportJson from '../components/ImportJson';
 import uris from '../uris';
 import styles from '../css/sidebar.less';
 import fa from '../css/koiki-ui/fa/less/font-awesome.less';
@@ -137,6 +138,17 @@ export default class Sidebar extends Component {
                 <i className={`${fa.fa} ${fa['fa-book']}`} />API Doc
               </a>
             </li>
+            <li>
+              <ImportJson
+                onDropFiles={this.props.onDropFiles}
+              >
+                <button
+                  className={styles.header}
+                >
+                  <i className={`${fa.fa} ${fa['fa-upload']}`} />Import JSON Scheme
+                </button>
+              </ImportJson>
+            </li>
           </ul>
         </div>
       </div>
@@ -156,4 +168,5 @@ Sidebar.propTypes = {
   editing: PropTypes.bool,
   err: PropTypes.object,
   lang: PropTypes.string.isRequired,
+  onDropFiles: PropTypes.func.isRequired,
 };
