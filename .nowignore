@@ -1,0 +1,5 @@
+docs
+*.pxm
+.git
+.DS_Store
+__tests__
