@@ -1,6 +1,6 @@
 import config from './config';
 
-const base = config.global.base;
+const base = __SERVER__ ? config.apikit.base : config.global.base;
 
 export default {
   apps: {
@@ -93,8 +93,8 @@ export default {
       method: 'POST',
       credentials: 'include',
       headers: {
-        'X-Validation': true,
-      },
+        'X-Validation': true
+      }
     }
   },
   records: {
@@ -163,8 +163,8 @@ export default {
       method: 'POST',
       credentials: 'include',
       headers: {
-        'X-Validation': true,
-      },
-    },
+        'X-Validation': true
+      }
+    }
   }
 };

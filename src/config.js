@@ -16,46 +16,59 @@ const environment = {
 const globalHost = process.env.GLOBAL_HOST || 'localhost';
 const globalPort = process.env.GLOBAL_PORT || 3000;
 const globalBase = normalize(`${globalHost}:${globalPort}`);
+const apikitBase = normalize(
+  `${process.env.APIKIT_HOST || 'localhost'}:${process.env.APIKIT_PORT || 3000}`
+);
 
-module.exports = Object.assign({
-  host: process.env.HOST || 'localhost',
-  port: process.env.PORT || 3000,
-  global: {
-    host: globalHost,
-    port: globalPort,
-    base: globalBase
-  },
-  github: {
-    appId: process.env.KOIKI_CHAUS_GITHUB_CLIENT_ID,
-    secret: process.env.CHAUS_GITHUB_CLIENT_SECRET,
-    enabled: !!process.env.KOIKI_CHAUS_GITHUB_CLIENT_ID
-  },
-  mongoURL: process.env.CHAUS_MONGO_URL,
-  app: {
-    title,
-    description,
-    head: {
-      titleTemplate: `${title} - %s`,
-      meta: [
-        { name: 'description', content: description },
-        { charset: 'utf-8' },
-        { property: 'og:site_name', content: title },
-        { property: 'og:image', content: 'https://chaus.herokuapp.com/images/logo.png' },
-        { property: 'og:locale', content: 'en_US' },
-        { property: 'og:title', content: title },
-        { property: 'og:description', content: description },
-        { property: 'og:card', content: 'summary' },
-        { property: 'og:site', content: '@side_road' },
-        { property: 'og:creator', content: '@side_road' },
-        { property: 'og:image:width', content: '300' },
-        { property: 'og:image:height', content: '300' },
-      ]
+module.exports = Object.assign(
+  {
+    host: process.env.HOST || 'localhost',
+    port: process.env.PORT || 3000,
+    global: {
+      host: globalHost,
+      port: globalPort,
+      base: globalBase
     },
-    statics: {
-      link: [
-        { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css?family=Roboto:300', },
-        { rel: 'stylesheet', type: 'text/css', href: '/css/base.css' }
-      ]
+    apikit: {
+      base: apikitBase
+    },
+    github: {
+      appId: process.env.KOIKI_CHAUS_GITHUB_CLIENT_ID,
+      secret: process.env.CHAUS_GITHUB_CLIENT_SECRET,
+      enabled: !!process.env.KOIKI_CHAUS_GITHUB_CLIENT_ID
+    },
+    mongoURL: process.env.CHAUS_MONGO_URL,
+    app: {
+      title,
+      description,
+      head: {
+        titleTemplate: `${title} - %s`,
+        meta: [
+          { name: 'description', content: description },
+          { charset: 'utf-8' },
+          { property: 'og:site_name', content: title },
+          { property: 'og:image', content: 'https://chaus.herokuapp.com/images/logo.png' },
+          { property: 'og:locale', content: 'en_US' },
+          { property: 'og:title', content: title },
+          { property: 'og:description', content: description },
+          { property: 'og:card', content: 'summary' },
+          { property: 'og:site', content: '@side_road' },
+          { property: 'og:creator', content: '@side_road' },
+          { property: 'og:image:width', content: '300' },
+          { property: 'og:image:height', content: '300' }
+        ]
+      },
+      statics: {
+        link: [
+          {
+            rel: 'stylesheet',
+            type: 'text/css',
+            href: 'https://fonts.googleapis.com/css?family=Roboto:300'
+          },
+          { rel: 'stylesheet', type: 'text/css', href: '/css/base.css' }
+        ]
+      }
     }
-  }
-}, environment);
+  },
+  environment
+);

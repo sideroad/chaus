@@ -33,7 +33,7 @@
     "express-restful-api": "^14.1.3",
     "hyphenize": "0.0.2",
     "isomorphic-fetch": "^2.2.0",
-    "koiki": "^6.3.3",
+    "koiki": "^6.3.5",
     "koiki-ui": "0.0.79",
     "lodash": ">=4.17.5",
     "moment": "^2.22.2",

@@ -14,53 +14,64 @@ let creators = [];
 
 function fetchApps(application, token) {
   console.log('Loading apps...', application);
-  return fetch(`${config.global.base}${stringify(uris.admin.app, {
-    app: application
-  })}?limit=1000`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      'x-chaus-token': token
+  return fetch(
+    `${config.apikit.base}${stringify(uris.admin.app, {
+      app: application
+    })}?limit=1000`,
+    {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'x-chaus-token': token
+      }
     }
-  }).then(res => res.json())
+  )
+    .then(res => res.json())
     .then(app =>
-      fetch(`${config.global.base}${uris.admin.origins}?app=${encodeURIComponent(application)}&limit=1000`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'x-chaus-token': token
+      fetch(
+        `${config.apikit.base}${uris.admin.origins}?app=${encodeURIComponent(
+          application
+        )}&limit=1000`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'x-chaus-token': token
+          }
         }
-      }).then(res => res.json())
+      )
+        .then(res => res.json())
         .then(origins => ({
           ...app,
           origins: origins.items.map(origin => origin.url)
-        })
-      )
+        }))
     )
     .catch(err => console.error(err));
 }
 
 function fetchResources(token) {
   console.log('Loading models...');
-  return fetch(`${config.global.base}${uris.admin.models}?limit=10000`, {
+  return fetch(`${config.apikit.base}${uris.admin.models}?limit=10000`, {
     method: 'GET',
     credentials: 'include',
     headers: {
       'x-chaus-token': token
     }
-  }).then(res => res.json())
+  })
+    .then(res => res.json())
     .catch(err => console.error(err));
 }
 
 function fetchAttributes(token) {
   console.log('Loading attributes...');
-  return fetch(`${config.global.base}${uris.admin.attributes}?limit=10000`, {
+  return fetch(`${config.apikit.base}${uris.admin.attributes}?limit=10000`, {
     method: 'GET',
     credentials: 'include',
     headers: {
       'x-chaus-token': token
     }
-  }).then(res => res.json())
+  })
+    .then(res => res.json())
     .catch(err => console.error(err));
 }
 
@@ -92,10 +103,14 @@ function convert(models, attributes) {
       desc: attribute.desc,
       createdAt: attribute.createdAt,
       updatedAt: attribute.updatedAt,
-      relation: attribute.type === 'children' && relation ? relation.name :
-                attribute.type === 'instance' && relation ? relation.name :
-                attribute.type === 'parent' && relation ? `${relation.name}.${attribute.relationAttribute}`
-                : null,
+      relation:
+        attribute.type === 'children' && relation
+          ? relation.name
+          : attribute.type === 'instance' && relation
+          ? relation.name
+          : attribute.type === 'parent' && relation
+          ? `${relation.name}.${attribute.relationAttribute}`
+          : null
     };
   });
   return dist;
@@ -115,20 +130,25 @@ export default function (mongoose, token) {
               .then((settings) => {
                 const path = stringify(uris.apis.root, { app: application });
 
-                console.log('Apply CORS settings...', path, settings.origins);
+                console.log('Apply CORS settings...', path);
                 const corsRouter = express.Router();
-                corsRouter.use(path, cors({
-                  origin: (origin, callback) => {
-                    callback(null, settings.origins.reduce(
-                      (memo, _url) =>
-                        (wildcard(_url, origin) instanceof Array) || memo
-                      , false)
-                    );
-                  },
-                  credentials: true
-                }));
+                corsRouter.use(
+                  path,
+                  cors({
+                    origin: (origin, callback) => {
+                      callback(
+                        null,
+                        settings.origins.reduce(
+                          (memo, _url) => wildcard(_url, origin) instanceof Array || memo,
+                          false
+                        )
+                      );
+                    },
+                    credentials: true
+                  })
+                );
 
-                console.log(`${application} construct schema`, schema[application]);
+                console.log(`${application} construct schema`);
                 const router = creator.router({
                   mongo: mongoose,
                   schemas: schema[application],
@@ -151,11 +171,18 @@ export default function (mongoose, token) {
                   dest: `${__dirname}/../static/docs/${application}`
                 });
 
-                fs.writeFileSync(`${__dirname}/../static/docs/${application}/schema.json`, JSON.stringify(schema[application]), 'utf8');
+                fs.writeFile(
+                  `${__dirname}/../static/docs/${application}/schema.json`,
+                  JSON.stringify(schema[application]),
+                  'utf8',
+                  () => {
+                    console.log('Generated schema.json for', application);
+                  }
+                );
                 creators.push(creator);
                 return {
                   router,
-                  corsRouter,
+                  corsRouter
                 };
               })
               .catch(err => console.error(err))
