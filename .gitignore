@@ -4,4 +4,3 @@ static/dist
 npm-debug.log
 .DS_Store
 webpack-assets.json
-Dockerfile

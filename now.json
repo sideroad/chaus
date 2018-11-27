@@ -1,7 +1,8 @@
 {
   "version": 1,
   "type": "docker",
+  "regions": ["sfo1"],
   "features": {
-    "cloud": "v4"
+    "cloud": "v1"
   }
 }
