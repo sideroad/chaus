@@ -24,6 +24,8 @@ import reducers from './reducers';
 const app = new Express();
 const token = v4();
 
+mongoose.Promise = Promise;
+
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'images', 'favicon.png')));
 app.use(Express.static(path.join(__dirname, '..', 'static')));
@@ -157,7 +159,12 @@ app.use(
   })
 );
 
-mongoose.connect(config.mongoURL);
+mongoose.connect(
+  config.mongoURL,
+  {
+    useMongoClient: true
+  }
+);
 
 let router = (req, res, next) => {
   next();

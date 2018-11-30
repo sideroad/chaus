@@ -30,7 +30,7 @@
     "cookie-parser": "^1.4.3",
     "cors": "^2.7.1",
     "express": "^4.15.4",
-    "express-restful-api": "^14.1.3",
+    "express-restful-api": "^14.1.4",
     "hyphenize": "0.0.2",
     "isomorphic-fetch": "^2.2.0",
     "koiki": "^6.3.5",
